@@ -29,7 +29,7 @@
 
 **Architect:** James Trageser  
 **Version:** `v2.1.2-Final` (Sync: Database 2026-02-09)  
-**Links:** [NRC.onl](https://NRC.onl) | [MathCodex.com](https://MathCodex.com)  
+**Links:** [NRC.onl](https://NRC.onl) | [MathCodex.com](https://MathCodex.com) | [Cosmic-Math.html + 8192 bit Quantum Encryption Demo](https://jtrag.github.io/NRC-Protein-Folding/)
 **Contact:** NexusResonanceCodex@gmail.com
 
 ---
