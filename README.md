@@ -12,7 +12,7 @@
       <img src="https://img.shields.io/github/v/release/jtrag/NRC-protein-folding?style=for-the-badge&logo=github&color=D4A017&logoColor=white&labelColor=0A192F" alt="Release">
     </a>
     <a href="LICENSE">
-      <img src="https://img.shields.io/badge/License-NRC–L_v1.3-FFD700?style=for-the-badge&logo=read-the-docs&logoColor=black&labelColor=0A192F" alt="NRC-L License">
+      <img src="https://img.shields.io/badge/License-NRC–L-FFD700?style=for-the-badge&logo=read-the-docs&logoColor=black&labelColor=0A192F" alt="NRC-L License">
     </a>
     <a href="https://arxiv.org/abs/YOUR_ARXIV_ID_HERE">
       <img src="https://img.shields.io/badge/arXiv-Preprint-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white&labelColor=0A192F" alt="Preprint">
