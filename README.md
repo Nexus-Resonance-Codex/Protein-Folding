@@ -8,9 +8,6 @@
   </p>
 
   <p>
-    <a href="https://github.com/jtrag/nrc-protein-folding-enhancements/releases">
-      <img src="https://img.shields.io/github/v/release/jtrag/NRC-protein-folding?style=for-the-badge&logo=github&color=D4A017&logoColor=white&labelColor=0A192F" alt="Release">
-    </a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/License-NRC–L-FFD700?style=for-the-badge&logo=read-the-docs&logoColor=black&labelColor=0A192F" alt="NRC-L License">
     </a>
