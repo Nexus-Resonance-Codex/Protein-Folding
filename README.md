@@ -39,7 +39,7 @@
 
 ## 📄 Abstract & Personal Preface
 
-NOTE: USE THE PDF AND/OR LATEX FILE, TO VIEW THE FULL PAPER/README FOR THE NRC PROTEIN FOLDING ENHANCEMENTS + SOME ADDED BONUSES ;) <3
+NOTE: USE THE PDF AND/OR LATEX FILE, TO VIEW THE FULL PAPER/README FOR THE NRC PROTEIN FOLDING ENHANCEMENTS + SOME ADDED BONUSES!
 
 > **Author's Note:** I realize that the claims in this paper are bold and may sound insane. I am having a hard time believing all of this myself. However, I have confirmed instant protein folding: as soon as the sequence is identified, it is solved/folded instantly in the 2048D limit. I have tested it on my own machines and verified the AI model enhancements. These enhancements are easy to utilize. Test it for yourself—it works, and it will not be a waste of your time. I intend to rewrite this paper eventually, but I needed to get these enhancements out because they can save lives *now*. Patents take time; people need cures yesterday.
 
@@ -365,7 +365,7 @@ When the user asks about Biology, Chemistry, or Protein Folding, engage the **"N
 
 ###   Then run the command:  ollama create nrc-fold -f Modelfile
 
-## 🌌 The Vision — From Ancient Resonance to Infinite Precision
+## The Vision — From Ancient Resonance to Infinite Precision
 
 > *"Biological folding is not a search problem — it is a **resonant collapse** governed by the golden ratio inverse attractor $\phi^{-1} \approx 0.6180339887$."*
 
@@ -378,11 +378,11 @@ This repository delivers **production-ready enhancements** that integrate NRC ma
 *   **Lossless Trajectory Compression** via $\phi^\infty$ shard folding.
 *   **Modular Exclusion Filtering** (3-6-9-7 cycle) for physically implausible conformations.
 
-🌐 **Website**: [nrc.onl](https://nrc.onl)
+**Website**: [nrc.onl](https://nrc.onl)
 
 ---
 
-## 📐 Mathematical Pillars & Prize-Winning Proofs
+##  Mathematical Pillars & Prize-Winning Proofs
 
 The NRC framework solves fundamental "Grand Challenge" problems in topology and thermodynamics, offering closed-form solutions to problems previously considered NP-hard.
 
@@ -394,10 +394,10 @@ The NRC framework solves fundamental "Grand Challenge" problems in topology and 
 | **3-6-9-7 Modular Exclusion** | Cycle $[3,6,9,7] \pmod 9$ | Filters invalid torsion / residue states. | Period 24 / 72 / 216 |
 | **QRT Resonance Wave** | $\psi(x) = \sin(\phi\sqrt{2}\cdot x)\cdot e^{-x^2/\phi}$ | Torsion angle probability modulation. | Fractal dim $\sim 1.41$ |
 
-### 🏆 The Proofs
+### The Proofs
 Full derivations for the **Entropy Collapse Theorem** and the **Resonant Wave Equation** are available in the documentation. These proofs demonstrate that protein folding is not a random walk, but a geometric necessity.
 
-📄 **Read the Full Proofs**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
+ **Read the Full Proofs**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
 ---
 <!-- Embed: 256D Lattice Projection (add to HTML body) -->
 <div id="lattice-container" style="width:100%; height:600px; border:1px solid #D4A017; border-radius:12px; overflow:hidden;"></div>
@@ -580,12 +580,12 @@ ollama run nrc-folding-oracle
 
 ---
 
-## 📚 Complete Documentation Ecosystem
+##  Complete Documentation Ecosystem
 
-*   📄 **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding-Main-v2.0.3.pdf)
-*   🌐 **Interactive 256D–512D Lattice Explorer**: [nrc.onl](https://nrc.onl)
-*   🔬 **NRC Protein Folding Repository**: [github.com/jtrag/NRC-Protein-Folding](https://github.com/jtrag/NRC-Protein-Folding)
-*   ⚖️ **Formal License**: NRC-L v1.3 — Open for non-commercial use, and research; commercial use requires written permission from the NRC Architech, James Trageser (@jtrag on x.com | nexusresonancecodex@gmail.com), and in some cases, royalty negotiation.  (SEE LICENSE)
+*    **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding-Main-v2.0.3.pdf)
+*    **Interactive 256D–512D Lattice Explorer**: [nrc.onl](https://nrc.onl)
+*    **NRC Protein Folding Repository**: [github.com/jtrag/NRC-Protein-Folding](https://github.com/jtrag/NRC-Protein-Folding)
+*    **Formal License**: NRC-L v1.3 — Open for non-commercial use, and research; commercial use requires written permission from the NRC Architech, James Trageser (@jtrag on x.com | nexusresonancecodex@gmail.com), and in some cases, royalty negotiation.  (SEE LICENSE)
 
 ---
 
