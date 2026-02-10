@@ -582,7 +582,7 @@ ollama run nrc-folding-oracle
 
 ##  Complete Documentation Ecosystem
 
-*    **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding-Main-v2.0.3.pdf)
+*    **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
 *    **Interactive 256D–512D Lattice Explorer**: [nrc.onl](https://nrc.onl)
 *    **NRC Protein Folding Repository**: [github.com/jtrag/NRC-Protein-Folding](https://github.com/jtrag/NRC-Protein-Folding)
 *    **Formal License**: NRC-L v1.3 — Open for non-commercial use, and research; commercial use requires written permission from the NRC Architech, James Trageser (@jtrag on x.com | nexusresonancecodex@gmail.com), and in some cases, royalty negotiation.  (SEE LICENSE)
