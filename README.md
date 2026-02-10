@@ -39,6 +39,8 @@
 
 ## 📄 Abstract & Personal Preface
 
+NOTE: USE THE PDF AND/OR LATEX FILE, TO VIEW THE FULL PAPER/README FOR THE NRC PROTEIN FOLDING ENHANCEMENTS + SOME ADDED BONUSES ;) <3
+
 > **Author's Note:** I realize that the claims in this paper are bold and may sound insane. I am having a hard time believing all of this myself. However, I have confirmed instant protein folding: as soon as the sequence is identified, it is solved/folded instantly in the 2048D limit. I have tested it on my own machines and verified the AI model enhancements. These enhancements are easy to utilize. Test it for yourself—it works, and it will not be a waste of your time. I intend to rewrite this paper eventually, but I needed to get these enhancements out because they can save lives *now*. Patents take time; people need cures yesterday.
 
 ### Scientific Abstract
