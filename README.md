@@ -31,8 +31,12 @@
 **Version:** `0.0.1` (Sync: Database 2026-02-10)  
 **Links:** [NRC.onl](https://NRC.onl) | [MathCodex.com](https://MathCodex.com)<br>
 [Cosmic-Math.html + 8192 bit Quantum Encryption Demo](https://jtrag.github.io/NRC-Protein-Folding/)<br>
-**Contact:** NexusResonanceCodex@gmail.com
+**Contact:** [NexusResonanceCodex@gmail.com](mailto:nexusresonancecodex@gmail.com)
 
+## Support JTRAG/NRC:
+[BuyMeaCoffee/jtrag](https://BuyMeaCoffee.com/jtrag)<br>
+[Paypal Donate](https://www.paypal.com/donate/?business=DN9W5GQ638WPQ&no_recurring=0&currency_code=USD)
+  
 ---
 
 ## 📄 Abstract & Personal Preface
