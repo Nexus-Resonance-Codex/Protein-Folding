@@ -527,6 +527,8 @@ python examples/nrc_esmfold_enhanced.py \
 
 The NRC enhancements are designed to sit on top of existing state-of-the-art models (AlphaFold3, OpenFold, RoseTTAFold), acting as a "truth filter" for their outputs.
 
+**[Read the OpenFold & BOINC Integration Guide](docs/DISTRIBUTED_COMPUTING_INTEGRATION.md)**
+
 ### Universal Damping Wrapper
 
 Apply $\phi^{-k}$ entropy collapse to any PDB structure:
