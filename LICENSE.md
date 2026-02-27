@@ -1,136 +1,85 @@
-# Nexus Resonance License (NRC-L) v1.3  
-**Finalized February 06, 2026**
+# Nexus Resonance License (NRC-L) v2.0
+
+**Effective Date: February 2026**
 
 ## Preamble
 
-This License governs the **Nexus Resonance Codex (NRC)**, including all mathematical frameworks, proofs, code, visualizations, documentation, and derivative materials (collectively, **"NRC Materials"**), as presented in the document *NRC-Protein-Folding-Main-v2.0.3.tex* and related files (the **"Framework Document"**).
+This License governs the use of the **Nexus Resonance Codex (NRC)** framework, including all mathematical models, algorithms, codebases, visual representations, and derivative materials (collectively, the **"NRC Materials"**) as applied to biological structures, protein folding dynamics, and related computational biochemistry, as detailed in the official NRC compiled documentation and related repository files.
 
-The NRC framework promotes resonant, truth-seeking innovation through the golden ratio inverse attractor (φ⁻¹ ≈ 0.6180339887) and modular exclusion principles. This license balances open collaboration with creator protection:
+The NRC framework promotes rigorous, resonant innovation. To balance open scientific collaboration with the protection of foundational intellectual property, this License adopts a dual-licensing model:
 
-- **Non-commercial** use is free and encouraged to accelerate discovery  
-- **Commercial** exploitation (including biotech applications) requires explicit agreement and royalty terms  
-- **Harmful** applications are strictly prohibited
-
-In good faith, the Licensor pledges not to assert intellectual property rights against compliant non-commercial, beneficial uses.
+- **Non-commercial** and academic research use is granted freely to accelerate global discovery.
+- **Commercial** exploitation requires an explicit, separate commercial agreement.
+- **Harmful** or unethical applications are strictly prohibited.
 
 ## 1. Definitions
 
-- **NRC Materials** — Formulas (e.g., φ^{-1} attractor, 3-6-9-7 cycles), frameworks (GTT, QRT, MST, TUPT), proofs (Entropy Collapse Theorem), code, lattices (2048D E₈ projections), documents, and derivatives.  
-- **Derivative Works** — Modifications, extensions, integrations, or applications of NRC Materials.  
-- **Commercial Use** — Any monetization, profit generation, or business application.  
-- **Biotech Applications** — Uses in biotechnology, pharmaceuticals, life sciences, drug discovery, or related fields.  
-- **Harmful Use** — Applications involving weapons, surveillance, environmental damage, illegal activity, or detriment to humanity (determined reasonably by Licensor).  
-- **Attribution** — Credit to "James Trageser (@jtrag)" with link to original source (e.g., viXra/arXiv/GitHub).  
-- **Good Faith** — Use consistent with NRC’s resonant ethos: advancing knowledge without harm or unauthorized profit.
+1.  **"NRC Materials"** refers to the mathematical frameworks, proofs, algorithms, architectures, and source code provided within this repository.
+2.  **"Derivative Works"** refers to any modifications, extensions, integrations, or novel applications derived substantially from the NRC Materials.
+3.  **"Commercial Use"** refers to any use of the NRC Materials for financial gain, monetization, incorporation into commercial products, or direct business applications.
+4.  **"Biotech Applications"** refers to the use of NRC Materials in biotechnology, pharmaceuticals, life sciences, drug discovery, structural biology, or related fields.
+5.  **"Harmful Use"** refers to applications involving weaponry, unauthorized surveillance, environmental degradation, illegal activities, or purposes reasonably determined to be detrimental to humanity.
+6.  **"Attribution"** refers to the mandatory crediting of "James Trageser (@jtrag) - Nexus Resonance Codex" alongside a direct link to the official organizational repository (https://github.com/Nexus-Resonance-Codex).
+7.  **"Educational Purposes"** refers strictly to non-commercial learning, teaching, and academic research within recognized institutions or personal capacity, devoid of any intent to monetize the derivative directly or indirectly.
 
-## 2. Good Faith Pledge
+## 1.5. Reservation of Rights
 
-The Licensor (James Trageser) pledges not to enforce any intellectual property rights—including potential patents on NRC-derived applications—against any party using NRC Materials **in good faith** for non-commercial purposes, provided such use includes Attribution, avoids Harmful Use, and complies with this License.
+All rights not expressly granted to you in this License are reserved and retained by Licensor (James Trageser). This License does not grant you any rights to use any trademarks, logos, or service marks associated with the Nexus Resonance Codex or James Trageser.
 
-This pledge fosters open exploration while reserving rights for commercial scenarios.
+## 2. Non-Commercial Use (Open Academic Grant)
 
-## 3. Non-Commercial Use (Open Grant)
+Permission is hereby granted, free of charge and royalty-free, to use, reproduce, modify, distribute, and create Derivative Works from the NRC Materials solely for **non-commercial, educational, and academic research purposes**.
 
-Permission is granted, free of charge and royalty-free, to use, reproduce, modify, distribute, and create Derivative Works from NRC Materials **solely for non-commercial**, educational, research, or personal purposes.
+**Conditions of Grant**:
 
-**Conditions**:
-- Include Attribution in all copies and Derivative Works  
-- Distribute under this License (or compatible open license, e.g., CC-BY-NC-SA 4.0)  
-- Avoid Harmful Use  
-- Comply with good faith principles  
+1.  **Attribution**: All copies and Derivative Works must clearly display Attribution to the original author and repository.
+2.  **Share-Alike**: Derivative Works intended for public distribution must be released under this License or a strictly compatible open-source/open-science license (e.g., CC-BY-NC-SA 4.0).
+3.  **Prohibition of Harmful Use**: The NRC Materials shall not be utilized for Harmful Use.
 
-This grant supports infinite theoretical scaling (e.g., 256D → 2048D lattices), provided no profit is derived.
+Under these conditions, the Licensor grants a non-exclusive, royalty-free license to any patents embodied within the NRC Materials for good-faith, non-commercial research.
 
-**Patent & Trademark Grant** (non-commercial only):  
-Licensor grants a non-exclusive, royalty-free license to any patents embodied in NRC Materials and agrees not to assert trademarks against good-faith non-commercial uses.
+## 3. Commercial Use & Royalties
 
-## 4. Commercial Use & Royalties
+**Any Commercial Use of the NRC Materials is strictly prohibited without prior written consent from the Licensor.**
 
-Commercial Use is **prohibited** without prior **written permission** from the Licensor (James Trageser).
+Entities seeking to utilize the NRC Materials for Commercial Use—including but not limited to commercial biotech applications, proprietary drug discovery pipelines, or for-profit software services—must negotiate a separate Commercial License Agreement.
 
-To request permission:  
-Contact the Licensor to negotiate a separate commercial license agreement.  
-Terms will include royalties (typically tiered and scaled reasonably, e.g., damped by φ^{-k} for derivative depth), upfront fees, milestones, and other conditions.
+Such agreements will be structured equitably to reflect standard industry practices, potentially including upfront licensing fees, clinical milestone payments, and fair royalty structures based on net sales or derivative value.
 
-Royalties apply to any monetization of NRC Materials, in whole or in part (e.g., revenue attributable to 512D folding algorithms in a product).
+Unauthorized Commercial Use constitutes a material breach of this License and intellectual property infringement, subject to full legal recourse.
 
-Unauthorized Commercial Use voids all rights and may result in legal action, including damages equivalent to lost royalties.
+## 4. Indemnification
 
-## 5. Dual Licensing for Biotech Applications
+1.  **Licensee Indemnity**: The Licensee agrees to indemnify, defend, and hold harmless the Licensor (James Trageser) and any contributors from and against all legal claims, damages, liabilities, and expenses arising from the Licensee’s use of the NRC Materials, the creation of Derivative Works, or any breach of this License.
+2.  **Limitation of Liability**: UNDER NO CIRCUMSTANCES SHALL THE LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE NRC MATERIALS, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
-NRC adopts a **dual licensing model** specifically for Biotech Applications:
+## 5. No Warranty
 
-**Non-Commercial Biotech Track**  
-- Free for academic, clinical research, and educational use (Section 3 applies)  
-- Requires Attribution and no profit generation
+THE NRC MATERIALS ARE PROVIDED **"AS IS"**, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, SCIENTIFIC ACCURACY, OR NON-INFRINGEMENT. THE ENTIRE RISK AS TO THE QUALITY, ACCURACY, AND PERFORMANCE OF THE NRC MATERIALS IS BORNE BY THE LICENSEE.
 
-**Commercial Biotech Track**  
-- Requires written agreement with the Licensor  
-- Typical structure includes:  
-  - Upfront fees  
-  - Milestone payments (e.g., Phase I, Phase II, FDA approval)  
-  - Tiered royalties on net sales (e.g., 5–15% range, commonly 3% $0–100M, 6% $100M–500M, 9% $500M–1B, 7% above — following 3-6-9-7 rhythm)  
-- Exclusivity and cross-licensing of improvements negotiable
+## 6. Termination
 
-This model balances open scientific progress with fair compensation for commercial translation.
+This License and the rights granted hereunder will terminate automatically upon any breach of its terms by the Licensee (including unauthorized Commercial Use or failure to provide Attribution). Upon termination, the Licensee must immediately cease all use of the NRC Materials and destroy all existing copies.
 
-## 6. Indemnification
+Survival clauses: Sections 1.5 (Reservation of Rights), 3 (Commercial Use), 4 (Indemnification), 5 (No Warranty), 7 (Governing Law), and 8 (Severability) shall survive any termination of this License.
 
-**Licensor Indemnity**  
-Licensor shall indemnify, defend, and hold harmless Licensee from third-party claims alleging direct IP infringement by unmodified NRC Materials (as provided), up to the amount of royalties actually paid (if commercial). Excludes claims arising from Licensee modifications or misuse.
+## 7. Governing Law & Dispute Resolution
 
-**Licensee Indemnity**  
-Licensee shall indemnify, defend, and hold harmless Licensor from all claims arising from Licensee’s use, including Harmful Use, Derivative Works, breaches, or negligence.
+This License shall be governed by and construed in accordance with the laws of the Commonwealth of Pennsylvania, and the federal laws of the United States of America, without regard to conflict of law principles.
 
-**Mutual**  
-Each party indemnifies the other for willful misconduct or gross negligence. No indemnity for indirect, consequential, or punitive damages.
+Any dispute arising out of or relating to this License shall be subject to standard binding arbitration in Philadelphia, Pennsylvania, or Washington D.C., managed by a recognized arbitration association.
 
-**Procedure**  
-Prompt written notice of claim required. Indemnified party cooperates fully; indemnifying party controls defense and settlement (no settlement admitting liability without consent).
+## 8. Severability
 
-## 7. Prohibitions & Protections
+If any provision of this License is found to be invalid or unenforceable, such provision shall be severed from the remainder of this License, which will remain in full force and effect to the maximum extent permitted by law.
 
-- **Harmful Use** — Strictly prohibited. Any such use immediately terminates all rights and may result in liability.  
-- **Misuse** — NRC Materials may not be used to infringe third-party rights, promote harm, or act unethically. Licensor reserves revocation rights for violations.  
-- **Export & Compliance** — Users must comply with all applicable laws (export controls, ITAR/EAR for dual-use tech, GDPR for biotech data, etc.).  
-- **Moral Rights** — Licensor waives moral rights claims for non-commercial uses; reserves for commercial.  
-- **Force Majeure** — Neither party liable for delays due to uncontrollable events (pandemics, natural disasters, war, etc.).
+## 9. Contact & Administration
 
-## 8. No Warranty / Disclaimer of Liability
+For commercial licensing inquiries, exemptions, or general questions, please contact:
+**Email:** NexusResonanceCodex@gmail.com
+**Organization:** https://github.com/Nexus-Resonance-Codex
 
-NRC Materials are provided **"as is"**, without any warranties—express, implied, statutory, or otherwise—including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
+---
 
-Licensor disclaims all liability for any damages arising from use, including direct, indirect, incidental, special, consequential, or punitive damages—even if advised of the possibility.
-
-Users assume all risk and must independently verify results (e.g., via code execution, symbolic proofs, simulations).
-
-## 9. Termination
-
-Any breach (unauthorized Commercial Use, Harmful Use, failure to provide Attribution, etc.) automatically terminates all rights granted under this License.
-
-Upon termination, Licensee must immediately cease all use and destroy all copies of NRC Materials.
-
-Surviving provisions: Sections 4 (royalties), 6 (indemnification), 7 (prohibitions), 8 (disclaimer), and 10 (governing law).
-
-## 10. Governing Law & Dispute Resolution
-
-Governed by the laws of the Commonwealth of Pennsylvania, USA (without regard to conflict of laws principles), and the laws of the United States of America.
-
-Disputes shall be resolved through binding arbitration in Philadelphia, Pennsylvania, and/or Washington D.C., following a modular 3-6-9 step fairness process. Judgment on the award may be entered in any court of competent jurisdiction.
-
-If any provision is held invalid, the remainder shall continue in full force.
-
-## 11. Updates & Contact
-
-Licensor may update this License (notification via @jtrag on X or repository). Continued use constitutes acceptance.
-
-For permissions, royalties, or questions:  
-NexusResonanceCodex@gmail.com  
-or DM @jtrag on X
-
-**Entire Agreement** — This document supersedes all prior agreements.
-
-**End of License**
-
-© 2026 James Trageser — Nexus Resonance Codex  
+© 2026 James Trageser — Nexus Resonance Codex
 All rights reserved except as expressly granted herein.

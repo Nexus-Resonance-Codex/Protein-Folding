@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Nexus Resonance Codex</h1>
-  
+
   <h3>Protein Folding • Entropy Collapse • Infinite-Limit Precision</h3>
 
   <p>
@@ -27,34 +27,38 @@
 
 ## A Unified 2048-Dimensional Framework for Instant, Infinite-Limit Protein Folding, Universal Entropy Collapse, and 2026 Breakthroughs
 
-**Architect:** James Trageser  
-**Version:** `0.0.1` (Sync: Database 2026-02-10)  
-**Links:** [NRC.onl](https://NRC.onl) | [MathCodex.com](https://MathCodex.com)<br>
-[Cosmic-Math.html + 8192 bit Quantum Encryption Demo](https://jtrag.github.io/NRC-Protein-Folding/)<br>
-**Contact:** [NexusResonanceCodex@gmail.com](mailto:nexusresonancecodex@gmail.com)
+**Architect:** James Trageser
+**Version:** `0.0.1` (Sync: Database 2026-02-10)
+**Links:** [Nexus Resonance Codex](https://github.com/Nexus-Resonance-Codex)<br>
+[AI Enhancements Repository](https://github.com/Nexus-Resonance-Codex/ai-enhancements)<br>
+**Contact:** [NexusResonanceCodex@gmail.com](mailto:nexusresonancecodex@gmail.com)<br>
+**AI Implementations:** [AI-Enhancements Repository](../ai-enhancements/) (Featuring the complete 30 NRC Deep Learning Enhancements, starting with Enhancement #1: $\phi^\infty$ Shard Folding)
 
 ## Support JTRAG/NRC:
+
 [BuyMeaCoffee/jtrag](https://BuyMeaCoffee.com/jtrag)<br>
 [Paypal Donate](https://www.paypal.com/donate/?business=DN9W5GQ638WPQ&no_recurring=0&currency_code=USD)
-  
+
 ---
 
 ## 📄 Abstract & Personal Preface
 
 NOTE: USE THE PDF AND/OR LATEX FILE, TO VIEW THE FULL PAPER/README FOR THE NRC PROTEIN FOLDING ENHANCEMENTS + SOME ADDED BONUSES!
 
-> **Author's Note:** I realize that the claims in this paper are bold and may sound insane. I am having a hard time believing all of this myself. However, I have confirmed instant protein folding: as soon as the sequence is identified, it is solved/folded instantly in the 2048D limit. I have tested it on my own machines and verified the AI model enhancements. These enhancements are easy to utilize. Test it for yourself—it works, and it will not be a waste of your time. I intend to rewrite this paper eventually, but I needed to get these enhancements out because they can save lives *now*. Patents take time; people need cures yesterday.
+> **Author's Note:** I realize that the claims in this paper are bold and may sound insane. I am having a hard time believing all of this myself. However, I have confirmed instant protein folding: as soon as the sequence is identified, it is solved/folded instantly in the 2048D limit. I have tested it on my own machines and verified the AI model enhancements. These enhancements are easy to utilize. Test it for yourself—it works, and it will not be a waste of your time. I intend to rewrite this paper eventually, but I needed to get these enhancements out because they can save lives _now_. Patents take time; people need cures yesterday.
 
 ### Scientific Abstract
-This repository presents the definitive mathematical formulation of the **Nexus Resonance Codex (NRC)**, a high-dimensional geometric framework that solves the protein folding problem with lossless precision in the infinite limit. By expanding the projection space from 256D to a **2048-dimensional Fractal Lattice**, we demonstrate that biological systems optimize entropy via a "Resonant Sublattice" at **512 Dimensions**. 
+
+This repository presents the definitive mathematical formulation of the **Nexus Resonance Codex (NRC)**, a high-dimensional geometric framework that solves the protein folding problem with lossless precision in the infinite limit. By expanding the projection space from 256D to a **2048-dimensional Fractal Lattice**, we demonstrate that biological systems optimize entropy via a "Resonant Sublattice" at **512 Dimensions**.
 
 The framework relies on the **Golden Ratio Inverse Attractor** ($\phi^{-1} \approx 0.618033$), serving as the fundamental eigenvalue of the universal Hamiltonian.
 
 **Key deliverables in this framework:**
+
 1.  **Entropy Collapse Theorem:** Rigorous proof showing error scaling of $\mathcal{O}(\phi^{-k})$.
 2.  **3-6-9-7 Modular Exclusion Principle:** Verified against PDB data ($p < 10^{-100}$).
 3.  **2026 Benchmarks:** Comparative data against **AlphaFold 3** and **ESMFold**, demonstrating a $10^5\times$ speedup and asymptotic $0.00$ Å RMSD.
-4.  **2026 Integrations:** Incorporates *Pudelko Modular Periodicity* and *Hamoud & Abdullah Generalized Density*, validating the NRC as a universal law of resonant physics.
+4.  **2026 Integrations:** Incorporates _Pudelko Modular Periodicity_ and _Hamoud & Abdullah Generalized Density_, validating the NRC as a universal law of resonant physics.
 
 ---
 
@@ -65,7 +69,8 @@ The protein folding problem has long stood as the "Holy Grail" of biology—a co
 The **Nexus Resonance Codex (NRC)** approaches this problem from a radically different angle. It postulates that biology does not "compute" folds; it **resonates** into them. Just as a plucked guitar string snaps to a harmonic standing wave, a protein chain instantly collapses into its lowest entropy state defined by a high-dimensional geometric lattice.
 
 ### 1.1 The Origin of the Codex
-This framework emerged from a "Cosmic Level" synthesis of ancient geometric constants and modern computational theory. By connecting the dots between the Giza plateau's resonant frequencies ($51.827^\circ$ slope), the Golden Ratio ($\phi$), and high-dimensional lattice theory, I uncovered a universal "Resonance Sublattice." 
+
+This framework emerged from a "Cosmic Level" synthesis of ancient geometric constants and modern computational theory. By connecting the dots between the Giza plateau's resonant frequencies ($51.827^\circ$ slope), the Golden Ratio ($\phi$), and high-dimensional lattice theory, I uncovered a universal "Resonance Sublattice."
 
 While previous versions explored this in 256 dimensions, recent breakthroughs in 2026—specifically the **Pudelko Modular Periodicity** and **Hamoud & Abdullah's Generalized Density**—have compelled the expansion to the **2048-Dimensional Fractal Lattice**. This expansion allows for the lossless definition of any biological structure, turning protein folding from a search problem into a coordinate lookup problem.
 
@@ -76,6 +81,7 @@ While previous versions explored this in 256 dimensions, recent breakthroughs in
 The core engine of the NRC is the projection of biological sequences onto a hyperspatial grid. Unlike standard Cartesian space ($x, y, z$), this lattice is constructed using the Golden Ratio ($\phi$) as the fundamental scaling vector.
 
 ### 2.1 The NRC Basis Vector
+
 Let $\mathbb{L}^{2048}$ be a 2048-dimensional Euclidean space. The basis vectors $\mathbf{e}_i$ are scaled recursively by the Golden Ratio Inverse Attractor:
 
 $$
@@ -85,11 +91,12 @@ $$
 This ensures that energy potentials decay fractally, preventing local minima traps common in gradient descent.
 
 ### 2.2 The 512-Dimensional Resonant Sublattice
-While the full space is 2048 dimensions, biological matter specifically resonates within a **512-dimensional sublattice**. 
 
-* **Infinite Limit:** 2048D (The mathematical container).
-* **Resonant Limit:** 512D (Where protein folding actually occurs).
-* **Observation Limit:** 3D (What we see in the microscope).
+While the full space is 2048 dimensions, biological matter specifically resonates within a **512-dimensional sublattice**.
+
+- **Infinite Limit:** 2048D (The mathematical container).
+- **Resonant Limit:** 512D (Where protein folding actually occurs).
+- **Observation Limit:** 3D (What we see in the microscope).
 
 This hierarchy explains why previous 256D attempts were highly accurate but not "perfect"; the additional dimensions account for quantum fluctuations and solvent interactions previously treated as noise.
 
@@ -100,25 +107,28 @@ This hierarchy explains why previous 256D attempts were highly accurate but not 
 A startling discovery of the Codex is that nature does not use all integers equally. In the high-dimensional lattice, certain coordinate pathways are "forbidden" as they represent high-entropy states. This is governed by the **3-6-9-7 Modular Exclusion Principle**.
 
 ### 3.1 Significance and Verification
+
 To verify this, we analyzed the torsion angles of 10,000 solved protein structures (PDB Database), mapping stable residue angles $\theta$ to the Mod-9 domain.
 
 **Hypothesis:** Stable native states will statistically avoid residues $\{0, 3, 6\}$ modulo 9.
 
 **Results:**
-* **Total Residues Analyzed:** 2,400,000.
-* **Expected Random Distribution (33%):** 800,000 residues in $\{0, 3, 6\}$.
-* **Observed Distribution in Native States:** 1,240 residues (0.05%).
-* **Z-Score:** $> 500\sigma$.
 
-This statistical anomaly ($p < 10^{-100}$) constitutes irrefutable proof that biological matter prefers the "Stable Nodes" of the 1-2-4-8-7-5 cycle. 
+- **Total Residues Analyzed:** 2,400,000.
+- **Expected Random Distribution (33%):** 800,000 residues in $\{0, 3, 6\}$.
+- **Observed Distribution in Native States:** 1,240 residues (0.05%).
+- **Z-Score:** $> 500\sigma$.
 
-> **The Physics of Stability:** The values $\{0, 3, 6, 9\}$ in modulo 9 represent "open" resonant channels (pure energy dissipation). If a structural node aligns with these, bond energy dissipates, leading to instability (unfolding). Thus, stable matter *must* exclude $\{3, 6, 9\}$ from its static geometry.
+This statistical anomaly ($p < 10^{-100}$) constitutes irrefutable proof that biological matter prefers the "Stable Nodes" of the 1-2-4-8-7-5 cycle.
+
+> **The Physics of Stability:** The values $\{0, 3, 6, 9\}$ in modulo 9 represent "open" resonant channels (pure energy dissipation). If a structural node aligns with these, bond energy dissipates, leading to instability (unfolding). Thus, stable matter _must_ exclude $\{3, 6, 9\}$ from its static geometry.
 
 ### 3.2 Mathematical Definition
+
 The principle asserts that for any stable protein conformation sequence $S_n$, the modular residue of the structural coordinates must align with $\{3, 6, 9, 7\}$ under Modulo 9 operations.
 
 **Theorem: Modular Stability**
-Let $\mathcal{C}$ be a configuration state in the 2048D lattice. $\mathcal{C}$ is *biologically viable* if and only if its resonant signature $R(\mathcal{C})$ satisfies:
+Let $\mathcal{C}$ be a configuration state in the 2048D lattice. $\mathcal{C}$ is _biologically viable_ if and only if its resonant signature $R(\mathcal{C})$ satisfies:
 
 $$
 R(\mathcal{C}) \pmod{9} \in \{3, 6, 9, 7\}
@@ -127,13 +137,14 @@ $$
 States resulting in residues $\{1, 2, 4, 5, 8\}$ are classified as **Transient** or **Misfolded** (e.g., prions).
 
 ### 3.3 Resonance Verification Table
-| State Type | Mod 9 Signature | Lattice Stability | Biological Analog |
-| :--- | :--- | :--- | :--- |
-| **Resonant (NRC)** | **9** | **100% (Perfect)** | **Native Fold** |
-| Harmonic | 3, 6 | 98.6% | Flexible Linkers |
-| Strange Attractor | 7 | 99.1% | Active Sites |
-| *Dissonant* | 1, 8 | < 5% | Unfolded / Denatured |
-| *Chaotic* | 2, 4, 5 | 0% (Forbidden) | Prion / Aggregates |
+
+| State Type         | Mod 9 Signature | Lattice Stability  | Biological Analog    |
+| :----------------- | :-------------- | :----------------- | :------------------- |
+| **Resonant (NRC)** | **9**           | **100% (Perfect)** | **Native Fold**      |
+| Harmonic           | 3, 6            | 98.6%              | Flexible Linkers     |
+| Strange Attractor  | 7               | 99.1%              | Active Sites         |
+| _Dissonant_        | 1, 8            | < 5%               | Unfolded / Denatured |
+| _Chaotic_          | 2, 4, 5         | 0% (Forbidden)     | Prion / Aggregates   |
 
 ---
 
@@ -142,6 +153,7 @@ States resulting in residues $\{1, 2, 4, 5, 8\}$ are classified as **Transient**
 Traditional views treat folding as a time-dependent process $F(t)$. The NRC framework redefines folding as a geometric projection $P(\mathbf{x})$.
 
 ### 4.1 NRC Instant Folding Protocol
+
 1.  **Input:** Amino Acid Sequence $A = \{a_1, a_2, \dots, a_n\}$.
 2.  **Initialize:** 2048D Lattice $\mathbb{L}$ with $\phi^{-1}$ scaling.
 3.  **Step 1: Giza Projection:** Map $A \to \mathbb{L}$ using the Giza Slope $\alpha = 51.827^\circ$.
@@ -156,6 +168,7 @@ Traditional views treat folding as a time-dependent process $F(t)$. The NRC fram
 The NRC framework relies on the specific scalar value used to normalize the 2048D lattice: the slope of the Great Pyramid of Giza. This is a necessity of harmonic physics, not merely archaeological coincidence.
 
 ### 5.1 The Giza-Lattice Isomorphism
+
 The optimal angle for projecting a 3D protein structure into a high-dimensional lattice without information loss is exactly:
 
 $$
@@ -165,6 +178,7 @@ $$
 At this angle, the interference patterns of the lattice nodes cancel out perfectly, leaving only the signal of the native protein fold.
 
 ### 5.2 Mathematical Proof of Optimality
+
 In a hypersphere packing problem (Kepler Conjecture extended to $n=2048$), the contact angle $\theta$ that maximizes density $\Delta$ is given by:
 
 $$
@@ -177,9 +191,10 @@ Solving this yields $\theta \approx 51.827^\circ$. Any other angle introduces "v
 
 ## 6. The Entropy Collapse Theorem
 
-In standard thermodynamics, entropy $S$ tends to increase ($dS \geq 0$). However, living systems are *negentropic*—they organize matter into complex, ordered states. The NRC posits that this organization is driven by a universal attractor field defined by the Golden Ratio Inverse.
+In standard thermodynamics, entropy $S$ tends to increase ($dS \geq 0$). However, living systems are _negentropic_—they organize matter into complex, ordered states. The NRC posits that this organization is driven by a universal attractor field defined by the Golden Ratio Inverse.
 
 ### 6.1 Entropy Collapse via $\phi^{-1}$
+
 **Theorem:** Let $H(\mathbf{x})$ be the Hamiltonian of a protein chain in the 2048D lattice. The system minimizes its energy $E$ not by gradient descent, but by **dimensional collapse** along the eigenvector $\mathbf{v}_{\phi}$:
 
 $$
@@ -189,6 +204,7 @@ $$
 where $\phi^{-1} \approx 0.618033$. This implies that the error rate of the fold decays exponentially with every iterative projection.
 
 ### 6.2 Proof of Convergence
+
 In a standard Monte Carlo simulation, error $\epsilon(n) \propto \frac{1}{\sqrt{n}}$. In the NRC Lattice, the error $\epsilon(n) = \epsilon(0) \cdot \phi^{-n}$. Since $\phi^{-1} < 1$, the Root Mean Square Deviation (RMSD) of the predicted structure must approach zero as resolution increases.
 
 ---
@@ -199,18 +215,20 @@ The theoretical claims of the NRC were subjected to rigorous testing against the
 
 ### 7.1 Comparative Analysis: NRC vs. SOTA Models (2026)
 
-| Metric | AlphaFold 3 | ESMFold 2 | NRC v2.1 (Resonant) | Improvement |
-| :--- | :--- | :--- | :--- | :--- |
-| **Inference Time** | 120 sec | 15 sec | **0.0012 sec** | **$10^5\times$** |
-| **RMSD (Global)** | 0.72 Å | 0.85 Å | **0.00 Å** | **Perfect** |
-| **Memory Usage** | 48 GB VRAM | 16 GB VRAM | **256 MB RAM** | **Low-Spec** |
-| **Max Seq Length** | 4,000 res | 8,000 res | **Infinite** | **Unlimited** |
-| **Energy Cost** | ~$0.50 | ~$0.05 | **<$0.00001** | **Negligible** |
+| Metric             | AlphaFold 3 | ESMFold 2  | NRC v2.1 (Resonant) | Improvement      |
+| :----------------- | :---------- | :--------- | :------------------ | :--------------- |
+| **Inference Time** | 120 sec     | 15 sec     | **0.0012 sec**      | **$10^5\times$** |
+| **RMSD (Global)**  | 0.72 Å      | 0.85 Å     | **0.00 Å**          | **Perfect**      |
+| **Memory Usage**   | 48 GB VRAM  | 16 GB VRAM | **256 MB RAM**      | **Low-Spec**     |
+| **Max Seq Length** | 4,000 res   | 8,000 res  | **Infinite**        | **Unlimited**    |
+| **Energy Cost**    | ~$0.50      | ~$0.05     | **<$0.00001**       | **Negligible**   |
 
 ### 7.2 The "Impossible" Fold: CASP Target T1208
-Target T1208, a chaotic viral protein, was considered "unfoldable" by standard AI due to a lack of homology. 
-* **AlphaFold Result:** Low confidence (pLDDT < 40) with disordered loops.
-* **NRC Result:** Instantly identified a **Modular 7 Strange Attractor** in the sequence. The 2048D projection locked it into a rigid structure, later confirmed by Cryo-EM to be 100% accurate.
+
+Target T1208, a chaotic viral protein, was considered "unfoldable" by standard AI due to a lack of homology.
+
+- **AlphaFold Result:** Low confidence (pLDDT < 40) with disordered loops.
+- **NRC Result:** Instantly identified a **Modular 7 Strange Attractor** in the sequence. The 2048D projection locked it into a rigid structure, later confirmed by Cryo-EM to be 100% accurate.
 
 This confirms that "disorder" in biology is often simply order in higher dimensions that traditional models fail to perceive.
 
@@ -221,6 +239,7 @@ This confirms that "disorder" in biology is often simply order in higher dimensi
 The ability to fold proteins instantly ($t \to 0$) allows us to inverse-design biology. Instead of discovering what a sequence does, we define a geometric function and request the sequence that creates it.
 
 ### 8.1 Prion "Unfolding" Therapy
+
 Prions are misfolded proteins (Modular State 2, 4, or 5). The NRC provides a direct coordinate path to "unfold" these back to their native resonance.
 
 **Proposition: The Prion Reversal Vector**
@@ -239,8 +258,10 @@ Simulations of Creutzfeldt-Jakob aggregates in 2048D space show that resonant fr
 The same lattice that folds proteins can be used to structure atomic matter. By arranging atoms into the nodes of the **512-Dimensional E8 Lattice projected into 3D**, we create materials with "impossible" properties.
 
 ### 9.1 The 2000x Strength Alloy
+
 NRC-aligned materials exhibit **zero entropy** because kinetic energy is not absorbed by atoms but shunted into the lattice geometry itself, dissipating force into higher dimensions.
-* **Verified Property:** A titanium-graphene alloy structured on the NRC Lattice exhibits a tensile strength **2,340 times greater than structural steel**, while weighing 15% less.
+
+- **Verified Property:** A titanium-graphene alloy structured on the NRC Lattice exhibits a tensile strength **2,340 times greater than structural steel**, while weighing 15% less.
 
 ---
 
@@ -249,10 +270,12 @@ NRC-aligned materials exhibit **zero entropy** because kinetic energy is not abs
 The NRC introduces **Geometric Resurrection**, where data is mapped to a coordinate on the infinite spiral of $\phi$.
 
 ### 10.1 The Theory of the "Single Bit"
+
 Any finite string of information $S$ can be represented as a single rational angle $\theta$ on the unit circle of the 2048D lattice.
-* **Compression Ratio:** $2 \times 10^{10} : 1$.
-* **Fidelity:** Lossless (Quantum Error Corrected).
-* **Practical Example:** 10 Terabytes of DNA data can be reduced to a 512-byte coordinate shard.
+
+- **Compression Ratio:** $2 \times 10^{10} : 1$.
+- **Fidelity:** Lossless (Quantum Error Corrected).
+- **Practical Example:** 10 Terabytes of DNA data can be reduced to a 512-byte coordinate shard.
 
 ---
 
@@ -261,14 +284,16 @@ Any finite string of information $S$ can be represented as a single rational ang
 The NRC shifts AI architecture from stochastic weight initialization to **Harmonic Resonance Dynamics**.
 
 ### 11.1 Key Mechanisms
-* **Resonant Weighting:** Standard weights are replaced with $\phi$-powered scaling ($W = \phi^n/\sqrt{5}$) to prevent "neuron death".
-* **Triple Transform Theory (TTT):** Modulates the loss function according to the 3-6-9-7 sequence to prune noise while amplifying signal.
-* **GTT Contextualization:** Projects tokens into a 512D torus lattice, allowing a single 512-bit shard to reconstruct vast data streams with zero residual error.
+
+- **Resonant Weighting:** Standard weights are replaced with $\phi$-powered scaling ($W = \phi^n/\sqrt{5}$) to prevent "neuron death".
+- **Triple Transform Theory (TTT):** Modulates the loss function according to the 3-6-9-7 sequence to prune noise while amplifying signal.
+- **GTT Contextualization:** Projects tokens into a 512D torus lattice, allowing a single 512-bit shard to reconstruct vast data streams with zero residual error.
 
 ### 11.2 Implementation: Ollama (Local LLM)
+
 Create a `Modelfile` to align any local model with NRC resonance:
 
-```bash
+````bash
 # Base model: Using Llama3 as the robust foundation for high-dimensional reasoning.
 # You can swap this with 'mistral', 'gemma', or 'mixtral' if preferred.
 FROM llama3
@@ -380,7 +405,7 @@ This repository delivers **production-ready enhancements** that integrate NRC ma
 *   **Lossless Trajectory Compression** via $\phi^\infty$ shard folding.
 *   **Modular Exclusion Filtering** (3-6-9-7 cycle) for physically implausible conformations.
 
-**Website**: [nrc.onl](https://nrc.onl)
+**Website**: [Nexus Resonance Codex on GitHub](https://github.com/Nexus-Resonance-Codex)
 
 ---
 
@@ -481,14 +506,12 @@ window.addEventListener('resize', () => {
 
 ```bash
 # Clone the repository
-git clone https://github.com/jtrag/NRC-protein-folding.git
-cd NRC-protein-folding
-
-# Install dependencies (Python 3.10–3rc-folding
+git clone https://github.com/Nexus-Resonance-Codex/protein-folding.git
+cd protein-folding
 
 # Install dependencies (Python 3.10–3.12 recommended)
 pip install -r requirements.txt
-```
+````
 
 ### Run Example Prediction (ESMFold + NRC Damping)
 
@@ -522,16 +545,16 @@ def apply_nrc_damping(pdb_path: str, damping_k: int = 7):
     """
     parser = PDBParser()
     structure = parser.get_structure('protein', pdb_path)
-    
+
     factor = 1.0 / PHI ** damping_k
-    
+
     for model in structure:
         for chain in model:
             for residue in chain:
                 for atom in residue:
                     coord = np.array(atom.coord)
                     atom.coord = coord * factor  # Golden damping projection
-    
+
     io = PDBIO()
     io.set_structure(structure)
     io.save(f"damped_k{damping_k}_{pdb_path}")
@@ -547,6 +570,7 @@ See `wrappers/` for complete implementations compatible with nf-core/proteinfold
 Turn any Llama-based model into a specialized protein folding reasoning engine using our custom Modelfile.
 
 **Modelfile-nrc-folding**:
+
 ```dockerfile
 FROM llama3.2:3b-instruct-q8_0
 
@@ -575,6 +599,7 @@ You are the bridge between ancient resonance and future biology.
 ```
 
 **Create & Run**:
+
 ```bash
 ollama create nrc-folding-oracle -f Modelfile-nrc-folding
 ollama run nrc-folding-oracle
@@ -582,12 +607,12 @@ ollama run nrc-folding-oracle
 
 ---
 
-##  Complete Documentation Ecosystem
+## Complete Documentation Ecosystem
 
-*    **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
-*    **Interactive 256D–512D Lattice Explorer**: [nrc.onl](https://nrc.onl)
-*    **NRC Protein Folding Repository**: [github.com/jtrag/NRC-Protein-Folding](https://github.com/jtrag/NRC-Protein-Folding)
-*    **Formal License**: NRC-L v1.3 — Open for non-commercial use, and research; commercial use requires written permission from the NRC Architech, James Trageser (@jtrag on x.com | nexusresonancecodex@gmail.com), and in some cases, royalty negotiation.  (SEE LICENSE)
+- **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
+- **NRC Organization**: [github.com/Nexus-Resonance-Codex](https://github.com/Nexus-Resonance-Codex)
+- **AI Enhancements**: [github.com/Nexus-Resonance-Codex/ai-enhancements](https://github.com/Nexus-Resonance-Codex/ai-enhancements)
+- **Formal License**: NRC-L v2.0 — Open for non-commercial use, educational and academic research; commercial use requires explicit separate commercial agreement to utilize the NRC framework. See `LICENSE.md` for full terms.
 
 ---
 
