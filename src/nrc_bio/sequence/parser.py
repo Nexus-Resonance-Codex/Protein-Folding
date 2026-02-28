@@ -4,7 +4,7 @@ Amino Acid sequence parsing and mapping.
 Maps standard biological sequences into their underlying
 atomic resonance structures.
 """
-from typing import List, Dict
+from typing import Dict, List
 
 # Standard amino acid to rough atomic mass mapping
 AMINO_MASS_MAP: Dict[str, float] = {
