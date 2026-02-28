@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Protein folding algorithms built over the 2048D Nexus Resonance Lattice."
 readme = "README.md"
 requires-python = ">=3.10"
-license = "NRC-L-2.0"
+license = {file = "LICENSE.md"}
 keywords = ["biology", "protein-folding", "golden-ratio", "resonance", "openfold", "boinc"]
 authors = [
     { name = "James Trageser", email = "Nexus-Resonance-Codex@gmail.com" },
