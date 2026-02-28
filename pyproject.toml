@@ -45,6 +45,9 @@ dev = [
 [tool.hatch.version]
 path = "src/nrc_bio/__about__.py"
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
