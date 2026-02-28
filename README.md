@@ -30,9 +30,9 @@
 **Architect:** James Trageser
 **Version:** `0.0.1` (Sync: Database 2026-02-10)
 **Links:** [Nexus Resonance Codex](https://github.com/Nexus-Resonance-Codex)<br>
-[AI Enhancements Repository](https://github.com/Nexus-Resonance-Codex/ai-enhancements)<br>
+[AI Enhancements Repository](https://github.com/Nexus-Resonance-Codex/Ai-Enhancements)<br>
 **Contact:** [NexusResonanceCodex@gmail.com](mailto:nexusresonancecodex@gmail.com)<br>
-**AI Implementations:** [AI-Enhancements Repository](../ai-enhancements/) (Featuring the complete 30 NRC Deep Learning Enhancements, starting with Enhancement #1: $\phi^\infty$ Shard Folding)
+**AI Implementations:** [AI-Enhancements Repository](../Ai-Enhancements/) (Featuring the complete 30 NRC Deep Learning Enhancements, starting with Enhancement #1: $\phi^\infty$ Shard Folding)
 
 ## Support JTRAG/NRC:
 
@@ -506,8 +506,8 @@ window.addEventListener('resize', () => {
 
 ```bash
 # Clone the repository
-git clone https://github.com/Nexus-Resonance-Codex/protein-folding.git
-cd protein-folding
+git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+cd Protein-Folding
 
 # Install dependencies (Python 3.10–3.12 recommended)
 pip install -r requirements.txt
@@ -613,7 +613,7 @@ ollama run nrc-folding-oracle
 
 - **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
 - **NRC Organization**: [github.com/Nexus-Resonance-Codex](https://github.com/Nexus-Resonance-Codex)
-- **AI Enhancements**: [github.com/Nexus-Resonance-Codex/ai-enhancements](https://github.com/Nexus-Resonance-Codex/ai-enhancements)
+- **AI Enhancements**: [github.com/Nexus-Resonance-Codex/Ai-Enhancements](https://github.com/Nexus-Resonance-Codex/Ai-Enhancements)
 - **Formal License**: NRC-L v2.0 — Open for non-commercial use, educational and academic research; commercial use requires explicit separate commercial agreement to utilize the NRC framework. See `LICENSE.md` for full terms.
 
 ---
