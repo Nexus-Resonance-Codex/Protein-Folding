@@ -1,7 +1,14 @@
-name: Compile LaTeX and Deploy to Pages
+# ============================================================
+# nrc_bio — Python CI + LaTeX Build + GitHub Pages Deploy
+# Tests the nrc_bio protein-folding library and compiles
+# the NRC Protein Folding paper PDF for GitHub Pages.
+# ============================================================
+name: Python CI + LaTeX Build & Pages
 
 on:
   push:
+    branches: ["main"]
+  pull_request:
     branches: ["main"]
   workflow_dispatch:
 
@@ -15,8 +22,58 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  # ------------------------------------------------------------
+  # Job 1: Python tests for nrc_bio
+  # ------------------------------------------------------------
+  python-test:
+    name: Test nrc_bio (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install nrc core library from GitHub
+        run: |
+          pip install "nrc @ git+https://github.com/Nexus-Resonance-Codex/NRC.git"
+
+      - name: Install PyTorch CPU
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install nrc_bio package
+        run: |
+          pip install -e ".[dev]" --no-deps
+          pip install pytest ruff mypy numpy biopython
+
+      - name: Lint with ruff
+        run: |
+          ruff check src/ --select E9,F63,F7,F82 --output-format=github
+          ruff check src/ --exit-zero --output-format=github
+
+      - name: Run tests with pytest
+        run: |
+          pytest tests/ -v --tb=short
+
+  # ------------------------------------------------------------
+  # Job 2: Compile LaTeX and deploy to GitHub Pages
+  # (only runs on main branch push — not on PRs)
+  # ------------------------------------------------------------
+  build-and-deploy:
+    name: Build LaTeX → PDF + Deploy Pages
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,33 +82,28 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: NRC-Protein-Folding.tex
-          working_directory: docs/Nexus-Resonance-Codex-tex-files/
+          working_directory: ./
           compiler: latexmk
           args: -pdf -interaction=nonstopmode -synctex=1
 
-      - name: Move Compiled PDF to deployment root
+      - name: Assemble deployment directory
         run: |
           mkdir -p public
-          cp docs/Nexus-Resonance-Codex-tex-files/NRC-Protein-Folding.pdf public/
-          # If there is an index.html, we can move it too
-          cp index.html public/ || true
-          cp Cosmic-Math.html public/ || true
+          cp NRC-Protein-Folding.pdf public/
+          cp index.html public/ 2>/dev/null || true
+          cp Cosmic-Math.html public/ 2>/dev/null || true
+          if [ ! -f public/index.html ]; then
+            echo '<meta http-equiv="refresh" content="0; url=NRC-Protein-Folding.pdf">' > public/index.html
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "public"
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
