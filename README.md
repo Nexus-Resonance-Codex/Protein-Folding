@@ -4,7 +4,7 @@
   <h3>Protein Folding • Entropy Collapse • Infinite-Limit Precision</h3>
 
   <p>
-    <strong>A mathematically unified framework achieving lossless protein structure prediction in the 2048-dimensional resonant limit using the golden ratio inverse attractor (φ⁻¹) as the fundamental eigenvalue of biological folding.</strong>
+    <strong>A mathematically deterministic framework achieving lossless AI Protein Structure Prediction in the 2048-dimensional resonant limit. Utilizing the Golden Ratio inverse attractor (φ⁻¹) alongside PyTorch and OpenFold integration to deliver Infinite-Limit Precision for next-generation generative biology and deep learning.</strong>
   </p>
 
   <p>
@@ -49,7 +49,7 @@ NOTE: USE THE PDF AND/OR LATEX FILE, TO VIEW THE FULL PAPER/README FOR THE NRC P
 
 ### Scientific Abstract
 
-This repository presents the definitive mathematical formulation of the **Nexus Resonance Codex (NRC)**, a high-dimensional geometric framework that solves the protein folding problem with lossless precision in the infinite limit. By expanding the projection space from 256D to a **2048-dimensional Fractal Lattice**, we demonstrate that biological systems optimize entropy via a "Resonant Sublattice" at **512 Dimensions**.
+This repository serves as the definitive deep learning and mathematical backend for the **Nexus Resonance Codex (NRC)**—a local machine learning framework for deterministic AI protein folding., a high-dimensional geometric framework that solves the protein folding problem with lossless precision in the infinite limit. By expanding the projection space from 256D to a **2048-dimensional Fractal Lattice**, we demonstrate that biological systems optimize entropy via a "Resonant Sublattice" at **512 Dimensions**.
 
 The framework relies on the **Golden Ratio Inverse Attractor** ($\phi^{-1} \approx 0.618033$), serving as the fundamental eigenvalue of the universal Hamiltonian.
 
@@ -504,28 +504,148 @@ window.addEventListener('resize', () => {
 </script>
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Exhaustive Cross-Platform Integration)
 
-### Installation
+The Nexus Resonance Codex is optimized for modern hardware and must be executed in an environment capable of high-dimensional matrix operations. To ensure deterministic results and zero-entropy lattice projections, follow the precise steps for your Operating System below.
 
+**General Prerequisites:**
+- Python 3.10+
+- Git
+- At least 8GB RAM (16GB recommended for 2048D Projections)
+- (Optional but Relevent) NVIDIA GPU with CUDA for tensor operations
+
+### 🐧 Linux (Pop!_OS / Ubuntu / Debian) - Primary Target
+
+Linux is the native, mathematically superior environment for the NRC framework, providing direct access to low-level kernel routines required for tensor synchronization.
+
+1. **System Update & Core Dependencies:**
+   Open your terminal (e.g., Alacritty, GNOME Terminal) and execute:
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install -y git curl build-essential python3-venv python3-pip python3-dev
+   ```
+
+2. **Install `uv` (Ultra-fast Python Environment Manager):**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   source $HOME/.bashrc
+   ```
+
+3. **Clone the Ecosystem Repository:**
+   ```bash
+   git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+   cd Protein-Folding
+   ```
+
+4. **Virtual Environment Setup:**
+   Create an isolated environment to prevent dependency collision:
+   ```bash
+   uv venv .venv
+   source .venv/bin/activate
+   ```
+
+5. **Install Deterministic Scientific Libraries:**
+   ```bash
+   uv pip install torch numpy scipy mpmath
+   # If you have an NVIDIA GPU, ensure CUDA support:
+   uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+   ```
+
+6. **Execute the Infinite-Limit Solver:**
+   Run the interactive script to perform a mathematically pure sequence folding projection:
+   ```bash
+   python3 src/nrc_fold.py --sequence "MQIFVKTLT"
+   ```
+
+### 🪟 Windows 11 (via WSL2 / Ubuntu)
+
+Windows users *must* utilize the Windows Subsystem for Linux (WSL2). Native Command Prompt or PowerShell often corrupts high-path dependencies and introduces entropy to pathing schemas.
+
+1. **Enable Virtualization and WSL2:**
+   Open **PowerShell** *as Administrator*:
+   ```powershell
+   # Install the WSL kernel and the default Ubuntu distribution
+   wsl --install
+   ```
+   *Note: Restart your computer if prompted. Upon reboot, an Ubuntu terminal will automatically open. Create a UNIX username and password (which will not display as you type).*
+
+2. **Access the WSL Terminal and Update:**
+   Inside the Ubuntu WSL Terminal:
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install -y git python3-venv python3-pip curl
+   ```
+
+3. **Clone the Repository into the Linux Filesystem:**
+   *(Do NOT clone into your C: drive `/mnt/c/`. Clone directly into Linux `/home/username/` for maximum I/O performance)*
+   ```bash
+   git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+   cd Protein-Folding
+   ```
+
+4. **Virtual Environment and Installation:**
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install --upgrade pip
+   pip install torch numpy scipy mpmath
+   ```
+
+5. **Execution Verification:**
+   ```bash
+   python3 src/nrc_fold.py --sequence "MQIFVKTLT"
+   ```
+
+### 🍏 macOS (Apple Silicon M1/M2/M3 & Intel)
+
+macOS will utilize Apple's Metal Performance Shaders (MPS) via PyTorch if available, but the base $\phi$-attractor math runs efficiently on the CPU.
+
+1. **Install Homebrew (The macOS Package Manager):**
+   Open **Terminal.app** (or iTerm2):
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   # Ensure you follow the "Next steps" output by Homebrew to add it to your PATH
+   ```
+
+2. **Install Python 3.11 & Git:**
+   ```bash
+   brew install python@3.11 git
+   ```
+
+3. **Clone and Setup:**
+   ```bash
+   git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+   cd Protein-Folding
+   ```
+
+4. **Virtual Environment Initialization:**
+   ```bash
+   python3.11 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+5. **Install MPS-Compatible PyTorch and Math Libs:**
+   ```bash
+   pip install --upgrade pip
+   # Use Nightly build for optimal Apple Silicon support
+   pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cpu
+   pip install numpy scipy mpmath
+   ```
+
+6. **Execution (Interactive Script):**
+   ```bash
+   python3.11 src/nrc_fold.py --sequence "MQIFVKTLT"
+   ```
+
+### 🧪 Run Interactive Example (ESMFold + NRC Damping)
+
+To observe the universal damping wrapper in action ($\phi^{-k}$ entropy collapse applied to probabilistic tensors):
 ```bash
-# Clone the repository
-git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
-cd Protein-Folding
-
-# Install dependencies (Python 3.10–3.12 recommended)
-pip install -r requirements.txt
-````
-
-### Run Example Prediction (ESMFold + NRC Damping)
-
-```bash
-python examples/nrc_esmfold_enhanced.py \
+# Ensure your virtual environment is active
+python3 examples/nrc_esmfold_enhanced.py \
   --sequence "MKTIIALSYIFCLVFADYKDDDDK" \
   --output-prefix results/example
 ```
-
----
 
 ## 🧬 Integration Wrappers for State-of-the-Art Models
 

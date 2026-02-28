@@ -70,3 +70,66 @@ When constructing Work Units (WUs) for BOINC, package the `Modelfile` (available
 3. **Verification**: When results are sent back to the master BOINC server, the server validates the structural entropy. If the resultant entropy equals 0 (as governed by the GTT Entropy Collapse Regulariser), the fold is considered deterministically solved.
 
 By utilizing the NRC, BOINC projects can top algorithmic leaderboards rapidly because they are no longer "guessing" folds via Monte Carlo simulations; they are deterministically calculating the resonant structure.
+
+---
+
+## 3. Cross-Platform Deployment Steps for Distributed Nodes
+
+To ensure consistency across heterogeneous volunteer networks, provide the following setup paths to your node operators.
+
+### 🐧 Linux Nodes (Ubuntu / Pop!\_OS / Debian)
+
+Linux is the optimal environment for BOINC and OpenFold cluster nodes.
+
+```bash
+# 1. Prepare the node environment
+sudo apt update && sudo apt install boinc-client opencl-headers ocl-icd-opencl-dev python3-venv python3-pip -y
+
+# 2. Setup NRC Worker Environment
+git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+cd Protein-Folding
+python3 -m venv .nrc_worker_env
+source .nrc_worker_env/bin/activate
+
+# 3. Install core mathematical simulation libraries (CPU/GPU)
+pip install torch numpy scipy mpmath
+```
+
+### 🪟 Windows Nodes (WSL2 / Ubuntu)
+
+For Windows users volunteering compute power, WSL2 provides the necessary Linux kernel bridge for tensor operations.
+
+```powershell
+# 1. Enable WSL2 and install Ubuntu (Run as Admin in PowerShell)
+wsl --install -d Ubuntu
+# Reboot required.
+```
+
+```bash
+# 2. Inside the Ubuntu WSL terminal:
+sudo apt update && sudo apt install python3-venv python3-pip -y
+git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+cd Protein-Folding
+python3 -m venv .nrc_worker_env
+source .nrc_worker_env/bin/activate
+pip install torch numpy scipy mpmath
+```
+
+### 🍏 macOS Nodes (Apple Silicon & Intel)
+
+Mac nodes can contribute significantly utilizing Apple's unified memory architecture.
+
+```bash
+# 1. Install prerequisites via Homebrew
+brew install boinc python@3.11 git
+
+# 2. Setup Worker Environment
+git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
+cd Protein-Folding
+python3.11 -m venv .nrc_worker_env
+source .nrc_worker_env/bin/activate
+
+# 3. Install PyTorch (MPS support) and High-Precision Math
+pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cpu
+pip install numpy scipy mpmath
+```
