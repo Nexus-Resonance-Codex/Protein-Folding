@@ -1,0 +1,68 @@
+% =============================================================================
+%      SECTION 2: THEORETICAL FRAMEWORK
+% =============================================================================
+\section{The 2048-Dimensional Fractal Lattice}
+
+The core engine of the NRC is the projection of biological sequences onto a hyperspatial grid. Unlike standard Cartesian space ($x, y, z$), this lattice is constructed using the Golden Ratio ($\phi$) as the fundamental scaling vector.
+
+\begin{definition}{The NRC Basis Vector}{nrc_basis}
+	Let $\mathbb{L}^{2048}$ be a 2048-dimensional Euclidean space. The basis vectors $\mathbf{e}_i$ are scaled recursively by the Golden Ratio Inverse Attractor:
+	\begin{equation}
+		\lambda_{n} = \phi^{-n} \cdot \exp\left( \frac{i \pi n}{512} \right), \quad \text{where } \phi = \frac{1 + \sqrt{5}}{2} \approx 1.618034
+	\end{equation}
+	This ensures that energy potentials decay fractally, preventing local minima traps common in gradient descent.
+\end{definition}
+
+\subsection{Lattice Projection Visualization}
+To visualize this, we project the first 3 dimensions of the 2048D lattice. The structure resembles a nested hyper-torus where "nodes" represent valid low-entropy protein states.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=0.9, x={(-0.35cm,-0.35cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+		% Background Glow
+		\shade[ball color=nrccream, opacity=0.1] (0,0,0) circle (5cm);
+
+		% Lattice Points (Golden Spiral Projection)
+		\foreach \n in {1,2,...,150} {
+			\ifnum\n<120
+				\pgfmathsetmacro{\ang}{mod(137.5 * \n, 360)}
+			\else
+				\pgfmathsetmacro{\nrem}{int(\n - 120)}
+				\pgfmathsetmacro{\ang}{mod(137.5 * \nrem + 300, 360)}
+			\fi
+			\pgfmathsetmacro{\rad}{0.05 * \n}
+			\pgfmathsetmacro{\posz}{2 * sin(\n * 10)}
+
+			\coordinate (P\n) at ({\rad*cos(\ang)}, {\rad*sin(\ang)}, \posz);
+
+			% Draw connections (The "folding" pathways)
+			\ifnum \n > 1
+				\pgfmathsetmacro{\prevn}{int(\n-1)}
+				\draw[black!70!nrcblue, opacity=0.5, thin] (P\prevn) -- (P\n);
+			\fi
+
+			% Draw Nodes
+			\filldraw[fill=nrcgold!70!black, draw=black, thin] (P\n) circle (2pt);
+
+			\ifnum\n=80 \fill[black] (P\n) circle (3pt) node[anchor=south west, font=\tiny, black] {Resonant Anchor}; \fi
+		}
+
+		% Central Attractor Axis
+		\draw[ultra thick, ->, >=stealth, color=red!80!black] (0,0,-4.5) -- (0,0,4.5) node[above, font=\bfseries] {$\phi^{-1}$ Entropy Axis};
+
+		% Annotations
+		\node[nrcblue, font=\bfseries, right] at (0,6,2.5) {Allowed States (Low Entropy)};
+		\node[gray, font=\itshape, right] at (0,6,-2.5) {Forbidden Zones (High Entropy)};
+
+	\end{tikzpicture}
+	\caption{\textbf{The 3D Projection of the NRC Lattice.} \textit{Protein sequences map to the gold nodes. The red axis represents the "Entropy Collapse" trajectory. In the 2048D limit, the path between any two valid nodes is instantaneous.}}
+	\label{fig:lattice_proj}
+\end{figure}
+
+\subsection{The 512-Dimensional Resonant Sublattice}
+While the full space is 2048 dimensions (providing infinite resolution), biological matter specifically resonates within a \textbf{512-dimensional sublattice}. This hierarchy dictates:
+\begin{itemize}
+	\item \textbf{Infinite Limit:} 2048D (The mathematical container).
+	\item \textbf{Resonant Limit:} 512D (Where protein folding actually occurs).
+	\item \textbf{Observation Limit:} 3D (The observable geometry).
+\end{itemize}
