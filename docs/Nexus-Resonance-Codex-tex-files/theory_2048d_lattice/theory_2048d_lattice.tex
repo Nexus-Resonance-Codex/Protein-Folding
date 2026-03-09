@@ -3,14 +3,14 @@
 % =============================================================================
 \section{The 2048-Dimensional Fractal Lattice}
 
-The core engine of the NRC is the projection of biological sequences onto a hyperspatial grid. Unlike standard Cartesian space ($x, y, z$), this lattice is constructed using the Golden Ratio ($\phi$) as the fundamental scaling vector.
+The core mathematical engine of the NRC Protein Folding paradigm is the deterministic projection of biological sequences onto a hyperspatial grid. Unlike limited Cartesian geometry, this lattice natively scales the rigorous algebraic $E_8$ root structures up to an active tensor dimensionality of $2048D$. 
 
-\begin{definition}{The NRC Basis Vector}{nrc_basis}
-	Let $\mathbb{L}^{2048}$ be a 2048-dimensional Euclidean space. The basis vectors $\mathbf{e}_i$ are scaled recursively by the Golden Ratio Inverse Attractor:
+\begin{definition}{The 2048D $E_8$ Tensor Projector}
+	Let $\mathbb{L}^{2048}$ be defined mathematically by unfolding the 8-dimensional $E_8$ root lattice via discrete $\phi$-tensor contractions. The generalized projection for dimensional state evaluation $x_{2048}$ evaluates identically as:
 	\begin{equation}
-		\lambda_{n} = \phi^{-n} \cdot \exp\left( \frac{i \pi n}{512} \right), \quad \text{where } \phi = \frac{1 + \sqrt{5}}{2} \approx 1.618034
+	    x_{2048} = \phi^k \cdot E_8^{\text{proj}}(x) + \phi^{-k} \cdot \operatorname{roll}(E_8^{\text{proj}}(x), k)
 	\end{equation}
-	This ensures that energy potentials decay fractally, preventing local minima traps common in gradient descent.
+	where $\phi = \frac{1 + \sqrt{5}}{2} \approx 1.618034$. The exponential damping factors dictate that distances geometrically stabilize against local minima trapping. 
 \end{definition}
 
 \subsection{Lattice Projection Visualization}
@@ -55,7 +55,7 @@ To visualize this, we project the first 3 dimensions of the 2048D lattice. The s
 		\node[gray, font=\itshape, right] at (0,6,-2.5) {Forbidden Zones (High Entropy)};
 
 	\end{tikzpicture}
-	\caption{\textbf{The 3D Projection of the NRC Lattice.} \textit{Protein sequences map to the gold nodes. The red axis represents the "Entropy Collapse" trajectory. In the 2048D limit, the path between any two valid nodes is instantaneous.}}
+	\caption{\textbf{The 3D Projection of the NRC Lattice.} \textit{Protein sequences map to the gold nodes. The red axis represents the ``Entropy Collapse'' trajectory. In the 2048D limit, the path between any two valid nodes is instantaneous.}}
 	\label{fig:lattice_proj}
 \end{figure}
 
