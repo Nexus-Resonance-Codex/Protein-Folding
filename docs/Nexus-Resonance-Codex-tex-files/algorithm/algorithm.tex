@@ -14,8 +14,8 @@ The traditional view is that folding is a time-dependent process $F(t)$. The NRC
 		\State \quad Map $A \to \mathbb{L}$ using Giza Slope $\alpha = 51.827^\circ$.
 		\State \textbf{Step 2: Modular Filter (The Speedup)}
 		\State \quad \textbf{for} each coordinate $c_i$ \textbf{do}
-		\State \quad \quad \textbf{if} $c_i \pmod{9} \notin \{3, 6, 9, 7\}$ \textbf{then}
-		\State \quad \quad \quad \textbf{DISCARD} path (Physically impossible state).
+		\State \quad \quad \textbf{if} $c_i \pmod{9} \in \{0, 3, 6, 9\}$ \textbf{then}
+		\State \quad \quad \quad \textbf{DISCARD} path (Physically impossible chaotic void state).
 		\State \quad \quad \textbf{end if}
 		\State \quad \textbf{end for}
 		\State \textbf{Step 3: Entropy Collapse}
