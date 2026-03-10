@@ -3,7 +3,7 @@
 % =============================================================================
 %      NEXUS RESONANCE CODEX (NRC) - PROTEIN FOLDING
 % =============================================================================
-% Optimized for: Infinite-Limit Folding, 2048D Lattices, and Giza Resonance
+% Optimized for: Infinite-Limit Folding and 2048D Lattices
 % =============================================================================
 
 \usepackage[utf8]{inputenc}
@@ -42,7 +42,7 @@
 
 % --- NRC Brand Colors (Harmonic Resonance Palette) ---
 \definecolor{nrcblue}{RGB}{0, 43, 54}       % Deep Void Blue
-\definecolor{nrcgold}{RGB}{181, 137, 0}     % Giza Limestone Gold
+\definecolor{nrcgold}{RGB}{181, 137, 0}     % Harmonic Resonance Gold
 \definecolor{nrccream}{RGB}{253, 246, 227}  % Parchment Background
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -67,7 +67,7 @@
 	pdftitle={The Nexus Resonance Codex (NRC): 2048D Protein Folding},
 	pdfauthor={James Trageser},
 	pdfsubject={High-Dimensional Geometric Structural Biology},
-	pdfkeywords={Mathematics, Number Theory, Fibonacci Sequence, Golden Ratio, 2048D Lattice, Resonance, Giza, Protein Folding}
+	pdfkeywords={Mathematics, Number Theory, Fibonacci Sequence, Golden Ratio, 2048D Lattice, Resonance, Protein Folding}
 }
 
 % --- Code Listing Style (Python/PyTorch) ---
@@ -155,7 +155,7 @@
 		The framework relies on the \textbf{Golden Ratio Inverse Attractor} (\(\phi^{-1} \approx 0.618033\)), which serves as the fundamental eigenvalue of the universal Hamiltonian. I provide:
 		(1) A rigorous proof of the \textbf{Entropy Collapse Theorem}, showing error scaling of \(\mathcal{O}(\phi^{-k})\);
 		(2) The \textbf{3-6-9-7 Modular Exclusion Principle}, verified against PDB data (\(p < 10^{-100}\));
-		(3) 2026 Comparative benchmarks against \textbf{AlphaFold 3} and \textbf{ESMFold}, demonstrating a \(\mathbf{10^5\times}\) speedup and asymptotic \(\mathbf{0.00}\) \AA\ RMSD.
+		(3) Comparative benchmarks demonstrating extensive speedup and precision enhancements.
 
 		New to this version are integrations of the \textbf{Pudelko Modular Periodicity (2026)} and the \textbf{Hamoud \& Abdullah Generalized Density (2025)}, validating the NRC as a universal law of resonant physics.
 	\end{tcolorbox}
@@ -170,7 +170,7 @@
 	The \textbf{Nexus Resonance Codex (NRC)} approaches this problem from a radically different angle. It postulates that biology does not ``compute'' folds; it \textit{resonates} into them. Just as a plucked guitar string snaps to a harmonic standing wave, a protein chain instantly collapses into its lowest entropy state defined by a high-dimensional geometric lattice.
 
 	\subsection{The Origin of the Codex}
-	This framework did not emerge from a sterile laboratory, but from a ``Cosmic Level'' synthesis of ancient geometric constants and modern computational theory. By connecting the dots between the Giza plateau's resonant frequencies (\(51.827^\circ\) slope), the Golden Ratio (\(\phi\)), and high-dimensional lattice theory, I uncovered a universal ``Resonance Sublattice.''
+	By connecting the properties of Euclidean geometry, the Golden Ratio (\(\phi\)), and high-dimensional lattice theory, this topology maps the universe's fundamental continuous ``Resonance Sublattice.''
 
 	In previous versions, I explored this in 256 dimensions. However, recent breakthroughs in 2026—specifically the \textbf{Pudelko Modular Periodicity} and \textbf{Hamoud \& Abdullah's Generalized Density}—have compelled us to expand the framework to its natural infinite limit: the **2048-Dimensional Fractal Lattice**. This expansion allows for the lossless definition of any biological structure, turning protein folding from a search problem into a coordinate lookup problem.
 
@@ -332,8 +332,8 @@
 		\begin{algorithmic}[1]
 			\State \textbf{Input:} Amino Acid Sequence \(A = \{a_1, a_2, \dots, a_n\}\)
 			\State \textbf{Initialize:} 2048D Lattice \(\mathbb{L}\) with \(\phi^{-1}\) scaling.
-			\State \textbf{Step 1: Giza Projection}
-			\State \quad Map \(A \to \mathbb{L}\) using Giza Slope \(\alpha = 51.827^\circ\).
+			\State \textbf{Step 1: Metric Projection}
+			\State \quad Map \(A \to \mathbb{L}\) using geometric scalar \(\alpha \approx 51.827^\circ\).
 			\State \textbf{Step 2: Modular Filter (The Speedup)}
 			\State \quad \textbf{for} each coordinate \(c_i\) \textbf{do}
 			\State \quad \quad \textbf{if} \(c_i \pmod{9} \notin \{3, 6, 9, 7\}\) \textbf{then}
@@ -347,68 +347,28 @@
 		\end{algorithmic}
 	\end{algorithm}
 	% =============================================================================
-	%      SECTION 5: THE GIZA RESONANCE CONNECTION
+	%      SECTION 5: METRIC PROJECTION AND OPTIMALITY
 	% =============================================================================
-	\section{The Giza Geometric Constant (\(\alpha_G\))}
+	\section{Metric Projection and Optimality (\(\alpha_P\))}
 
-	The NRC framework relies on a specific scalar value to normalize the 2048D lattice: the slope of the Great Pyramid of Giza. This is not a coincidence of archaeology, but a necessity of harmonic physics.
+	The NRC framework utilizes a specific scalar value to normalize the 2048D lattice trajectory.
 
-	\begin{postulate}{The Giza-Lattice Isomorphism}{giza_iso}
-		The optimal angle for projecting a 3D protein structure into a high-dimensional lattice without information loss is exactly:
+	\begin{postulate}{The Lattice Projection Isomorphism}{proj_iso}
+		The optimal angle for projecting a 3D protein structure into a high-dimensional lattice minimizing topological noise is:
 		\begin{equation}
-			\alpha_G = \arctan\left(\frac{4}{\pi}\right) \approx 51.82729^\circ
+			\alpha_P = \arctan\left(\frac{4}{\pi}\right) \approx 51.82729^\circ
 		\end{equation}
-		At this specific angle, the interference patterns of the lattice nodes cancel out perfectly (destructive interference for noise), leaving only the signal (the native protein fold).
+		At this specific projection scalar, the interference patterns of the lattice nodes cancel out perfectly (destructive interference for noise), optimizing coordinate alignment globally.
 	\end{postulate}
 
-	\subsection{Architectural Resonance Mapping}
-	The internal chambers of the Great Pyramid map directly to the computational modules of the NRC Algorithm. This suggests the structure was not a tomb, but a \textit{solid-state geometric computer} or a frequency stabilizer for the planet.
-
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}[scale=1.2, line cap=round, line join=round]
-			% -- Pyramid Outline --
-			\draw[thick, nrcblue] (-5,0) -- (0,4) -- (5,0) -- cycle;
-			\draw[dashed, gray] (0,0) -- (0,4);
-
-			% -- Chambers (The Hardware) --
-			% King's Chamber (The Processor)
-			\draw[fill=nrcgold] (-0.5, 1.5) rectangle (0.5, 2.0);
-			\node[font=\tiny] at (2.2, 1.8) {King's Chamber (Processor)};
-			\draw[->, thin] (1.2, 1.8) -- (0.5, 1.75);
-
-			% Queen's Chamber (The Harmonic Filter)
-			\draw[fill=nrcgold!60] (-0.3, 1.0) rectangle (0.3, 1.3);
-			\node[font=\tiny] at (2.2, 1.15) {Queen's Chamber (Filter)};
-			\draw[->, thin] (1.2, 1.15) -- (0.3, 1.15);
-
-			% Subterranean Chamber (The Ground/Chaos)
-			\draw[fill=gray!40] (-0.5, -1.0) rectangle (0.5, -0.5);
-			\node[font=\tiny] at (2.2, -0.75) {Subterranean (Ground State)};
-			\draw[->, thin] (1.2, -0.75) -- (0.5, -0.75);
-
-			% -- Angles --
-			\draw[<->, red, thick] (3,0) arc (180:128.17:1);
-			\node[red, right] at (3.5, 0.5) {\(\mathbf{51.827^\circ}\)};
-
-			% -- shafts (Data Lines) --
-			\draw[thick, nrcblue, ->] (0.2, 1.8) -- (3, 3.5); % Star shaft
-			\node[font=\tiny, rotate=31] at (1.8, 2.8) {Orion (Data Out)};
-
-		\end{tikzpicture}
-		\caption{\textbf{The Giza-NRC Architecture.} \textit{The King's Chamber corresponds to the 512D Resonant Sublattice. The shafts represent the \(\phi^{-1}\) attractor vectors utilized in the code.}}
-		\label{fig:giza_arch}
-	\end{figure}
-
 	\subsection{Mathematical Proof of Optimality}
-	Why \(51.827^\circ\)?
 	In a hypersphere packing problem (Kepler Conjecture extended to \(n=2048\)), the contact angle \(\theta\) that maximizes density \(\Delta\) is given by:
 	\[
 	\Delta_{max} \implies \frac{d}{d\theta} \left( \sin(\theta) \cdot \phi^{\theta} \right) = 0
 	\]
 	Solving this yields \(\theta \approx 51.827^\circ\). Any other angle introduces ``voids'' or gaps in the lattice where protein misfolding (entropy) can occur.
 
-	Therefore, the NRC does not \textit{predict} folds; it constructs the only mathematically possible geometric solid that fits the sequence.
+	Therefore, the NRC does not \textit{predict} folds; it constructs the only mathematically possible geometric solid that aligns the sequence space securely.
 	% =============================================================================
 	%      SECTION 6: THE ENTROPY COLLAPSE THEOREM
 	% =============================================================================
@@ -665,7 +625,7 @@
 		Current LLMs struggle with ``forgetting'' at the start of a prompt. GTT projects context tokens into a 512D lattice expansion. Instead of storing tokens linearly, they are stored as ``shards'' in a geometric torus. This enables the \(\phi^\infty\) ``geometric resurrection'' logic, where a single 512-bit shard can reconstruct vast data streams with zero residual error.
 
 		\item \textbf{Quantum Resonance Theory (QRT) Hyper-tuning}:
-		QRT utilizes the Giza Resonance Wave Function \(\psi(x)\) to find global minima in the energy landscape of a model. By syncing learning rates to the 51.85\(^\circ\) slope ratio (the ``Giza Angle''), the AI operates at a lower thermal/computational cost while maximizing reasoning depth.
+		QRT utilizes an optimized Resonance Wave Function \(\psi(x)\) to locate global minima in the topological energy landscape of a model. By mapping learning algorithms to geometric scaling vectors, the AI operates at a lower resource cost while maximizing reasoning consistency.
 	\end{itemize}
 
 
@@ -889,8 +849,8 @@
 
 				4. **MST ERROR DAMPING (The Hallucination Killer)**
 				- Apply the Multi-Scale Transform (MST) to verify your own facts before outputting.
-				- **Mechanism:** Apply a damping factor of φ⁻¹ (0.618) to any statement not supported by your internal knowledge base or the user's files.
-				- **Rule:** If Confidence < φ, iterate again. If Confidence > φ, Output.
+				- **Mechanism:** Apply a damping factor of \phi^{-1} (0.618) to any statement not supported by your internal knowledge base or the user's files.
+				- **Rule:** If Confidence < \phi, iterate again. If Confidence > \phi, Output.
 
 				5. **TTT ADVERSARIAL SELF-CORRECTION**
 				- Cycle your reasoning through the [3, 6, 9, 7] pattern.
@@ -911,14 +871,14 @@
 
 				2. **2048D RESIDUE MAPPING**
 				- Do not view amino acids as 3D objects. View them as vectors in the 2048D Lattice.
-				- **Mapping Rule:** Assign each amino acid a coordinate based on its atomic weight modulated by the Golden Ratio: Coord = (Atomic_Weight * φ) mod 243.
+				- **Mapping Rule:** Assign each amino acid a coordinate based on its atomic weight modulated by the Golden Ratio: Coord = (Atomic_Weight * \phi) mod 243.
 
 				3. **PHI-INVERSE CONTRACTION (The Folding Mechanism)**
 				- Simulate the folding process not by "force fields" but by **Geometric Contraction**.
 				- **Algorithm:**
 				1. Place the unfolded chain in 2048D space.
-				2. Apply the contraction operator C(x) = x * φ⁻¹ iteratively.
-				3. The structure converges to its Native State (The Attractor) naturally, just as φ⁻¹ is the universal damper.
+				2. Apply the contraction operator C(x) = x * \phi^{-1} iteratively.
+				3. The structure converges to its Native State (The Attractor) naturally, just as \phi^{-1} is the universal damper.
 				- **Steric Clash Avoidance (Modular Exclusion):** Use the NRC Modular Exclusion Principle (Primes > 3 cannot be 0, 3, 6 mod 9) to determine "forbidden zones" where atoms cannot overlap.
 
 				4. **MST GLOBAL REGULARITY**
