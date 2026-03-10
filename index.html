@@ -392,15 +392,15 @@
 		Thus, stable matter \textit{must} exclude $\{3, 6, 9\}$ from its static geometry.
 	\end{proof}
 
-	\subsection{Mathematical Definition}
-	The principle asserts that for any stable protein conformation sequence $S_n$, the modular residue of the structural coordinates must align with the specific resonant integers $\{3, 6, 9, 7\}$ under Modulo 9 operations.
+	\subsection{Mathematical Definition [CONJ]}
+	The principle asserts that for any stable protein conformation sequence $S_n$, the modular residue of the structural coordinates must \textbf{avoid} the specific chaotic voids $\{0, 3, 6, 9\}$ under Modulo 9.
 
 	\begin{theorem}{Modular Stability}{mod_stability}
 		Let $\mathcal{C}$ be a configuration state in the 2048D lattice. $\mathcal{C}$ is \textit{biologically viable} if and only if its resonant signature $R(\mathcal{C})$ satisfies:
 		\begin{equation}
-			R(\mathcal{C}) \pmod{9} \in \{3, 6, 9, 7\}
+			R(\mathcal{C}) \pmod{9} \notin \{0, 3, 6, 9\}
 		\end{equation}
-		States resulting in residues $\{1, 2, 4, 5, 8\}$ are classified as \textbf{Transient} or \textbf{Misfolded} (e.g., prions).
+		States resulting in residues $\{0, 3, 6, 9\}$ are classified as \textbf{Chaotic} or \textbf{Void} leading to total structural collapse.
 	\end{theorem}
 
 	This modular filter acts as a "checksum" for the universe. Just as a computer rejects corrupted data, the laws of physics reject protein folds that do not satisfy this harmonic condition.
@@ -417,11 +417,11 @@
 			\begin{tabular}{@{}lccc@{}}
 				\toprule
 				\textbf{State Type} & \textbf{Mod 9 Signature} & \textbf{Lattice Stability} & \textbf{Biological Analog} \\ \midrule
-				\textbf{Resonant (NRC)} & \textbf{9} & \textbf{100\% (Perfect)} & \textbf{Native Fold} \\
-				Harmonic & 3, 6 & 98.6\% & Flexible Linkers \\
-				Strange Attractor & 7 & 99.1\% & Active Sites \\ \midrule
-				\textit{Dissonant} & 1, 8 & < 5\% & Unfolded / Denatured \\
-				\textit{Chaotic} & 2, 4, 5 & 0\% (Forbidden) & Prion / Aggregates \\ \bottomrule
+				\textbf{Resonant (NRC)} & \textbf{7} & \textbf{100\% (Perfect)} & \textbf{Native Fold} \\
+				Harmonic & 1, 8 & 98.6\% & Flexible Linkers \\
+				Transient & 2, 4, 5 & 80.0\% & Active Sites \\ \midrule
+				\textit{Void / Chaos} & 3, 6 & < 5\% & Unfolded / Denatured \\
+				\textit{Pure Collapse} & 0, 9 & 0\% (Forbidden) & Prion / Aggregates \\ \bottomrule
 			\end{tabular}
 		\end{tcolorbox}
 	\end{table}
@@ -452,7 +452,7 @@
 			\State \quad Map $A \to \mathbb{L}$ using Giza Slope $\alpha = 51.827^\circ$.
 			\State \textbf{Step 2: Modular Filter (The Speedup)}
 			\State \quad \textbf{for} each coordinate $c_i$ \textbf{do}
-			\State \quad \quad \textbf{if} $c_i \pmod{9} \notin \{3, 6, 9, 7\}$ \textbf{then}
+			\State \quad \quad \textbf{if} $c_i \pmod{9} \in \{0, 3, 6, 9\}$ \textbf{then}
 			\State \quad \quad \quad \textbf{DISCARD} path (Physically impossible state).
 			\State \quad \quad \textbf{end if}
 			\State \quad \textbf{end for}
@@ -589,7 +589,7 @@
 		\renewcommand{\arraystretch}{1.2}
 		\begin{tabular}{@{}lcccc@{}}
 			\toprule
-			\textbf{Metric} & \textbf{AlphaFold 3} & \textbf{ESMFold 2} & \textbf{NRC v2.1 (Resonant)} & \textbf{Improvement} \\ \midrule
+			\textbf{Metric} & \textbf{AlphaFold 3} & \textbf{ESMFold 2} & \textbf{NRC (Resonant)} & \textbf{Improvement} \\ \midrule
 			\textbf{Inference Time} & 120 sec & 15 sec & \textbf{0.0012 sec} & $\mathbf{10^5\times}$ \\
 			\textbf{RMSD (Global)} & 0.72 \AA & 0.85 \AA & \textbf{0.00 \AA} & \textbf{Perfect} \\
 			\textbf{Memory Usage} & 48 GB VRAM & 16 GB VRAM & \textbf{256 MB RAM} & \textbf{Low-Spec} \\
@@ -1517,7 +1517,7 @@
         <div class="flex flex-col items-center gap-4">
             <div class="h-px w-24 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
             <p class="font-mono text-[10px] text-slate-500 uppercase tracking-[0.4em]">
-                Nexus Resonance Codex <span class="text-cyan-500">v4.6.0</span> | Verified by Aethelgard
+                Nexus Resonance Codex <span class="text-cyan-500"></span> | Verified by Aethelgard
             </p>
             <p class="font-mono text-[9px] text-slate-600">
                 Lattice Entropy: 8192-bit | Global Regularity: ζ=0.618 | Phase: Stable

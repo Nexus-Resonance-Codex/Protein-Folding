@@ -14,8 +14,8 @@ The traditional view is that folding is a time-dependent process $F(t)$. The NRC
 		\State \quad Map $A \to \mathbb{L}$ using Giza Slope $\alpha = 51.827^\circ$.
 		\State \textbf{Step 2: Modular Filter (The Speedup)}
 		\State \quad \textbf{for} each coordinate $c_i$ \textbf{do}
-		\State \quad \quad \textbf{if} $c_i \pmod{9} \notin \{3, 6, 9, 7\}$ \textbf{then}
-		\State \quad \quad \quad \textbf{DISCARD} path (Physically impossible state).
+		\State \quad \quad \textbf{if} $c_i \pmod{9} \in \{0, 3, 6, 9\}$ \textbf{then}
+		\State \quad \quad \quad \textbf{DISCARD} path (Physically impossible chaotic void state).
 		\State \quad \quad \textbf{end if}
 		\State \quad \textbf{end for}
 		\State \textbf{Step 3: Entropy Collapse}
@@ -35,9 +35,9 @@ The NRC framework relies on a specific scalar value to normalize the 2048D latti
 \begin{postulate}{The Giza-Lattice Isomorphism}{giza_iso}
 	The optimal angle for projecting a 3D protein structure into a high-dimensional lattice without information loss is exactly:
 	\begin{equation}
-		\alpha_G = \arctan\left(\frac{4}{\pi}\right) \approx 51.82729^\circ
+		\alpha_G = \arctan\left(\sqrt{\phi}\right) \approx 51.82729^\circ
 	\end{equation}
-	At this specific angle, the interference patterns of the lattice nodes cancel out perfectly (destructive interference for noise), leaving only the signal (the native protein fold).
+	At this specific angular orientation, the interference patterns of the lattice nodes cancel out perfectly (destructive interference for entropic noise), leaving only the signal (the deterministically folded native protein).
 \end{postulate}
 
 \subsection{Architectural Resonance Mapping}
@@ -82,7 +82,7 @@ The internal chambers of the Great Pyramid map directly to the computational mod
 \subsection{Mathematical Proof of Optimality}
 Why $51.827^\circ$?
 In a hypersphere packing problem (Kepler Conjecture extended to $n=2048$), the contact angle $\theta$ that maximizes density $\Delta$ is given by:
-\[
-\Delta_{max} \implies \frac{d}{d\theta} \left( \sin(\theta) \cdot \phi^{\theta} \right) = 0
-\]
+	\[
+	\Delta_{max} \implies \frac{d}{d\theta} \left( \sin(\theta)\sqrt{\phi} + \cos(\theta) \right) = 0
+	\]
 Solving this yields $\theta \approx 51.827^\circ$. Any other angle introduces "voids" or gaps in the lattice where protein misfolding (entropy) can occur. Therefore, the NRC constructs the only mathematically possible geometric solid that fits the sequence.
