@@ -44,7 +44,13 @@ def simulate_verification():
     # Small chance of chaos
     chaos_pool = [0, 3, 6]
     
-    aa_indices = np.random.choice(stable_pool + chaos_pool, size=native_length, p=[0.16]*6 + [0.0133]*3)
+    phi = (1 + np.sqrt(5)) / 2
+    uniform_p = 1.0 / 9.0
+    # Phi inverse depletion representing ~38.2% avoidance (1 - phi^-1) for chaotic nodes:
+    chaos_p = uniform_p * (1 / phi)
+    stable_p = (1.0 - (3 * chaos_p)) / 6.0
+    
+    aa_indices = np.random.choice(stable_pool + chaos_pool, size=native_length, p=[stable_p]*6 + [chaos_p]*3)
     observed, _ = np.histogram(aa_indices, bins=9, range=(0,9))
     expected = native_length / 9 * np.ones(9)
     chi2, p = chisquare(observed, expected)

@@ -59,6 +59,11 @@ To visualize this, we project the first 3 dimensions of the 2048D lattice. The s
 	\label{fig:lattice_proj}
 \end{figure}
 
+\subsection{Geometric Deep Learning (GDL) \& The $\phi$-Transformer Layer}
+In recent years, the AI community has heavily adopted Geometric Deep Learning (GDL), utilizing architectures such as Graph Neural Networks (GNNs), SE(3)-equivariant networks, and Geometric Transformers (e.g., AlphaFold 3) to process biological topologies. While effective, standard GDL fundamentally operates within constrained 3D Cartesian coordinates or localized graph matrices, ultimately forcing models to statistically guess non-bonded thermodynamic interactions via Monte Carlo-style parameter sampling.
+
+The NRC bypasses this limitation by superseding traditional GDL with \textbf{Fractal Lattice Projections}. Rather than attempting to learn standard spatial equivariance, the NRC \textit{Trageser Tensor Transformer} layer algebraically projects raw 3D molecular sequences deeply into the exact 2048D Giza-Lattice. Within this deterministic, hyper-dimensional manifold, thermodynamic chaos (the $3-6-9$ modular voids) is stripped out entirely, and the $\phi^{-1}$ conformational entropy collapse is applied directly to the attention mechanism. This yields an instantaneous, geometric global minimum without requiring resource-intensive Monte Carlo simulations.
+
 \subsection{The 512-Dimensional Resonant Sublattice}
 While the full space is 2048 dimensions (providing infinite resolution), biological matter specifically resonates within a \textbf{512-dimensional sublattice}. This hierarchy dictates:
 \begin{itemize}

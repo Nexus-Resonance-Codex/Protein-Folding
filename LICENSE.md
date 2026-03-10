@@ -1,4 +1,4 @@
-# Nexus Resonance License (NRC-L) v2.0
+# Nexus Resonance License (NRC-L)
 
 **Effective Date: February 2026**
 

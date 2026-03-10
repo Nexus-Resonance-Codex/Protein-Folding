@@ -38,9 +38,11 @@ def qrt_regularized_folding(sequence_length: int = 150):
     print(f"Retained {len(stable_indices)} stable geometries.")
 
     # 4. Entropy Collapse
-    print("Applying QRT Entropy Collapse (lambda = phi^-n)...")
-    lambda_collapse = phi ** (-sequence_length / 100)
-    final_3d_structure = giza_matrix[stable_indices, :3] * lambda_collapse
+    print("Applying QRT Entropy Collapse damping function...")
+    # ψ(x) = sin(φ √2 · 51.85 x) · exp(-x² / φ) + cos(π / φ · x)
+    x = giza_matrix[stable_indices, :3]
+    qrt_damping = np.sin(phi * np.sqrt(2) * 51.85 * x) * np.exp(-(x**2) / phi) + np.cos(np.pi / phi * x)
+    final_3d_structure = x * qrt_damping
     
     print("Folding Complete. Sequence collapsed to global geometric minimum.")
     print(f"Final 3D Structure shape: {final_3d_structure.shape}")
