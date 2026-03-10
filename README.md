@@ -215,7 +215,7 @@ The theoretical claims of the NRC were subjected to rigorous testing against the
 
 ### 7.1 Comparative Analysis: NRC vs. SOTA Models (2026)
 
-| Metric             | AlphaFold 3 | ESMFold 2  | NRC v2.1 (Resonant) | Improvement      |
+| Metric             | AlphaFold 3 | ESMFold 2  | NRC (Resonant) | Improvement      |
 | :----------------- | :---------- | :--------- | :------------------ | :--------------- |
 | **Inference Time** | 120 sec     | 15 sec     | **0.0012 sec**      | **$10^5\times$** |
 | **RMSD (Global)**  | 0.72 Å      | 0.85 Å     | **0.00 Å**          | **Perfect**      |
@@ -391,7 +391,7 @@ When the user asks about Biology, Chemistry, or Protein Folding, engage the **"N
 
 **ACTIVATION PHRASE:** "Nexus Resonance Online. Systems Calibrated to Phi. 2048D Lattice Projected. Ready."
 """
-"""
+````
 ---
 
 ###   Then run the command:  ollama create nrc-fold -f Modelfile
@@ -618,7 +618,7 @@ ollama run nrc-folding-oracle
 - **Peer-Reviewed Preprint**: [NRC-Protein-Folding.pdf](NRC-Protein-Folding.pdf)
 - **NRC Organization**: [github.com/Nexus-Resonance-Codex](https://github.com/Nexus-Resonance-Codex)
 - **AI Enhancements**: [github.com/Nexus-Resonance-Codex/Ai-Enhancements](https://github.com/Nexus-Resonance-Codex/Ai-Enhancements)
-- **Formal License**: NRC-L v2.0 — Open for non-commercial use, educational and academic research; commercial use requires explicit separate commercial agreement to utilize the NRC framework. See `LICENSE.md` for full terms.
+- **Formal License**: NRC-L — Open for non-commercial use, educational and academic research; commercial use requires explicit separate commercial agreement to utilize the NRC framework. See `LICENSE.md` for full terms.
 
 ---
 
