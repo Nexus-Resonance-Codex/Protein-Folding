@@ -1,23 +1,26 @@
 # Nexus Resonance License (NRC-L)
+**SPDX-License-Identifier: CC-BY-NC-SA-4.0** (Non-Commercial Researcher Grant)
+
+---
 
 **Effective Date: February 2026**
 
 ## Preamble
 
-This License governs the use of the **Nexus Resonance Codex (NRC)** framework, including all mathematical models, algorithms, codebases, visual representations, and derivative materials (collectively, the **"NRC Materials"**) as applied to biological structures, protein folding dynamics, and related computational biochemistry, as detailed in the official NRC compiled documentation and related repository files.
+This License governs the use of the **Nexus Resonance Codex (NRC)** framework, including all mathematical models, algorithms, codebases (specifically the `nrc_bio` accelerator), visual representations, and derivative materials (collectively, the **"NRC Materials"**) as applied to **proteomics, biological sequence analysis, drug discovery simulations, protein folding accelerators, and medical research systems**, as detailed in the official NRC compiled documentation and related repository files.
 
-The NRC framework promotes rigorous, resonant innovation. To balance open scientific collaboration with the protection of foundational intellectual property, this License adopts a dual-licensing model:
+The NRC framework promotes rigorous, resonant innovation in the life sciences. To balance open scientific collaboration with the protection of foundational intellectual property, this License adopts a dual-licensing model:
 
-- **Non-commercial** and academic research use is granted freely to accelerate global discovery.
-- **Commercial** exploitation requires an explicit, separate commercial agreement.
-- **Harmful** or unethical applications are strictly prohibited.
+- **Non-commercial** and academic medical research use is granted freely to accelerate global discovery.
+- **Commercial** exploitation (including proprietary pharmaceutical development or for-profit diagnostic tools) requires an explicit, separate commercial agreement.
+- **Harmful** or unethical applications (including bio-weaponry or unauthorized genetic manipulation) are strictly prohibited.
 
 ## 1. Definitions
 
 1.  **"NRC Materials"** refers to the mathematical frameworks, proofs, algorithms, architectures, and source code provided within this repository.
 2.  **"Derivative Works"** refers to any modifications, extensions, integrations, or novel applications derived substantially from the NRC Materials.
-3.  **"Commercial Use"** refers to any use of the NRC Materials for financial gain, monetization, incorporation into commercial products, or direct business applications.
-4.  **"Biotech Applications"** refers to the use of NRC Materials in biotechnology, pharmaceuticals, life sciences, drug discovery, structural biology, or related fields.
+3.  **"Commercial Use"** refers to any use of the NRC Materials for financial gain, monetization, incorporation into commercial products, or direct business applications in the pharmaceutical or biotech industries.
+4.  **"Bio-Applications"** refers to the use of NRC Materials in protein folding, genomics, clinical trials, healthcare software, or for-profit diagnostic systems.
 5.  **"Harmful Use"** refers to applications involving weaponry, unauthorized surveillance, environmental degradation, illegal activities, or purposes reasonably determined to be detrimental to humanity.
 6.  **"Attribution"** refers to the mandatory crediting of "James Trageser (@jtrag) - Nexus Resonance Codex" alongside a direct link to the official organizational repository (https://github.com/Nexus-Resonance-Codex).
 7.  **"Educational Purposes"** refers strictly to non-commercial learning, teaching, and academic research within recognized institutions or personal capacity, devoid of any intent to monetize the derivative directly or indirectly.
@@ -42,9 +45,9 @@ Under these conditions, the Licensor grants a non-exclusive, royalty-free licens
 
 **Any Commercial Use of the NRC Materials is strictly prohibited without prior written consent from the Licensor.**
 
-Entities seeking to utilize the NRC Materials for Commercial Use—including but not limited to commercial biotech applications, proprietary drug discovery pipelines, or for-profit software services—must negotiate a separate Commercial License Agreement.
+Entities seeking to utilize the NRC Materials for Commercial Use—including but not limited to proprietary drug discovery, commercial diagnostic platforms, or for-profit healthcare services—must negotiate a separate Commercial License Agreement.
 
-Such agreements will be structured equitably to reflect standard industry practices, potentially including upfront licensing fees, clinical milestone payments, and fair royalty structures based on net sales or derivative value.
+Such agreements will be structured equitably to reflect standard industry practices, potentially including upfront licensing fees, deployment milestones, and fair royalty structures based on net sales or derivative value.
 
 Unauthorized Commercial Use constitutes a material breach of this License and intellectual property infringement, subject to full legal recourse.
 

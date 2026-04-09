@@ -1,3 +1,10 @@
+#  Nexus Resonance Codex - 2025-2026 Breakthrough Series
+#  Copyright (c) 2026 James Trageser (@jtrag)
+#
+#  Licensed under CC-BY-NC-SA-4.0 + NRC-L
+#  "This work is part of the Nexus Resonance Codex (NRC) incorporating TTT 
+#  modular exclusion, phi^inf compression, 256D->729D lattice, QRT, and MST."
+
 """NRCFoldAccelerator: 2048D Lattice Projection for Protein Folding.
 
 This module implements the core NRC bio-lattice projection and acceleration logic
@@ -19,7 +26,7 @@ MST_MOD: int = 24389
 
 
 class NRCFoldAccelerator:
-    """Institutional accelerator for protein folding projections."""
+    """High-performance accelerator for protein folding projections."""
 
     def __init__(self, dimension: int = 2048) -> None:
         """Initialize the accelerator.
@@ -67,7 +74,7 @@ class NRCFoldAccelerator:
 
         x_729 = Φ^k * E8(x_8) + Φ^-k * roll(x_8, k)
 
-        Note: Simplified institutional implementation for v1.0.0.
+        # Note: Reference implementation for v1.1.0 logic.
 
         Args:
             x_8: Input 8D vector.
