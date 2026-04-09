@@ -22,6 +22,8 @@ def is_quadratic_residue(a, p):
 
 def compute_qrt_kernel(p):
     """Compute the QRT kernel for a given prime p.
+
+
     Returns the set of quadratic residues mod p.
     """
     return {a for a in range(p) if is_quadratic_residue(a, p)}

@@ -1,7 +1,9 @@
 """Amino Acid sequence parsing and mapping.
+
 ========================================
 Maps standard biological sequences into their underlying
-atomic resonance structures.
+
+Maps standard biological sequences into their underlyingatomic resonance structures.
 """
 
 from typing import Dict, List
@@ -33,6 +35,7 @@ AMINO_MASS_MAP: Dict[str, float] = {
 
 def sequence_to_mass_array(sequence: str) -> List[float]:
     """Converts a standard 1-letter amino acid string into an array
+
     of exact atomic masses for lattice projection.
 
     Args:

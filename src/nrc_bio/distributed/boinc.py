@@ -1,7 +1,9 @@
 """BOINC Distributed Computing Integrators.
+
 ========================================
 Scripts and wrappers for generating computational shards and work-units
-capable of running seamlessly on the BOINC network.
+
+Scripts and wrappers for generating computational shards and work-unitscapable of running seamlessly on the BOINC network.
 """
 
 from typing import Any, Dict, List
@@ -11,6 +13,7 @@ def generate_boinc_workunits(
     sequence_data: List[float], shard_count: int = 100
 ) -> List[Dict[str, Any]]:
     """Splits long protein target sequences into parallel
+
     computation shards for distributed BOINC processing.
 
     Args:

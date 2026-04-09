@@ -33,6 +33,7 @@ class NRCGeometricTransformerLayer(nn.Module):
 
     def qrt_damping(self, x: torch.Tensor) -> torch.Tensor:
         """Quantum Residue Turbulence (QRT) Entropy Collapse damping.
+
         ψ(x) = sin(φ √2 · 51.85 x) · exp(-x² / φ) + cos(π / φ · x).
         """
         phi_sqrt2_5185 = self.phi * math.sqrt(2.0) * 51.85
@@ -44,6 +45,7 @@ class NRCGeometricTransformerLayer(nn.Module):
 
     def ttt_filter(self, scores: torch.Tensor) -> torch.Tensor:
         """Applies the Trageser Tensor Transformer (TTT) modulo 9 reduction.
+
         Penalizes chaotic voids (3, 6, 9) by decaying their attention weights.
         """
         # Pseudo-integer reduction for modular stability check

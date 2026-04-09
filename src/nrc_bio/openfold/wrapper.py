@@ -1,7 +1,9 @@
 """OpenFold Structural Wrappers.
+
 =============================
 Applies the NRC physics engines (NS Damping, QRT, TUPT) into the
-standard predictive modules of OpenFold models.
+
+Applies the NRC physics engines (NS Damping, QRT, TUPT) into thestandard predictive modules of OpenFold models.
 """
 
 import torch
@@ -12,6 +14,7 @@ from nrc.math.tupt_exclusion import apply_exclusion_gate
 
 class NRCOpenFoldWrapper(nn.Module):
     """Wraps any standard OpenFold Structure/Evoformer module inside
+
     the NRC physics engine. Replaces stochastic dropouts with
     TUPT gates, and bounds exploding gradients with QRT damping.
     """

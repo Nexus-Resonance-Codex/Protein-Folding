@@ -1,7 +1,9 @@
 """Mapping biology into the 2048D Hyper-Lattice.
+
 =============================================
 Takes raw biological sequences and projects them into the math
-domain defined by the Core NRC toolkit.
+
+Takes raw biological sequences and projects them into the mathdomain defined by the Core NRC toolkit.
 """
 
 from typing import List
@@ -15,6 +17,7 @@ from nrc.math.phi import PHI_FLOAT
 
 def map_sequence_to_lattice(mass_array: List[float]) -> np.ndarray:
     """Projects a polypeptide mass sequence directly into the 2048D
+
     Golden lattice space using the core NRC projection engine.
 
     Args:
