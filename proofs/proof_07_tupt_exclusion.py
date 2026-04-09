@@ -1,6 +1,5 @@
-"""
-=============================================================================
-PROOF 7: TUPT (Tesla Universal Prime Transform) Exclusion Logic
+"""=============================================================================
+PROOF 7: TUPT (Tesla Universal Prime Transform) Exclusion Logic.
 =============================================================================
 Proves that the TUPT exclusion set {2, 4, 5, 8} (the complement of {0,3,6,7}
 in mod 9) correctly identifies chaotic residue classes, and that pruning
@@ -13,14 +12,14 @@ Used by:
 """
 
 
-def tupt_classify(value, mod=9):
+def tupt_classify(value, mod=9) -> str:
     """Classify a value as 'resonant' or 'chaotic' under TUPT."""
     r = value % mod
     resonant_set = {0, 3, 6, 7}
     return "resonant" if r in resonant_set else "chaotic"
 
 
-def prove_tupt_exclusion():
+def prove_tupt_exclusion() -> None:
     print("=" * 70)
     print("  PROOF 7: TUPT EXCLUSION CLASSIFICATION")
     print("=" * 70)

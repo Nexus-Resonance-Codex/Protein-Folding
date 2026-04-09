@@ -1,6 +1,5 @@
-"""
-=============================================================================
-PROOF 8: Pisano Period Universality
+"""=============================================================================
+PROOF 8: Pisano Period Universality.
 =============================================================================
 Proves that the Fibonacci sequence mod m generates a strictly periodic
 cycle (the Pisano period π(m)) for any positive integer m. This is the
@@ -23,7 +22,7 @@ def pisano_period(m):
     return -1  # Should never reach here for valid m
 
 
-def prove_pisano_universality():
+def prove_pisano_universality() -> None:
     print("=" * 70)
     print("  PROOF 8: PISANO PERIOD UNIVERSALITY")
     print("=" * 70)
@@ -64,11 +63,11 @@ def prove_pisano_universality():
     # Verify π(9) = 24 specifically
     pi9 = periods.get(9, pisano_period(9))
     assert pi9 == 24, f"Expected π(9) = 24, got {pi9}"
-    print(f"  π(9) = 24 VERIFIED  ✓")
+    print("  π(9) = 24 VERIFIED  ✓")
 
     # Show the actual Fibonacci mod 9 cycle
     fib_mod9 = [0, 1]
-    for i in range(2, 26):
+    for _i in range(2, 26):
         fib_mod9.append((fib_mod9[-1] + fib_mod9[-2]) % 9)
     print(f"  Cycle: {fib_mod9[:24]}")
 

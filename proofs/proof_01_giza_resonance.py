@@ -1,8 +1,8 @@
 import math
 
-def prove_giza_resonance_constant():
-    """
-    Mathematical Proof 1: The Giza Resonance Constant.
+
+def prove_giza_resonance_constant() -> bool:
+    """Mathematical Proof 1: The Giza Resonance Constant.
     Demonstrates that the optimal projection angle for maximum density
     in a High-Dimensional Lattice naturally aligns with the slope of
     the Great Pyramid of Giza (51.827 degrees).
@@ -33,6 +33,7 @@ def prove_giza_resonance_constant():
 
     assert match_percentage > 99.5, "Resonance mapping failed to align with physical constants."
     return True
+
 
 if __name__ == "__main__":
     prove_giza_resonance_constant()
