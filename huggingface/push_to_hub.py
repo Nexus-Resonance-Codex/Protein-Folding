@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """NRC Protein Folding — Hub Push Script.
+
 ======================================
 Pushes model card and source to HuggingFace Hub.
 Requires:  pip install huggingface_hub
@@ -13,6 +14,7 @@ from pathlib import Path
 
 
 def push(repo_id: str, card: str) -> None:
+    """Pushes a model card and repository content to the HuggingFace Hub."""
     try:
         from huggingface_hub import HfApi, create_repo
     except ImportError:
@@ -37,6 +39,7 @@ def push(repo_id: str, card: str) -> None:
 
 
 def main() -> None:
+    """Entry point for the HuggingFace Hub push utility."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-id", default="Nexus-Resonance-Codex/nrc-Protein-Folding")
     parser.add_argument("--card", default=str(Path(__file__).parent / "MODEL_CARD.md"))

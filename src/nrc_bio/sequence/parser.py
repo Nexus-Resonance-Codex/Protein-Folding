@@ -2,8 +2,7 @@
 
 ========================================
 Maps standard biological sequences into their underlying
-
-Maps standard biological sequences into their underlyingatomic resonance structures.
+atomic resonance structures.
 """
 
 from typing import Dict, List
@@ -34,9 +33,9 @@ AMINO_MASS_MAP: Dict[str, float] = {
 
 
 def sequence_to_mass_array(sequence: str) -> List[float]:
-    """Converts a standard 1-letter amino acid string into an array
+    """Converts a standard 1-letter amino acid string into an array of atomic masses.
 
-    of exact atomic masses for lattice projection.
+    Masses are used directly for Golden lattice projection.
 
     Args:
         sequence: The FASTA sequence string (e.g., "MKTIIALSY").

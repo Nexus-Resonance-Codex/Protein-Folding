@@ -1,4 +1,5 @@
 """=============================================================================
+
 PROOF 6: MST (Modular Stability Transform) Lyapunov Bound.
 =============================================================================
 Proves that the MST operator maintains bounded Lyapunov stability, ensuring
@@ -16,12 +17,13 @@ PHI = (1 + math.sqrt(5)) / 2
 PHI_INV = 1 / PHI
 
 
-def mst_operator(x, mod=9):
+def mst_operator(x: float, mod: int = 9) -> float:
     """MST operator: modular projection with phi-damping."""
     return (x % mod) * PHI_INV
 
 
 def prove_mst_lyapunov() -> None:
+    """Certifies the MST stability bound under Lyapunov coordinates."""
     print("=" * 70)
     print("  PROOF 6: MST LYAPUNOV STABILITY BOUND")
     print("=" * 70)
@@ -33,44 +35,44 @@ def prove_mst_lyapunov() -> None:
     initial_states = [1.0, 10.0, 100.0, 999.0, 1e6, 3.14159, 2.71828, 42.0]
 
     print(
-        f"  {'x₀':>12} | {'MST¹(x)':>12} | {'MST²(x)':>12} | {'MST³(x)':>12} | "
-        f"{'MST⁴(x)':>12} | {'MST⁵(x)':>12} | {'Bounded':>8}"
+        f"  {'x0':>12} | {'MST1(x)':>12} | {'MST2(x)':>12} | {'MST3(x)':>12} | "
+        f"{'MST4(x)':>12} | {'MST5(x)':>12} | {'Bounded':>8}"
     )
     print("-" * 90)
 
     all_bounded = True
     for x0 in initial_states:
         trajectory = [x0]
-        x = x0
+        x_val = x0
         for _ in range(5):
-            x = mst_operator(x)
-            trajectory.append(x)
+            x_val = mst_operator(x_val)
+            trajectory.append(x_val)
 
-        # Lyapunov bound: after one application, output is always < 9 * φ⁻¹ ≈ 5.56
+        # Lyapunov bound: after one application, output is always < 9 * phi-inv approx 5.56
         lyapunov_bound = 9 * PHI_INV
         bounded = all(t <= lyapunov_bound + 0.01 for t in trajectory[1:])
         if not bounded:
             all_bounded = False
 
-        status = "✓" if bounded else "✗"
+        status = "v" if bounded else "x"
         vals = " | ".join(f"{t:>12.6f}" for t in trajectory[:6])
         print(f"  {vals} | {status:>8}")
 
     print("-" * 90)
-    print(f"\n  Lyapunov Upper Bound: 9 × φ⁻¹ = {9 * PHI_INV:.6f}")
+    print(f"\n  Lyapunov Upper Bound: 9 x phi-inv = {9 * PHI_INV:.6f}")
 
     assert all_bounded, "MST Lyapunov bound violated!"
-    print("  All initial states converge within the Lyapunov bound  ✓\n")
+    print("  All initial states converge within the Lyapunov bound  v\n")
 
     # Show the fixed-point attractor
     print("  Fixed-point analysis:")
     for seed in range(9):
         fp = mst_operator(float(seed))
-        print(f"    MST({seed}) = ({seed} % 9) × φ⁻¹ = {seed} × {PHI_INV:.5f} = {fp:.6f}")
+        print(f"    MST({seed}) = ({seed} % 9) x phi-inv = {seed} x {PHI_INV:.5f} = {fp:.6f}")
 
     print("\n" + "=" * 70)
     print("  CONCLUSION: The MST operator is Lyapunov-stable with bound")
-    print(f"  B = 9φ⁻¹ ≈ {9 * PHI_INV:.4f}. This guarantees gradient norms remain")
+    print(f"  B = 9phi-inv approx {9 * PHI_INV:.4f}. This guarantees gradient norms remain")
     print("  finite under arbitrarily many clipping iterations.")
     print("=" * 70)
 

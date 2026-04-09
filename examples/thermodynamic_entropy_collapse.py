@@ -5,7 +5,6 @@ import numpy as np
 def thermodynamic_entropy_collapse(num_steps: int = 1000) -> None:
     """Simulates Delta G = Delta H - T(Delta S) over protein folding trajectories.
 
-
     Demonstrates how the 'conformational entropy collapse' is strictly governed
     by phi^-1 in the theoretical NRC framework relative to Monte Carlo baselines,
     achieving 0.00 RMSD within the 512D Resonant Sublattice.

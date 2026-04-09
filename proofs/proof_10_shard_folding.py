@@ -1,29 +1,32 @@
 """=============================================================================
+
 PROOF 10: Shard Folding Compression Ratio.
 =============================================================================
-Proves that the φ∞ Shard Folding compression scheme achieves O(1) memory
+Proves that the phi-infinity Shard Folding compression scheme achieves O(1) memory
 overhead for arbitrarily long sequences by recursively folding context
 windows using the golden ratio.
 
 Used by:
-  - Enhancement #1:  φ∞ Shard Folding Compression
-  - Enhancement #24: Infinite E∞ Context Shard Unfolder
+  - Enhancement #1:  phi-infinity Shard Folding Compression
+  - Enhancement #24: Infinite E-infinity Context Shard Unfolder
 =============================================================================
 """
 
 import math
+from typing import Tuple
 
 PHI = (1 + math.sqrt(5)) / 2
 PHI_INV = 1 / PHI
 
 
-def shard_fold(sequence_length, shard_size):
-    """Simulate shard folding: recursively compress a sequence by folding
-    it into shards of size `shard_size`, where each fold compresses
-    by factor φ⁻¹.
+def shard_fold(sequence_length: int, shard_size: int) -> Tuple[int, int, float]:
+    """Simulate shard folding: recursively compress a sequence.
+
+    Folding occurs into shards of size `shard_size`, where each fold compresses
+    by factor PHI_INV.
     """
     folds = 0
-    effective_size = sequence_length
+    effective_size = float(sequence_length)
     memory_used = shard_size  # Fixed memory allocation
 
     while effective_size > shard_size:
@@ -34,8 +37,9 @@ def shard_fold(sequence_length, shard_size):
 
 
 def prove_shard_folding() -> None:
+    """Certifies the O(1) memory overhead of the Shard Folding manifold."""
     print("=" * 70)
-    print("  PROOF 10: φ∞ SHARD FOLDING COMPRESSION")
+    print("  PROOF 10: PHI-INFINITY SHARD FOLDING COMPRESSION")
     print("=" * 70)
 
     shard_size = 2048  # Fixed shard window
@@ -55,7 +59,7 @@ def prove_shard_folding() -> None:
     ]
 
     print(f"\n  Fixed Shard Size: {shard_size}")
-    print(f"  Compression Factor: φ⁻¹ = {PHI_INV:.6f}\n")
+    print(f"  Compression Factor: phi-inv = {PHI_INV:.6f}\n")
 
     print(
         f"  {'Seq Length':>14} | {'Folds':>6} | {'Memory':>8} | {'Final Size':>12} | {'Ratio':>12}"
@@ -82,8 +86,8 @@ def prove_shard_folding() -> None:
 
     print(f"\n  Fold count for 4K tokens:       {folds_small}")
     print(f"  Fold count for 1B tokens:       {folds_large}")
-    print(f"  Theoretical (log_φ(N/S)):       {theoretical_folds:.1f}")
-    print("  Fold growth is O(log_φ(N)), memory remains O(1)  ✓")
+    print(f"  Theoretical (log_phi(N/S)):       {theoretical_folds:.1f}")
+    print("  Fold growth is O(log_phi(N)), memory remains O(1)  ✓")
 
     assert folds_large < 50, "Too many folds — compression inefficient!"
 

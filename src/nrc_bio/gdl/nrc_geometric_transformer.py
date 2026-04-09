@@ -1,4 +1,5 @@
 import math
+from typing import Optional, cast
 
 import torch
 import torch.nn as nn
@@ -13,7 +14,8 @@ class NRCGeometricTransformerLayer(nn.Module):
     filter and QRT damping to entropy collapse the attention mechanism.
     """
 
-    def __init__(self, d_model: int = 256, nhead: int = 8, d_lattice: int = 2048):
+    def __init__(self, d_model: int = 256, nhead: int = 8, d_lattice: int = 2048) -> None:
+        """Initializes the NRC Geometric Transformer with lattice-mapped dimensions."""
         super().__init__()
         self.d_model = d_model
         self.nhead = nhead
@@ -61,7 +63,8 @@ class NRCGeometricTransformerLayer(nn.Module):
 
         return scores * penalty
 
-    def forward(self, x: torch.Tensor, mask: torch.Tensor = None) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None) -> torch.Tensor:
+        """Executes the geometric attention and feed-forward manifold pass."""
         batch_size, seq_len, _ = x.size()
 
         # Project tokens into the 2048D Giza-Lattice projector space
@@ -90,7 +93,8 @@ class NRCGeometricTransformerLayer(nn.Module):
         context = context.transpose(1, 2).contiguous().view(batch_size, seq_len, self.d_lattice)
 
         # Project back to original dimension
-        return self.out_proj(context)
+        out = self.out_proj(context)
+        return cast(torch.Tensor, out)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 """=============================================================================
+
 PROOF 2: The 3-6-9-7 Modular Exclusion Principle.
 =============================================================================
 Demonstrates that the Fibonacci sequence generates a 24-step repeating
@@ -15,6 +16,7 @@ Used by:
 
 
 def prove_3697_modular_exclusion() -> None:
+    """Certifies the 3-6-9-7 modular exclusion principle."""
     print("=" * 70)
     print("  PROOF 2: MOD 9 EXCLUSION & FIBONACCI PISANO PERIODICITY")
     print("=" * 70)

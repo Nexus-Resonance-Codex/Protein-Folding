@@ -1,35 +1,31 @@
-"""Mapping biology into the 2048D Hyper-Lattice.
+#  Nexus Resonance Codex - 2025-2026 Breakthrough Series
+#  Copyright (c) 2026 James Trageser (@jtrag)
+#
+#  Licensed under CC-BY-NC-SA-4.0 + NRC-L
+#  "This work is part of the Nexus Resonance Codex (NRC) incorporating TTT
+#  modular exclusion, phi^inf compression, 256D->729D lattice, QRT, and MST."
 
-=============================================
-Takes raw biological sequences and projects them into the math
+"""Lattice Mapping: 2048D Projections.
 
-Takes raw biological sequences and projects them into the mathdomain defined by the Core NRC toolkit.
+This module provides the mapping residents to project amino acid masses
+into the 2048D resonance manifold.
 """
 
-from typing import List
-
 import numpy as np
-
-# Depend on the core NRC math library for the projection coordinates
-from nrc.lattice import phi_lattice_project
-from nrc.math.phi import PHI_FLOAT
+from nrc.math.lattice import phi_lattice_project  # type: ignore[import-untyped]
+from numpy.typing import NDArray
 
 
-def map_sequence_to_lattice(mass_array: List[float]) -> np.ndarray:
-    """Projects a polypeptide mass sequence directly into the 2048D
-
-    Golden lattice space using the core NRC projection engine.
+def sequence_to_lattice(mass_array: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Projects a mass-encoded sequence into the 2048D lattice space.
 
     Args:
-        mass_array: List of constituent mass weights.
+        mass_array: Array of mass values [N].
 
     Returns:
-        A NumPy array of shape (N, 2048) representing the folded
-        lattice coordinates.
+        Resonant lattice projection [N, 2048].
     """
-    masses = np.array(mass_array, dtype=np.float64)
-    # The coordinate index equation C_{n} = (mass * \phi)
-    base_coords = masses * PHI_FLOAT
-
-    # Project utilizing the core library
-    return phi_lattice_project(base_coords)
+    # Map each mass to its 2048D resonance by treating each element as a scalar
+    # phi_lattice_project expects a scalar float input.
+    res_list = [phi_lattice_project(float(m)) for m in mass_array]
+    return np.stack(res_list)

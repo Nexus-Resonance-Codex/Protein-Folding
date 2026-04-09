@@ -2,9 +2,10 @@
 
 =============================
 Applies the NRC physics engines (NS Damping, QRT, TUPT) into the
-
-Applies the NRC physics engines (NS Damping, QRT, TUPT) into thestandard predictive modules of OpenFold models.
+standard predictive modules of OpenFold models.
 """
+
+from typing import Any, cast
 
 import torch
 import torch.nn as nn
@@ -13,17 +14,18 @@ from nrc.math.tupt_exclusion import apply_exclusion_gate
 
 
 class NRCOpenFoldWrapper(nn.Module):
-    """Wraps any standard OpenFold Structure/Evoformer module inside
+    """Wraps any standard OpenFold Structure/Evoformer module inside the NRC physics engine.
 
-    the NRC physics engine. Replaces stochastic dropouts with
-    TUPT gates, and bounds exploding gradients with QRT damping.
+    Replaces stochastic dropouts with TUPT gates, and bounds exploding
+    gradients with QRT damping.
     """
 
-    def __init__(self, openfold_module: nn.Module):
+    def __init__(self, openfold_module: nn.Module) -> None:
+        """Initializes the wrapper around an existing OpenFold module."""
         super().__init__()
         self.core = openfold_module
 
-    def forward(self, x: torch.Tensor, **kwargs) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, **kwargs: Any) -> torch.Tensor:  # noqa: ANN401
         """Executes a physics-bounded forward pass.
 
         Args:
@@ -53,4 +55,4 @@ class NRCOpenFoldWrapper(nn.Module):
 
             out.register_hook(qrt_hook)
 
-        return out
+        return cast(torch.Tensor, out)

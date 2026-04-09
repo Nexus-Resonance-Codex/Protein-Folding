@@ -1,4 +1,5 @@
 """=============================================================================
+
 PROOF 7: TUPT (Tesla Universal Prime Transform) Exclusion Logic.
 =============================================================================
 Proves that the TUPT exclusion set {2, 4, 5, 8} (the complement of {0,3,6,7}
@@ -12,7 +13,8 @@ Used by:
 """
 
 
-def tupt_classify(value, mod=9) -> str:
+
+def tupt_classify(value: int, mod: int = 9) -> str:
     """Classify a value as 'resonant' or 'chaotic' under TUPT."""
     r = value % mod
     resonant_set = {0, 3, 6, 7}
@@ -20,6 +22,7 @@ def tupt_classify(value, mod=9) -> str:
 
 
 def prove_tupt_exclusion() -> None:
+    """Certifies the TUPT exclusion classification logic."""
     print("=" * 70)
     print("  PROOF 7: TUPT EXCLUSION CLASSIFICATION")
     print("=" * 70)

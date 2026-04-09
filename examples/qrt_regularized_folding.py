@@ -1,9 +1,8 @@
 import numpy as np
 
 
-def qrt_regularized_folding(sequence_length: int = 150):
+def qrt_regularized_folding(sequence_length: int = 150) -> np.ndarray:
     """Demonstrates the NRC Infinite-Limit Folding Algorithm.
-
 
     Rather than calculating probabilities or forces, this algorithm projects
     the sequence into a 512D Giza-Lattice (Default Space) and collapses it.
@@ -39,7 +38,8 @@ def qrt_regularized_folding(sequence_length: int = 150):
             stable_indices.append(i)
 
     print(
-        f"Discarded {len(chaotic_indices)} sequence coordinates resolving to {3, 6, 9} (Destructive Interference)."
+        f"Discarded {len(chaotic_indices)} sequence coordinates resolving to {3, 6, 9} "
+        "(Destructive Interference)."
     )
     print(f"Retained {len(stable_indices)} stable geometries (Anchored via TTT {{7}} principles).")
 

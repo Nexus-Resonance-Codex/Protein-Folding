@@ -1,4 +1,5 @@
 """=============================================================================
+
 PROOF 8: Pisano Period Universality.
 =============================================================================
 Proves that the Fibonacci sequence mod m generates a strictly periodic
@@ -12,7 +13,8 @@ Used by:
 """
 
 
-def pisano_period(m):
+
+def pisano_period(m: int) -> int:
     """Compute the Pisano period π(m): length of the Fibonacci cycle mod m."""
     a, b = 0, 1
     for i in range(1, m * m + 1):
@@ -23,6 +25,7 @@ def pisano_period(m):
 
 
 def prove_pisano_universality() -> None:
+    """Certifies the universality of the Pisano period for Learning Rate scaling."""
     print("=" * 70)
     print("  PROOF 8: PISANO PERIOD UNIVERSALITY")
     print("=" * 70)

@@ -1,4 +1,5 @@
 """=============================================================================
+
 PROOF 5: QRT (Quadratic Residue Transform) Expansion.
 =============================================================================
 Proves that the Quadratic Residue Transform naturally filters prime-resonant
@@ -11,18 +12,18 @@ Used by:
   - src/nrc_math/qrt.py
 =============================================================================
 """
+from typing import Set
 
 
-def is_quadratic_residue(a, p):
+def is_quadratic_residue(a: int, p: int) -> bool:
     """Check if a is a quadratic residue mod p using Euler's criterion."""
     if a % p == 0:
         return True  # 0 is trivially a residue
     return pow(a, (p - 1) // 2, p) == 1
 
 
-def compute_qrt_kernel(p):
+def compute_qrt_kernel(p: int) -> Set[int]:
     """Compute the QRT kernel for a given prime p.
-
 
     Returns the set of quadratic residues mod p.
     """
@@ -30,6 +31,7 @@ def compute_qrt_kernel(p):
 
 
 def prove_qrt_expansion() -> None:
+    """Certifies the mathematical properties of the Quadratic Residue Transform."""
     print("=" * 70)
     print("  PROOF 5: QUADRATIC RESIDUE TRANSFORM (QRT) PROPERTIES")
     print("=" * 70)
