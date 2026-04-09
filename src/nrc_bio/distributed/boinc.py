@@ -1,15 +1,16 @@
-"""
-BOINC Distributed Computing Integrators.
+"""BOINC Distributed Computing Integrators.
 ========================================
 Scripts and wrappers for generating computational shards and work-units
 capable of running seamlessly on the BOINC network.
 """
+
 from typing import Any, Dict, List
 
 
-def generate_boinc_workunits(sequence_data: List[float], shard_count: int = 100) -> List[Dict[str, Any]]:
-    """
-    Splits long protein target sequences into parallel
+def generate_boinc_workunits(
+    sequence_data: List[float], shard_count: int = 100
+) -> List[Dict[str, Any]]:
+    """Splits long protein target sequences into parallel
     computation shards for distributed BOINC processing.
 
     Args:
@@ -34,7 +35,7 @@ def generate_boinc_workunits(sequence_data: List[float], shard_count: int = 100)
             "boinc_wu_name": f"nrc_target_phi_shard_{i}",
             "start_index": start_idx,
             "end_index": end_idx,
-            "job_data": chunk
+            "job_data": chunk,
         }
         work_units.append(wu)
 

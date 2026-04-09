@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/docs/assets/phi_spiral_banner.png" width="100%" alt="NRC Protein-Folding Banner">
+  <img src="https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/assets/phi_spiral_banner.png" width="100%" alt="NRC Protein-Folding Banner">
 
 # NRC Protein-Folding
 ## Institutional-Grade Folding via φ^∞ Lattice Resonance
@@ -7,9 +7,9 @@
 [![License: CC-BY-NC-SA-4.0](https://img.shields.io/badge/License-CC--BY--NC--SA%204.0-00F0FF?style=for-the-badge&logo=creative-commons "Institutional License: CC-BY-NC-SA-4.0")](LICENSE)
 [![CI: Stability Audit](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/ci.yml/badge.svg)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/ci.yml)
 [![Docs: MkDocs Material](https://img.shields.io/badge/Docs-MkDocs%20Material-blue?style=for-the-badge&logo=markdown)](https://nexus-resonance-codex.github.io/Protein-Folding/)
-[![Core: 2048D Lattice](https://img.shields.io/badge/Lattice-2048D%20E8-00FF88?style=for-the-badge&logo=python)](docs/architecture.md)
+[![Core: 2048D Lattice](https://img.shields.io/badge/Lattice-2048D%20E8-00FF88?style=for-the-badge&logo=python)](architecture.md)
 
-[Architecture](docs/architecture.md) • [Fold Accelerator](src/nrc_bio/accelerator.py) • [Demos](notebooks/) • [Benchmarks](docs/benchmarks.md)
+[Architecture](architecture.md) • [Fold Accelerator](src/nrc_bio/accelerator.py) • [Demos](notebooks/) • [Benchmarks](benchmarks.md)
 
 **"Scaling biotechnology through geometric resonance and constant-time folding logic."**
 
@@ -59,7 +59,7 @@ uv run pytest tests/
 ---
 
 ### 📜 Mathematical Foundations
-The [Architecture Docs](docs/architecture.md) contain the formal derivation of the **TUPT-LWE** protein embedding and the **Ramachandran φ Connection**, establishing the $\varphi^{-1}$ stability limit for backbone torsion.
+The [Architecture Docs](architecture.md) contain the formal derivation of the **TUPT-LWE** protein embedding and the **Ramachandran φ Connection**, establishing the $\varphi^{-1}$ stability limit for backbone torsion.
 
 1.  **Lattice Projection**: $x_{729} = \Phi^k \cdot E_8(x_8) + \Phi^{-k} \cdot \text{roll}(x_8, k)$.
 2.  **QRT Damping**: Gradient stabilization via Quantum Residue Turbulence.

@@ -1,5 +1,4 @@
-"""
-OpenFold Structural Wrappers.
+"""OpenFold Structural Wrappers.
 =============================
 Applies the NRC physics engines (NS Damping, QRT, TUPT) into the
 standard predictive modules of OpenFold models.
@@ -12,18 +11,17 @@ from nrc.math.tupt_exclusion import apply_exclusion_gate
 
 
 class NRCOpenFoldWrapper(nn.Module):
-    """
-    Wraps any standard OpenFold Structure/Evoformer module inside
+    """Wraps any standard OpenFold Structure/Evoformer module inside
     the NRC physics engine. Replaces stochastic dropouts with
     TUPT gates, and bounds exploding gradients with QRT damping.
     """
+
     def __init__(self, openfold_module: nn.Module):
         super().__init__()
         self.core = openfold_module
 
     def forward(self, x: torch.Tensor, **kwargs) -> torch.Tensor:
-        """
-        Executes a physics-bounded forward pass.
+        """Executes a physics-bounded forward pass.
 
         Args:
             x: Input representations (activations or embeddings).
@@ -44,10 +42,12 @@ class NRCOpenFoldWrapper(nn.Module):
 
         # Physics Step 3: Navier-Stokes/QRT Gradient Damping stabilization
         if out.requires_grad:
+
             def qrt_hook(grad: torch.Tensor) -> torch.Tensor:
                 grad_np = grad.cpu().numpy()
                 damped = qrt_damping(grad_np)
                 return torch.from_numpy(damped).to(device)
+
             out.register_hook(qrt_hook)
 
         return out

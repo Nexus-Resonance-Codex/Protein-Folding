@@ -1,6 +1,5 @@
-"""
-=============================================================================
-PROOF 5: QRT (Quadratic Residue Transform) Expansion
+"""=============================================================================
+PROOF 5: QRT (Quadratic Residue Transform) Expansion.
 =============================================================================
 Proves that the Quadratic Residue Transform naturally filters prime-resonant
 frequencies from arbitrary input sequences, and that the QRT kernel
@@ -12,7 +11,6 @@ Used by:
   - src/nrc_math/qrt.py
 =============================================================================
 """
-import math
 
 
 def is_quadratic_residue(a, p):
@@ -24,11 +22,12 @@ def is_quadratic_residue(a, p):
 
 def compute_qrt_kernel(p):
     """Compute the QRT kernel for a given prime p.
-    Returns the set of quadratic residues mod p."""
+    Returns the set of quadratic residues mod p.
+    """
     return {a for a in range(p) if is_quadratic_residue(a, p)}
 
 
-def prove_qrt_expansion():
+def prove_qrt_expansion() -> None:
     print("=" * 70)
     print("  PROOF 5: QUADRATIC RESIDUE TRANSFORM (QRT) PROPERTIES")
     print("=" * 70)
@@ -63,7 +62,7 @@ def prove_qrt_expansion():
     print(f"  Input signal:   {signal}")
     print(f"  QRT-passed:     {filtered}")
     print(f"  QRT-rejected:   {rejected}")
-    print(f"  Compression:    {len(filtered)}/{len(signal)} = {len(filtered)/len(signal):.1%}")
+    print(f"  Compression:    {len(filtered)}/{len(signal)} = {len(filtered) / len(signal):.1%}")
 
     print("\n" + "=" * 70)
     print("  CONCLUSION: For any prime p, exactly (p-1)/2 + 1 residues exist.")

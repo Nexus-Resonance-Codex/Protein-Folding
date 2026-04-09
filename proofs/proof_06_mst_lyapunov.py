@@ -1,6 +1,5 @@
-"""
-=============================================================================
-PROOF 6: MST (Modular Stability Transform) Lyapunov Bound
+"""=============================================================================
+PROOF 6: MST (Modular Stability Transform) Lyapunov Bound.
 =============================================================================
 Proves that the MST operator maintains bounded Lyapunov stability, ensuring
 that gradient norms remain finite under iterative application.
@@ -10,6 +9,7 @@ Used by:
   - src/nrc_math/mst.py
 =============================================================================
 """
+
 import math
 
 PHI = (1 + math.sqrt(5)) / 2
@@ -21,7 +21,7 @@ def mst_operator(x, mod=9):
     return (x % mod) * PHI_INV
 
 
-def prove_mst_lyapunov():
+def prove_mst_lyapunov() -> None:
     print("=" * 70)
     print("  PROOF 6: MST LYAPUNOV STABILITY BOUND")
     print("=" * 70)
@@ -32,8 +32,10 @@ def prove_mst_lyapunov():
 
     initial_states = [1.0, 10.0, 100.0, 999.0, 1e6, 3.14159, 2.71828, 42.0]
 
-    print(f"  {'x₀':>12} | {'MST¹(x)':>12} | {'MST²(x)':>12} | {'MST³(x)':>12} | "
-          f"{'MST⁴(x)':>12} | {'MST⁵(x)':>12} | {'Bounded':>8}")
+    print(
+        f"  {'x₀':>12} | {'MST¹(x)':>12} | {'MST²(x)':>12} | {'MST³(x)':>12} | "
+        f"{'MST⁴(x)':>12} | {'MST⁵(x)':>12} | {'Bounded':>8}"
+    )
     print("-" * 90)
 
     all_bounded = True
@@ -68,7 +70,7 @@ def prove_mst_lyapunov():
 
     print("\n" + "=" * 70)
     print("  CONCLUSION: The MST operator is Lyapunov-stable with bound")
-    print(f"  B = 9φ⁻¹ ≈ {9*PHI_INV:.4f}. This guarantees gradient norms remain")
+    print(f"  B = 9φ⁻¹ ≈ {9 * PHI_INV:.4f}. This guarantees gradient norms remain")
     print("  finite under arbitrarily many clipping iterations.")
     print("=" * 70)
 

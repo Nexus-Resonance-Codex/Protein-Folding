@@ -1,6 +1,5 @@
-"""
-=============================================================================
-PROOF 9: Navier-Stokes Damping Bound
+"""=============================================================================
+PROOF 9: Navier-Stokes Damping Bound.
 =============================================================================
 Proves that the NRC Navier-Stokes damping regulariser maintains bounded
 energy dissipation. The damping factor reduces gradient norms by a fixed
@@ -10,6 +9,7 @@ Used by:
   - Enhancement #10: Navier-Stokes Damping Regulariser
 =============================================================================
 """
+
 import math
 
 PHI = (1 + math.sqrt(5)) / 2
@@ -17,13 +17,11 @@ PHI_INV = 1 / PHI
 
 
 def navier_stokes_damping(gradient_norm, viscosity=PHI_INV, dt=0.01):
-    """
-    NS-inspired viscous damping: dv/dt = -ν·v  =>  v(t+dt) = v·exp(-ν·dt)
-    """
+    """NS-inspired viscous damping: dv/dt = -ν·v  =>  v(t+dt) = v·exp(-ν·dt)."""
     return gradient_norm * math.exp(-viscosity * dt)
 
 
-def prove_ns_damping():
+def prove_ns_damping() -> None:
     print("=" * 70)
     print("  PROOF 9: NAVIER-STOKES DAMPING REGULARISER BOUNDS")
     print("=" * 70)
@@ -63,16 +61,15 @@ def prove_ns_damping():
     print("-" * 75)
 
     assert all_match, "NS damping ratio mismatch!"
-    print(f"\n  All gradient norms reduced by EXACTLY the same factor  ✓")
+    print("\n  All gradient norms reduced by EXACTLY the same factor  ✓")
     print(f"  Reduction factor: {reduction_factor:.12e}")
-    print(f"  This is independent of initial magnitude — a key physical property.\n")
+    print("  This is independent of initial magnitude — a key physical property.\n")
 
     # Show that increasing steps drives ANY initial norm to zero
     print("  Convergence to zero:")
     for steps in [100, 500, 1000, 2000, 5000]:
         factor = math.exp(-viscosity * dt * steps)
-        print(f"    After {steps:>5} steps: factor = {factor:.6e}  "
-              f"(1e6 → {1e6 * factor:.4e})")
+        print(f"    After {steps:>5} steps: factor = {factor:.6e}  (1e6 → {1e6 * factor:.4e})")
 
     print("\n" + "=" * 70)
     print("  CONCLUSION: NS damping preserves gradient direction while")

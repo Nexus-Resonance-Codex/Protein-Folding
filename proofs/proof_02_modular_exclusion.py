@@ -1,6 +1,5 @@
-"""
-=============================================================================
-PROOF 2: The 3-6-9-7 Modular Exclusion Principle
+"""=============================================================================
+PROOF 2: The 3-6-9-7 Modular Exclusion Principle.
 =============================================================================
 Demonstrates that the Fibonacci sequence generates a 24-step repeating
 Pisano Period in Modulo 9 arithmetic, and that {0, 3, 6} (the mod-9
@@ -15,7 +14,7 @@ Used by:
 """
 
 
-def prove_3697_modular_exclusion():
+def prove_3697_modular_exclusion() -> None:
     print("=" * 70)
     print("  PROOF 2: MOD 9 EXCLUSION & FIBONACCI PISANO PERIODICITY")
     print("=" * 70)
@@ -30,7 +29,7 @@ def prove_3697_modular_exclusion():
     # --- Step 2: Verify Pisano Period of length 24 ---
     cycle = fib_mod9[0:24]
     for offset in [24, 48, 72]:
-        segment = fib_mod9[offset:offset + 24]
+        segment = fib_mod9[offset : offset + 24]
         assert cycle == segment, (
             f"Pisano period mismatch at offset {offset}!\n"
             f"  Expected: {cycle}\n  Got:      {segment}"
@@ -49,7 +48,7 @@ def prove_3697_modular_exclusion():
     print("-" * 70)
 
     attractor_set = {0, 3, 6}  # The Tesla / NRC resonance nodes (mod 9)
-    resonance_7 = {7}          # The "bridge" attractor
+    resonance_7 = {7}  # The "bridge" attractor
 
     for node in range(9):
         if node in attractor_set:
@@ -66,8 +65,10 @@ def prove_3697_modular_exclusion():
     attractor_ratio = attractor_count / total
 
     print("-" * 70)
-    print(f"\nAttractor nodes (0,3,6,7) occupy {attractor_count}/{total} = "
-          f"{attractor_ratio:.1%} of the Pisano cycle.")
+    print(
+        f"\nAttractor nodes (0,3,6,7) occupy {attractor_count}/{total} = "
+        f"{attractor_ratio:.1%} of the Pisano cycle."
+    )
     print("This is the mathematical basis for deterministic gradient routing.\n")
 
     # --- Step 5: Verify exclusion principle ---
@@ -75,8 +76,10 @@ def prove_3697_modular_exclusion():
     # the COMPLEMENT of {0,3,6,7} mod 9 are marked chaotic.
     chaotic_nodes = {1, 2, 4, 5, 8}
     chaotic_count = sum(counts[n] for n in chaotic_nodes)
-    print(f"Chaotic nodes (1,2,4,5,8) occupy {chaotic_count}/{total} = "
-          f"{chaotic_count/total:.1%} of the cycle.")
+    print(
+        f"Chaotic nodes (1,2,4,5,8) occupy {chaotic_count}/{total} = "
+        f"{chaotic_count / total:.1%} of the cycle."
+    )
     print("These positions are where the Exclusion Router zeros gradients.\n")
 
     print("=" * 70)
