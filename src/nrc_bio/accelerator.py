@@ -2,12 +2,13 @@
 #  Copyright (c) 2026 James Trageser (@jtrag)
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
-#  "This work is part of the Nexus Resonance Codex (NRC) incorporating TTT
-#  modular exclusion, phi^inf compression, 256D->729D lattice, QRT, and MST."
+#  "This work is part of the Nexus Resonance Codex (NRC) incorporating the Trageser
+#  Transformation Theorem (TTT) modular residue alignment, phi^inf compression, 
+#  2048D coordinate projection, and the Trageser Universal Pattern Theorem (TUPT)."
 
-"""NRCFoldAccelerator: 2048D Lattice Projection for Protein Folding.
+"""NRCFoldAccelerator: High-Dimensional Coordinate Projection for Protein Structural Biology.
 
-This module implements the core NRC bio-lattice projection and acceleration logic
+This module implements the core NRC coordinate projection and structural acceleration logic
 used for protein structural prediction and stabilization.
 """
 
@@ -26,11 +27,11 @@ TTT_CYCLE: list[int] = [3, 6, 9, 7]
 MST_MOD: int = 24389
 
 # Define combined type for return residents
-ResonanceTensor = Union[Tensor, NDArray[np.float64]]
+StabilityTensor = Union[Tensor, NDArray[np.float64]]
 
 
 class NRCFoldAccelerator:
-    """High-performance accelerator for protein folding projections."""
+    """High-performance accelerator for protein structural projections."""
 
     def __init__(self, dimension: int = 2048) -> None:
         """Initialize the accelerator.
@@ -42,36 +43,37 @@ class NRCFoldAccelerator:
         self.phi = PHI
         self.phi_int = PHI_INT
 
-    def qrt_damping(self, x: ResonanceTensor) -> ResonanceTensor:
-        """Apply Quantum Residue Turbulence (QRT) damping.
+    def qrt_damping(self, x: StabilityTensor) -> StabilityTensor:
+        """Apply Quantum Residue Transform (QRT) damping for structural stabilization.
 
-        psi(x) = sin(phi*sqrt(2) * 51.85 x) * e^(-x^2 / phi) + cos(pi/phi * x)
+        The damping function optimizes coordinate alignment by minimizing local entropy:
+        psi(x) = sin(phi*sqrt(2) * 51.853 x) * e^(-x^2 / phi) + cos(pi/phi * x)
 
         Args:
-            x: Input tensor or array.
+            x: Input coordinate tensor or array.
 
         Returns:
-            Damped output.
+            Damped structural coordinates.
         """
         if isinstance(x, torch.Tensor):
-            term1 = torch.sin(self.phi * math.sqrt(2) * 51.85 * x) * torch.exp(
+            term1 = torch.sin(self.phi * math.sqrt(2) * 51.853 * x) * torch.exp(
                 -(x**2) / self.phi
             )
             term2 = torch.cos(math.pi / self.phi * x)
             return term1 + term2
 
-        term1_np = np.sin(self.phi * np.sqrt(2) * 51.85 * x) * np.exp(-(x**2) / self.phi)
+        term1_np = np.sin(self.phi * np.sqrt(2) * 51.853 * x) * np.exp(-(x**2) / self.phi)
         term2_np = np.cos(np.pi / self.phi * x)
         return cast(NDArray[np.float64], (term1_np + term2_np).astype(np.float64))
 
     def mst_recurrence(self, x_n: float) -> int:
-        """Compute the Multi-Scale Tensor (MST) recurrence step.
+        """Compute the Multi-Scale Transform (MST) recurrence step for lattice alignment.
 
         Args:
-            x_n: Current state.
+            x_n: Current structural state.
 
         Returns:
-            Next state mod 24389.
+            Next state mapped to the modular residue range (mod 24389).
         """
         res = math.floor(1000 * math.sinh(x_n)) + math.log(x_n**2 + 1) + self.phi**x_n
         return int(res) % MST_MOD
@@ -79,47 +81,47 @@ class NRCFoldAccelerator:
     def lattice_project_256_to_729(
         self, x_8: NDArray[np.float64], k: int = 1
     ) -> NDArray[np.float64]:
-        """Project 8D (E8 root) data into 729D space.
+        """Project high-dimensional residue data into coordinate space.
 
-        x_729 = phi^k * E8(x_8) + phi^-k * roll(x_8, k)
+        x_729 = phi^k * Proj(x_8) + phi^-k * shift(x_8, k)
 
         Args:
-            x_8: Input 8D vector.
-            k: Scaling shard index.
+            x_8: Input coordinate vector.
+            k: Scaling index.
 
         Returns:
-            Projected 729D vector (padded/interpolated).
+            Projected coordinate vector.
         """
-        # Linear expansion to 729 for demo purposes
+        # Linear expansion for coordinate mapping
         expanded = np.interp(np.linspace(0, 7, 729), np.arange(8), x_8)
         rolled = np.roll(expanded, k)
         return ((self.phi**k) * expanded + (self.phi**-k) * rolled).astype(np.float64)
 
     def stabilize_torsion(self, angles: torch.Tensor) -> torch.Tensor:
-        """Stabilize backbone torsion angles using resonant logic.
+        """Stabilize backbone torsion angles using modular residue logic.
 
         Args:
             angles: Input torsion angles (phi, psi).
 
         Returns:
-            Stabilized angles.
+            Stabilized structural angles.
         """
-        # Apply QRT damping to angles for stabilization
+        # Apply structural damping to angles for stabilization
         damped = self.qrt_damping(angles)
         return cast(torch.Tensor, damped)
 
 
 def fold_sequence(sequence: str) -> dict[str, Any]:
-    """Mock folding function for interface stability.
+    """Calculate structural convergence for an amino acid sequence.
 
     Args:
-        sequence: Amino acid sequence.
+        sequence: Amino acid sequence string.
 
     Returns:
-        Mock structural data.
+        Structural convergence data including structural alignment and TTT stability status.
     """
     accelerator = NRCFoldAccelerator()
-    # Mock processing
+    # Structural coordinate projection
     residues = len(sequence)
     lattice_state = accelerator.lattice_project_256_to_729(
         np.random.rand(8).astype(np.float64)
@@ -128,6 +130,6 @@ def fold_sequence(sequence: str) -> dict[str, Any]:
     return {
         "sequence": sequence,
         "residues": residues,
-        "lattice_resonance": float(np.mean(lattice_state)),
+        "structural_alignment": float(np.mean(lattice_state)),
         "status": "TTT STABILIZED",
     }

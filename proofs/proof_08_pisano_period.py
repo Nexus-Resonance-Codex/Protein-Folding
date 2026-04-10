@@ -7,11 +7,10 @@ cycle (the Pisano period π(m)) for any positive integer m. This is the
 mathematical foundation for the Pisano-Modulated Learning Rate Schedule.
 
 Used by:
-  - Enhancement #20: Pisano-Modulated Learning Rate Schedule
-  - Enhancement #14: 3-6-9-7 Attractor Synchronisation Seed
+  - PisanoModulatedLRSchedule
+  - TUPTSyncSeed
 =============================================================================
 """
-
 
 
 def pisano_period(m: int) -> int:
@@ -60,7 +59,7 @@ def prove_pisano_universality() -> None:
 
     # Highlight the NRC-critical period
     print(f"\n  NRC-Critical: π(9) = {periods.get(9, pisano_period(9))}")
-    print("  This 24-step cycle drives the learning rate modulation schedule.")
+    print("  This 24-step cycle drives the institutional learning rate schedule.")
     print("  Every 24 training steps, the LR pattern repeats exactly.\n")
 
     # Verify π(9) = 24 specifically
@@ -77,7 +76,7 @@ def prove_pisano_universality() -> None:
     print("\n" + "=" * 70)
     print("  CONCLUSION: The Pisano period is a universal, deterministic")
     print("  property of Fibonacci sequences. It provides a cyclic schedule")
-    print("  that replaces arbitrary cosine-annealing or step-decay heuristics.")
+    print("  that replaces arbitrary stochastic LR decay heuristics.")
     print("=" * 70)
 
 

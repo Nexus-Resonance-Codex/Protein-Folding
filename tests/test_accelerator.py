@@ -48,7 +48,7 @@ def test_fold_sequence() -> None:
     res = fold_sequence("ACDEFGHIK")
     assert res["status"] == "TTT STABILIZED"
     assert res["residues"] == 9
-    assert "lattice_resonance" in res
+    assert "structural_alignment" in res
 
 
 def test_metadata() -> None:

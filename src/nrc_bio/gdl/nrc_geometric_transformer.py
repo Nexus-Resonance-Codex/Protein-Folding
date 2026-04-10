@@ -10,8 +10,9 @@ class NRCGeometricTransformerLayer(nn.Module):
     """NRC-Enhanced Geometric Transformer Layer for Protein Folding.
 
     This layer replaces standard scaled dot-product attention with phi-tensor
-    contractions in a 2048D Giza-Lattice space. It applies the TTT 3-6-9-7
-    filter and QRT damping to entropy collapse the attention mechanism.
+    contractions in a 2048D coordinate lattice space. It applies the TTT 
+    modular residue stability filter and QRT damping to optimize the 
+    attention mechanism.
     """
 
     def __init__(self, d_model: int = 256, nhead: int = 8, d_lattice: int = 2048) -> None:
@@ -27,7 +28,7 @@ class NRCGeometricTransformerLayer(nn.Module):
         self.phi_inv = 1.0 / self.phi
         self.phi_int = 1618
 
-        # 3D to 2048D Giza-Lattice Projectors
+        # 3D to 2048D Coordinate Lattice Projectors
         self.q_proj = nn.Linear(d_model, d_lattice)
         self.k_proj = nn.Linear(d_model, d_lattice)
         self.v_proj = nn.Linear(d_model, d_lattice)
@@ -46,20 +47,21 @@ class NRCGeometricTransformerLayer(nn.Module):
         return term1 + term2
 
     def ttt_filter(self, scores: torch.Tensor) -> torch.Tensor:
-        """Applies the Trageser Tensor Transformer (TTT) modulo 9 reduction.
+        """Applies the Trageser Transformation Theorem (TTT) modular stability gating.
 
-        Penalizes chaotic voids (3, 6, 9) by decaying their attention weights.
+        Gates residues aligning with unstable modular residues (0, 3, 6) 
+        to optimize the attention landscape.
         """
         # Pseudo-integer reduction for modular stability check
         int_scores = (torch.abs(scores) * self.phi_int).long()
         mod_9 = int_scores % 9
 
-        # Determine penalty mask for chaotic nodes (0, 3, 6, 9 mod 9)
-        chaos_mask = (mod_9 == 0) | (mod_9 == 3) | (mod_9 == 6) | (mod_9 == 9)
+        # Determine stability mask for unstable nodes (0, 3, 6, 9 mod 9)
+        stability_mask = (mod_9 == 0) | (mod_9 == 3) | (mod_9 == 6) | (mod_9 == 9)
 
-        # Apply phi_inv shrinkage to chaotic nodes (entropy collapse)
+        # Apply phi_inv gating to unstable nodes
         penalty = torch.ones_like(scores)
-        penalty[chaos_mask] = self.phi_inv
+        penalty[stability_mask] = self.phi_inv
 
         return scores * penalty
 
@@ -67,7 +69,7 @@ class NRCGeometricTransformerLayer(nn.Module):
         """Executes the geometric attention and feed-forward manifold pass."""
         batch_size, seq_len, _ = x.size()
 
-        # Project tokens into the 2048D Giza-Lattice projector space
+        # Project tokens into the 2048D coordinate lattice projector space
         q = self.q_proj(x).view(batch_size, seq_len, self.nhead, self.d_k).transpose(1, 2)
         k = self.k_proj(x).view(batch_size, seq_len, self.nhead, self.d_k).transpose(1, 2)
         v = self.v_proj(x).view(batch_size, seq_len, self.nhead, self.d_k).transpose(1, 2)
@@ -75,7 +77,7 @@ class NRCGeometricTransformerLayer(nn.Module):
         # Compute pre-attention Golden scalar scores
         scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.d_k)
 
-        # 1. Apply TTT 3-6-9-7 Chaos Masking
+        # 1. Apply TTT Modular Residue Stability Gating
         scores = self.ttt_filter(scores)
 
         if mask is not None:
