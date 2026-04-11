@@ -4,7 +4,7 @@
 # NRC Protein-Folding
 ## Biopolymer Structural Acceleration via High-Dimensional Lattice Projections
 
-[![License: CC-BY-NC-SA-4.0](https://img.shields.io/badge/License-CC--BY--NC--SA%204.0-00F0FF?style=for-the-badge&logo=creative-commons "Institutional License: CC-BY-NC-SA-4.0")](LICENSE)
+[![License: CC-BY-NC-SA-4.0](https://img.shields.io/badge/License-CC--BY--NC--SA%204.0-00F0FF?style=for-the-badge&logo=creative-commons "Professional License: CC-BY-NC-SA-4.0")](LICENSE)
 [![CI: Stability Audit](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/ci.yml/badge.svg)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/ci.yml)
 [![Docs: Technical Specifications](https://img.shields.io/badge/Docs-Foundations-green?style=for-the-badge&logo=markdown "Mathematical Foundations Documentation")](https://nexus-resonance-codex.github.io/Protein-Folding/)
 [![Lattice: 8192D](https://img.shields.io/badge/Lattice-8192D-gold?style=for-the-badge&logo=python "High-Dimensional Lattice Specification")](docs/architecture.md)

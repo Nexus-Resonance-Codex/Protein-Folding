@@ -8,7 +8,7 @@ def prove_qrt_damping_constant() -> bool:
     in a High-Dimensional Lattice naturally aligns with the 
     geometric damping constant (THETA_QRT ≈ 51.853°).
 
-    This scalar value acts as the institutional structural bias in the NRC architecture.
+    This scalar value acts as the professional structural bias in the NRC architecture.
     """
     print("=" * 60)
     print("PROOF 1: THE GEOMETRIC DAMPING ISOMORPHISM")
@@ -19,7 +19,7 @@ def prove_qrt_damping_constant() -> bool:
     optimal_radians = math.atan(math.sqrt(phi))
     optimal_degrees = math.degrees(optimal_radians)
 
-    # 2. Institutional Standard Constant
+    # 2. Professional Standard Constant
     theta_qrt = 51.853
 
     # 3. Validation
@@ -27,12 +27,12 @@ def prove_qrt_damping_constant() -> bool:
     match_percentage = 100 - error
 
     print(f"Optimal Lattice Projection Angle (Theoretical): {optimal_degrees:.5f}°")
-    print(f"Institutional QRT Damping Angle (Constant):     {theta_qrt:.5f}°")
+    print(f"Professional QRT Damping Angle (Constant):     {theta_qrt:.5f}°")
     print("-" * 60)
     print(f"Structural Resonance Match:                     {match_percentage:.3f}%")
     print("=" * 60)
 
-    assert match_percentage > 99.5, "Resonance mapping failed to align with institutional constants."
+    assert match_percentage > 99.5, "Resonance mapping failed to align with professional constants."
     return True
 
 

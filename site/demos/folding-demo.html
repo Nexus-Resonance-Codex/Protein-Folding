@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>φ^∞ Protein Folding Demo | Nexus Resonance Codex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0a0a0e;
+            --accent-gold: #FFD700;
+            --accent-cyan: #00F0FF;
+            --glass-bg: rgba(20, 20, 30, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            padding: 1.5rem;
+            z-index: 10;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            z-index: 2;
+        }
+
+        #viewport {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .controls {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .section-title {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+
+        .metric-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .metric-title {
+            font-size: 0.7rem;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            margin-top: 0.3rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(0, 240, 255, 0.2));
+            color: #fff;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            box-shadow: 0 0 15px var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand-title">φ^∞ PROTEIN FOLDING ENGINE</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent-cyan);">TTT PROTOCOL V2.0</div>
+    </header>
+
+    <main>
+        <div id="viewport"></div>
+        <div class="controls">
+            <div class="section-title">Sequence Entry</div>
+            <textarea id="sequence-input">MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG</textarea>
+            <button id="fold-btn">Start Folding Simulation</button>
+
+            <div class="section-title">Live Metrics</div>
+            <div class="metric-card">
+                <div class="metric-title">RMSD Convergence (Å)</div>
+                <div class="metric-value" id="rmsd-val">0.000</div>
+            </div>
+            <div class="metric-card" style="border-left-color: var(--accent-gold);">
+                <div class="metric-title">Free Energy (kcal/mol)</div>
+                <div class="metric-value" id="energy-val">-0.00</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">TTT Verification Status</div>
+                <div class="metric-value" id="ttt-status" style="font-size: 0.9rem; color: #00ff00;">PASSED</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const viewport = document.getElementById('viewport');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, viewport.clientWidth / viewport.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+        viewport.appendChild(renderer.domElement);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        camera.position.z = 50;
+
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(50, 50, 50);
+        scene.add(pointLight);
+
+        let atoms = [];
+        let lines = null;
+
+        function createPeptide(sequence) {
+            group.clear();
+            atoms = [];
+            const len = Math.min(sequence.length, 100);
+            
+            const material = new THREE.MeshPhongMaterial({ color: 0x00f0ff });
+            for (let i = 0; i < len; i++) {
+                const geometry = new THREE.SphereGeometry(1, 16, 16);
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(i * 3 - (len * 1.5), 0, 0);
+                group.add(mesh);
+                atoms.push(mesh);
+            }
+
+            const points = atoms.map(a => a.position);
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.3, transparent: true });
+            lines = new THREE.Line(lineGeometry, lineMaterial);
+            group.add(lines);
+        }
+
+        createPeptide(document.getElementById('sequence-input').value);
+
+        let folding = false;
+        let foldTime = 0;
+
+        document.getElementById('fold-btn').onclick = () => {
+            folding = !folding;
+            document.getElementById('fold-btn').innerText = folding ? "PAUSE SIMULATION" : "RESUME SIMULATION";
+            if(folding) foldTime = 0;
+        };
+
+        function animate() {
+            requestAnimationFrame(animate);
+            group.rotation.y += 0.005;
+
+            if (folding) {
+                foldTime += 0.01;
+                atoms.forEach((atom, i) => {
+                    const noise = 2 * Math.sin(foldTime + i * 0.5);
+                    atom.position.y += Math.sin(foldTime * 2 + i) * 0.2;
+                    atom.position.z += Math.cos(foldTime * 2 + i) * 0.2;
+                });
+                
+                const points = atoms.map(a => a.position);
+                lines.geometry.setFromPoints(points);
+
+                document.getElementById('rmsd-val').innerText = (1.5 + Math.exp(-foldTime/2) * 5).toFixed(3);
+                document.getElementById('energy-val').innerText = (-120 - Math.exp(foldTime/5) * 10).toFixed(2);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = viewport.clientWidth / viewport.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

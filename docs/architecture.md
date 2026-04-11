@@ -15,11 +15,11 @@ The accelerator projects primary amino acid sequences onto a high-dimensional la
 
 ## Technical Specifications
 
-| Parameter | Specification | Institutional Standard |
+| Parameter | Specification | Professional Standard |
 | :--- | :--- | :--- |
 | **Lattice Dimension** | 256D (Projected to 729D) | Optimized for Structural Stability |
 | **Numeric Domain** | $\mathbb{Z}_{12289}$ (TUPT Modulus) | Prime Stability Anchor |
-| **Verification** | TTT Modular Stability Compliance | Institutional Integrity Checked |
+| **Verification** | TTT Modular Stability Compliance | Professional Integrity Checked |
 
 ## Usage Examples
 

@@ -1,5 +1,6 @@
-site_name: NRC Protein-Folding
-site_description: Institutional-Grade Bio-Lattice Protein Folding Accelerator
+site_name: Protein-Folding
+site_description: Professional-Grade Protein Folding via φ^∞ Lattice Resonance
+site_author: James Trageser
 site_url: https://Nexus-Resonance-Codex.github.io/Protein-Folding/
 
 theme:
@@ -7,19 +8,18 @@ theme:
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: green
-      accent: lime
+      primary: light blue
+      accent: gold
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: white
-      accent: green
+      primary: light blue
+      accent: gold
   features:
     - navigation.tabs
     - navigation.sections
-    - navigation.top
-    - search.suggest
-    - search.highlight
+    - navigation.expand
     - content.code.copy
+    - content.code.annotate
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -29,9 +29,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
-  - admonition
-  - footnotes
   - attr_list
+  - md_in_html
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -40,5 +39,17 @@ extra_javascript:
 
 nav:
   - Home: index.md
-  - Architecture: architecture.md
-  - Distributed Computing: DISTRIBUTED_COMPUTING_INTEGRATION.md
+  - Interactive Demos:
+      - Real-time Folding: demos/folding-demo.html
+      - Lattice Visualizer: demos/lattice-visualizer.html
+      - Cosmic Math: demos/cosmic-math.html
+  - Technical Documentation:
+      - Architecture: architecture.md
+      - Distributed Integration: DISTRIBUTED_COMPUTING_INTEGRATION.md
+  - Professional Artifacts:
+      - LaTeX Full Paper: Nexus-Resonance-Codex-tex-files/main.pdf
+
+plugins:
+  - search
+  - minify:
+      minify_html: true

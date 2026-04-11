@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "nrc-bio"
 version = "1.0.0"
-description = "Institutional-Grade Protein Folding via φ^∞ Lattice Resonance"
+description = "Professional-Grade Protein Folding via φ^∞ Lattice Resonance"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = {text = "CC-BY-NC-SA-4.0"}

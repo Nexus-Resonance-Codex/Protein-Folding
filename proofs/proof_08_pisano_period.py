@@ -59,7 +59,7 @@ def prove_pisano_universality() -> None:
 
     # Highlight the NRC-critical period
     print(f"\n  NRC-Critical: π(9) = {periods.get(9, pisano_period(9))}")
-    print("  This 24-step cycle drives the institutional learning rate schedule.")
+    print("  This 24-step cycle drives the professional learning rate schedule.")
     print("  Every 24 training steps, the LR pattern repeats exactly.\n")
 
     # Verify π(9) = 24 specifically
