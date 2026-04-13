@@ -28,8 +28,12 @@ nav:
   - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
   - '🕹 Playground Hub': 'NRC-Playground-Guide.md'
   - '📐 Math Foundations': 'math-foundations.md'
+  - '📽 Demo Arena':
+    - 'Folding Showcase': 'demos/protein-folding-showcase.html'
+    - 'Lattice Mode': 'demos/lattice-visualizer-protein-mode.html'
+    - 'Scaling Benchmarks': 'demos/rmsd-benchmark.html'
+    - 'Cosmic Math': 'demos/cosmic-math.html'
   - '🏗 Architecture': 'architecture.md'
-  - '🌀 Lattice Visualizer': 'demos/lattice-visualizer.html'
   - '📦 Distributed Computing': 'DISTRIBUTED_COMPUTING_INTEGRATION.md'
 
 markdown_extensions:

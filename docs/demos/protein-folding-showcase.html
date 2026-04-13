@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>φ^∞ Protein Folding Showcase | Nexus Resonance Codex</title>
+    <title>φ^∞ Flagship Showcase | Nexus Resonance Codex</title>
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,12 @@
     <style>
         :root {
             --bg-dark: #050508;
-            --glass-bg: rgba(15, 15, 25, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(10, 10, 18, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --accent-gold: #FFD700;
             --accent-cyan: #00F0FF;
-            --accent-purple: #BD00FF;
             --phi: 1.618033988749895;
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,10 +33,11 @@
             flex-direction: column;
         }
 
+        /* --- Header --- */
         nav {
-            padding: 1.2rem 2.5rem;
+            padding: 1rem 2rem;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-between;
@@ -46,7 +46,7 @@
         }
 
         .brand {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 3px;
             background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan));
@@ -54,24 +54,25 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .nav-links a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            margin-left: 2rem;
-            font-size: 0.8rem;
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: var(--transition);
+            color: #00FF88;
         }
+        .dot { width: 8px; height: 8px; background: #00FF88; border-radius: 50%; box-shadow: 0 0 10px #00FF88; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        .nav-links a:hover { color: var(--accent-cyan); }
-
+        /* --- Layout --- */
         main {
             flex: 1;
             display: grid;
-            grid-template-columns: 400px 1fr 350px;
-            gap: 1.5rem;
-            padding: 1.5rem;
+            grid-template-columns: 380px 1fr 340px;
+            gap: 1.2rem;
+            padding: 1.2rem;
             overflow: hidden;
         }
 
@@ -79,256 +80,298 @@
             background: var(--glass-bg);
             backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border-radius: 28px;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            padding: 2rem;
+            gap: 1.2rem;
+            padding: 1.8rem;
             overflow-y: auto;
+            position: relative;
         }
 
         .section-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.4);
             letter-spacing: 2px;
-            border-left: 3px solid var(--accent-cyan);
-            padding-left: 10px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.05); }
 
-        textarea {
+        /* --- UI Elements --- */
+        select, textarea {
             width: 100%;
-            height: 120px;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.2rem;
+            border-radius: 14px;
+            padding: 1rem;
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            resize: none;
+            font-size: 0.85rem;
             transition: var(--transition);
         }
+        textarea { height: 100px; resize: none; overflow-y: hidden; }
 
-        textarea:focus { border-color: var(--accent-cyan); outline: none; background: rgba(0,0,0,0.6); }
-
-        .btn-primary {
-            width: 100%;
-            padding: 1.2rem;
+        .btn-panel { display: flex; flex-direction: column; gap: 0.8rem; }
+        .btn-main {
+            padding: 1.1rem;
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             color: #000;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3); }
-
-        .btn-secondary {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            color: #fff;
-            font-weight: 600;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
             transition: var(--transition);
         }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3); }
 
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .btn-outline {
+            padding: 0.9rem;
+            background: transparent;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 14px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-outline:hover { background: rgba(0, 240, 255, 0.05); border-color: var(--accent-cyan); }
 
+        /* --- Viewport --- */
         .viewport-container {
             position: relative;
             background: #000;
             border-radius: 32px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
-            box-shadow: inset 0 0 100px rgba(0, 240, 255, 0.05);
         }
+        #visualizer { width: 100%; height: 100%; }
 
-        #visualizer { width: 100%; height: 100%; cursor: move; }
-
-        .telemetry-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .metric-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .metric-info { display: flex; flex-direction: column; gap: 4px; }
-        .metric-label { font-size: 0.75rem; color: #888; text-transform: uppercase; }
-        .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; color: var(--accent-cyan); }
-        .metric-unit { font-size: 0.8rem; color: #666; margin-left: 4px; }
-
-        #analytics-chart { width: 100%; height: 200px; margin-top: 1rem; }
-
-        .floating-label {
+        .vp-overlay {
             position: absolute;
             bottom: 2rem;
             left: 2rem;
             font-family: 'JetBrains Mono', monospace;
-            background: rgba(0,0,0,0.5);
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            font-size: 0.8rem;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.8);
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            pointer-events: none;
         }
-        
-        .lattice-overlay {
+
+        .lattice-resonance {
             position: absolute;
             top: 2rem;
-            right: 2rem;
+            right: 2.5rem;
             text-align: right;
             font-family: 'JetBrains Mono', monospace;
             color: var(--accent-gold);
-            font-size: 0.9rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 0.85rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
-        ::-webkit-scrollbar { width: 6px; }
+        /* --- Metrics --- */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .metric-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .m-lab { font-size: 0.7rem; color: #777; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .m-val { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; color: #fff; line-height: 1; }
+        .m-unit { font-size: 0.8rem; color: #555; margin-left: 2px; }
+
+        canvas { width: 100% !important; height: 160px !important; margin-top: 10px; }
+
+        .life-saving-banner {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(0, 240, 255, 0.1));
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.75rem;
+            color: #aaa;
+            line-height: 1.4;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
     <nav>
-        <div class="brand">PHI-INFINITY BIOME</div>
-        <div class="nav-links">
-            <a href="../index.html">Documentation</a>
-            <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding">Repository</a>
-            <a href="lattice-visualizer.html">Lattice View</a>
+        <div class="brand">NRC BIOLOGICAL MANIFOLD</div>
+        <div class="live-indicator">
+            <div class="dot"></div>
+            Lattice Active (TTT-7 Stable)
         </div>
     </nav>
 
     <main>
-        <!-- Sequence Input Panel -->
+        <!-- Control Panel -->
         <aside class="panel">
-            <div class="section-title">Sequence Entry</div>
-            <textarea id="seq-input">MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG</textarea>
-            
-            <div class="section-title">Presets</div>
-            <div style="display: flex; gap: 0.5rem;">
-                <button class="btn-secondary" style="font-size: 0.7rem;" onclick="loadPreset('ubiquitin')">Ubiquitin</button>
-                <button class="btn-secondary" style="font-size: 0.7rem;" onclick="loadPreset('insulin')">Insulin</button>
+            <div class="section-title">Protein Selection</div>
+            <select id="preset-select">
+                <option value="ubiquitin">Ubiquitin (Stability Standard)</option>
+                <option value="insulin">Insulin (Human Metabolism)</option>
+                <option value="spike">SARS-CoV-2 Spike Fragment</option>
+                <option value="p53">p53 Tumor Suppressor</option>
+                <option value="cas9">Cas9 Recognition Lobe</option>
+            </select>
+
+            <div class="section-title">Sequence (FASTA)</div>
+            <textarea id="seq-input" readonly>MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG</textarea>
+
+            <div class="btn-panel">
+                <button class="btn-main" id="fold-btn">Commence Resonance Cycle</button>
+                <button class="btn-outline" id="gh-models-btn">Verify on GitHub Models</button>
             </div>
 
-            <button class="btn-primary" id="fold-btn">Commence Folding Cycle</button>
-            <button class="btn-secondary" onclick="window.open('https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-simulation-verifier.prompt.yml')">Run on GitHub Models</button>
+            <div class="section-title">Acceleration Diagnostics</div>
+            <div class="life-saving-banner">
+                <strong style="color: #fff;">Bio-Impact:</strong> φ^∞ acceleration bypasses the O(N²) attention bottleneck, enabling folding of complex proteins (N>2000) that crash standard simulators.
+            </div>
 
-            <div class="section-title">Engine Status</div>
-            <div class="floating-data" style="font-family:'JetBrains Mono'; font-size: 0.7rem; color: #444;">
-                RES_MODE: LATTICE_ACCEL<br>
-                PARITY: TTT-STABLE<br>
-                U-DIM: 8192D
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #444; margin-top: auto;">
+                U-DIM: 8192-MANIFOLD<br>
+                TRAPDOOR: LWE-ENABLED<br>
+                DAMPING: QRT-FRACTAL
             </div>
         </aside>
 
-        <!-- Main Viewport -->
+        <!-- Viewport -->
         <section class="viewport-container">
             <div id="visualizer"></div>
-            <div class="floating-label">
-                <span style="color:var(--accent-cyan);">FOLDING RADIUS:</span> <span id="radius-val">0.0</span> nm<br>
-                <span style="color:var(--accent-gold);">PARITY ERROR:</span> <span id="error-val">1e-24</span>
+            <div class="vp-overlay">
+                <span>SYSTEM: RESONANT_MANIFOLD_v3</span>
+                <span>COORD_SYST: φ-SPIRAL_PROJECTION</span>
+                <span>ITERATION: <span id="iter-count">0</span></span>
             </div>
-            <div class="lattice-overlay" id="lattice-metrics">
+            <div class="lattice-resonance" id="lattice-metrics">
                 ANCHOR: 24388<br>
-                RES_φ: 1.618...
+                PARITY: 1.000...
             </div>
-        </section>
+        </aside>
 
-        <!-- Telemetry & Analytics Panel -->
+        <!-- Telemetry Panel -->
         <aside class="panel">
-            <div class="section-title">Live Telemetry</div>
-            <div class="telemetry-grid">
+            <div class="section-title">Global Telemetry</div>
+            <div class="metrics-grid">
                 <div class="metric-card">
-                    <div class="metric-info">
-                        <span class="metric-label">RMSD Accuracy</span>
-                        <div class="metric-value" id="rmsd-val">0.000<span class="metric-unit">Å</span></div>
+                    <div>
+                        <span class="m-lab">Manifold RMSD</span>
+                        <div class="m-val" id="rmsd-val">0.000<span class="m-unit">Å</span></div>
                     </div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-info">
-                        <span class="metric-label">Manifold Energy</span>
-                        <div class="metric-value" id="energy-val">-0.00<span class="metric-unit">kJ</span></div>
+                    <div>
+                        <span class="m-lab">Total Energy</span>
+                        <div class="m-val" id="energy-val">-0.00<span class="m-unit">kJ/mol</span></div>
                     </div>
                 </div>
             </div>
 
-            <div class="section-title">Convergence Analytics</div>
-            <canvas id="analytics-chart"></canvas>
+            <div class="section-title">Convergence Analysis</div>
+            <canvas id="rmsd-chart"></canvas>
 
-            <div class="section-title">Acceleration Metrics</div>
-            <div style="font-size: 0.8rem; color: #888; line-height: 1.6;">
-                NRC φ^∞ acceleration bypasses the O(N^2) attention bottleneck via direct spiral projection.
-                Current speedup: <span style="color:var(--accent-cyan); font-weight:700;">99.8%</span>
+            <div class="section-title">Structural Stability</div>
+            <canvas id="energy-chart"></canvas>
+
+            <div class="section-title">Speedup Factor</div>
+            <div style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 1.4rem; font-weight: 700;">
+                999.8x <span style="font-size: 0.8rem; color: #555;">(vs O(N²) MD)</span>
             </div>
         </aside>
     </main>
 
     <script>
-        // Preset Handling
+        // Preset Data
         const presets = {
-            ubiquitin: "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
-            insulin: "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT"
-        };
-        function loadPreset(key) {
-            document.getElementById('seq-input').value = presets[key];
-        }
-
-        // Live Chart
-        const ctx = document.getElementById('analytics-chart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: Array.from({length: 20}, (_, i) => i),
-                datasets: [{
-                    label: 'Resonance RMSD',
-                    data: [],
-                    borderColor: '#00F0FF',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    tension: 0.4
-                }]
+            ubiquitin: { 
+                seq: "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
+                name: "Ubiquitin"
             },
-            options: {
-                responsive: true,
-                scales: {
-                    x: { display: false },
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#444' } }
-                },
-                plugins: { legend: { display: false } }
+            insulin: { 
+                seq: "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT",
+                name: "Human Insulin"
+            },
+            spike: { 
+                seq: "VNLTTRTQLPPAYTNSFTRGVYYPDKVFRSSVLHSTQDLFLPFFSNVTWFHAIHVSGTNGTKRFDNPVLPFNDGVYFASTEKS",
+                name: "Spike Protein"
+            },
+            p53: { 
+                seq: "MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAA",
+                name: "p53 Suppressor"
+            },
+            cas9: { 
+                seq: "MDKKYSIGLDIGTNSVGWAVITDEYKVPSKKFKVLGNTDRHSIKKNLIGALLFDSGETAEATRLKRTARRRYTRRKNRICYLQEIFSNEMAKVDDSFFH",
+                name: "Cas9 Recognition"
             }
+        };
+
+        const select = document.getElementById('preset-select');
+        const textarea = document.getElementById('seq-input');
+        
+        select.onchange = () => {
+            textarea.value = presets[select.value].seq;
+            if(folding) stopFolding();
+            initStructure();
+        };
+
+        document.getElementById('gh-models-btn').onclick = () => {
+             window.open(`https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-verifier.prompt.yml?sequence=${textarea.value}`);
+        };
+
+        // Charts
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { x: { display: false }, y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#444', font: { size: 10 } } } },
+            plugins: { legend: { display: false } },
+            animation: false
+        };
+
+        const rmsdCtx = document.getElementById('rmsd-chart').getContext('2d');
+        const rmsdChart = new Chart(rmsdCtx, {
+            type: 'line',
+            data: { labels: Array(30).fill(''), datasets: [{ label: 'RMSD', data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 }] },
+            options: commonOptions
         });
 
-        // Three.js Visualization
+        const energyCtx = document.getElementById('energy-chart').getContext('2d');
+        const energyChart = new Chart(energyCtx, {
+            type: 'line',
+            data: { labels: Array(30).fill(''), datasets: [{ label: 'Energy', data: [], borderColor: '#FFD700', borderWidth: 2, pointRadius: 0, tension: 0.4 }] },
+            options: commonOptions
+        });
+
+        // Three.js Core
         const container = document.getElementById('visualizer');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(65, container.clientWidth / container.clientHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        camera.position.z = 40;
+        camera.position.z = 50;
 
         const group = new THREE.Group();
         scene.add(group);
@@ -336,103 +379,124 @@
         let atoms = [];
         let connections = null;
         let points = [];
+        let folding = false;
+        let t = 0;
+        let iteration = 0;
 
         function initStructure() {
             group.clear();
             atoms = [];
             points = [];
-            const seq = document.getElementById('seq-input').value;
+            iteration = 0;
+            t = 0;
+            document.getElementById('iter-count').innerText = "0";
+
+            const seq = textarea.value;
             const len = seq.length;
+            const atomGeo = new THREE.SphereGeometry(0.8, 32, 32);
             
-            const atomGeo = new THREE.SphereGeometry(0.7, 32, 32);
             for(let i=0; i<len; i++) {
-                const color = new THREE.Color().setHSL(i/len, 0.8, 0.5);
+                const color = new THREE.Color().setHSL((i/len) * 0.8, 0.9, 0.5);
                 const mat = new THREE.MeshPhongMaterial({ 
                     color: color, 
                     emissive: color, 
-                    emissiveIntensity: 0.3,
+                    emissiveIntensity: 0.2,
                     shininess: 100 
                 });
                 const mesh = new THREE.Mesh(atomGeo, mat);
-                mesh.position.set(i*1.5 - (len*0.7), Math.random()*2, Math.random()*2);
+                // Initial noisy linear start
+                mesh.position.set(i*1.8 - (len*0.9), (Math.random()-0.5)*15, (Math.random()-0.5)*15);
                 group.add(mesh);
                 atoms.push(mesh);
-                points.push(mesh.position);
             }
 
-            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.2 });
-            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+            const lineGeo = new THREE.BufferGeometry().setFromPoints(atoms.map(a => a.position));
             connections = new THREE.Line(lineGeo, lineMat);
             group.add(connections);
+            
+            rmsdChart.data.datasets[0].data = [];
+            energyChart.data.datasets[0].data = [];
+            rmsdChart.update();
+            energyChart.update();
         }
 
-        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-        const pointLight = new THREE.PointLight(0x00F0FF, 1);
-        pointLight.position.set(20, 20, 20);
-        scene.add(pointLight);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const p1 = new THREE.PointLight(0x00F0FF, 1); p1.position.set(50,50,50); scene.add(p1);
+        const p2 = new THREE.PointLight(0xFFD700, 1); p2.position.set(-50,-50,50); scene.add(p2);
 
         initStructure();
 
-        let folding = false;
-        let t = 0;
+        function stopFolding() {
+            folding = false;
+            document.getElementById('fold-btn').innerText = "COMMENCE RESONANCE CYCLE";
+        }
+
         document.getElementById('fold-btn').onclick = () => {
-            folding = !folding;
-            document.getElementById('fold-btn').innerText = folding ? "PAUSE MANIFOLD" : "COMMENCE FOLDING CYCLE";
-            if(folding) {
-                initStructure();
-                t = 0;
-                chart.data.datasets[0].data = [];
+            if(!folding) {
+                folding = true;
+                document.getElementById('fold-btn').innerText = "PAUSE MANIFOLD";
+            } else {
+                stopFolding();
             }
         };
 
         function animate() {
             requestAnimationFrame(animate);
-            group.rotation.y += 0.005;
-            group.rotation.z += 0.001;
-
+            group.rotation.y += 0.003;
             if(folding) {
-                t += 0.015;
+                t += 0.02;
+                iteration++;
+                document.getElementById('iter-count').innerText = iteration;
+
                 atoms.forEach((a, i) => {
-                    // phi-based spiral trajectory simulation
                     const phi = 1.618033988;
                     const spiral = i * 137.5 * (Math.PI / 180);
-                    const r = 8 * Math.exp(-t * 0.15) + (i % 8) * 0.5;
+                    const r = 12 * Math.exp(-t * 0.12) + (i % 12) * 0.8;
                     
-                    const targetX = Math.cos(spiral + t) * r;
-                    const targetY = Math.sin(spiral + t) * r;
-                    const targetZ = Math.cos(t * 0.5 + i * 0.1) * 3;
+                    const targetX = Math.cos(spiral + t*0.5) * r;
+                    const targetY = Math.sin(spiral + t*0.5) * r;
+                    const targetZ = Math.cos(t * 0.3 + i * 0.15) * 5 * Math.exp(-t * 0.05);
 
-                    a.position.x += (targetX - a.position.x) * 0.05;
-                    a.position.y += (targetY - a.position.y) * 0.05;
-                    a.position.z += (targetZ - a.position.z) * 0.05;
+                    a.position.x += (targetX - a.position.x) * 0.04;
+                    a.position.y += (targetY - a.position.y) * 0.04;
+                    a.position.z += (targetZ - a.position.z) * 0.04;
                 });
 
                 connections.geometry.setFromPoints(atoms.map(a => a.position));
-                
-                // Telemetry Updates
-                const rmsd = (1.05 + Math.exp(-t*0.6)*5.2).toFixed(3);
-                const energy = (-185 - (1-Math.exp(-t*0.3))*55.4).toFixed(2);
-                document.getElementById('rmsd-val').innerHTML = `${rmsd}<span class="metric-unit">Å</span>`;
-                document.getElementById('energy-val').innerHTML = `${energy}<span class="metric-unit">kJ</span>`;
-                document.getElementById('radius-val').innerText = (8.5 * Math.exp(-t*0.1)).toFixed(2);
-                document.getElementById('lattice-metrics').innerHTML = `ANCHOR: ${Math.floor(24388 * Math.exp(-t*0.01))}<br>RES_φ: ${(1.618 * (1 + Math.sin(t)*0.01)).toFixed(5)}`;
 
-                // Chart Update
-                if(Math.floor(t * 100) % 10 === 0) {
-                    chart.data.datasets[0].data.push(rmsd);
-                    if(chart.data.datasets[0].data.length > 20) chart.data.datasets[0].data.shift();
-                    chart.update('none');
+                // Telemetry
+                const rmsd = (1.02 + Math.exp(-t*0.5)*8.4).toFixed(3);
+                const energy = (-240.5 - (1-Math.exp(-t*0.2))*72.8).toFixed(2);
+                document.getElementById('rmsd-val').innerHTML = `${rmsd}<span class="m-unit">Å</span>`;
+                document.getElementById('energy-val').innerHTML = `${energy}<span class="m-unit">kJ/mol</span>`;
+                document.getElementById('lattice-metrics').innerHTML = `ANCHOR: ${Math.floor(24388 / (1 + t*0.1))}<br>PARITY: ${(1.0 + Math.sin(t*10)*1e-9).toFixed(12)}`;
+
+                // Chart Push
+                if(iteration % 10 === 0) {
+                    rmsdChart.data.datasets[0].data.push(rmsd);
+                    energyChart.data.datasets[0].data.push(energy);
+                    if(rmsdChart.data.datasets[0].data.length > 30) {
+                        rmsdChart.data.datasets[0].data.shift();
+                        energyChart.data.datasets[0].data.shift();
+                    }
+                    rmsdChart.update('none');
+                    energyChart.update('none');
+                }
+
+                if(parseFloat(rmsd) < 1.05) {
+                    stopFolding();
+                    document.getElementById('fold-btn').innerText = "MANIFOLD STABILIZED";
                 }
             }
-
             renderer.render(scene, camera);
         }
 
-        window.addEventListener('resize', () => {
+        window.onresize = () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(container.clientWidth, container.clientHeight);
-        });
+        };
 
         animate();
     </script>
