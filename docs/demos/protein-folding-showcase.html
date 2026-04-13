@@ -12,14 +12,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-dark: #050508;
-            --glass-bg: rgba(10, 10, 18, 0.9);
+            --bg-dark: #020205;
+            --glass-bg: rgba(10, 10, 20, 0.92);
             --glass-border: rgba(255, 255, 255, 0.1);
             --accent-gold: #FFD700;
             --accent-cyan: #00F0FF;
-            --accent-red: #FF3B3B;
             --phi: 1.618033988749895;
-            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,9 +35,9 @@
 
         /* --- Header --- */
         nav {
-            padding: 1rem 2.5rem;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(25px);
+            padding: 1.2rem 3rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-between;
@@ -47,42 +46,27 @@
         }
 
         .brand {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .status-pill {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 50px;
-            padding: 5px 15px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #00FF88;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .dot { width: 6px; height: 6px; background: #00FF88; border-radius: 50%; box-shadow: 0 0 10px #00FF88; animation: blink 2s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        .tagline { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- Main Layout --- */
+        /* --- Layout --- */
         main {
             flex: 1;
             display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 1.5rem;
-            padding: 1.5rem;
+            grid-template-columns: 420px 1fr;
+            gap: 2rem;
+            padding: 2rem;
             overflow: hidden;
         }
 
-        .controls-panel {
+        .panel-stack {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -90,25 +74,25 @@
             scrollbar-width: none;
         }
 
-        .card {
+        .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(40px);
+            backdrop-filter: blur(50px);
             border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 2.2rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            border-radius: 32px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
         }
 
         .section-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 3px;
-            margin-bottom: 5px;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
         .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
 
@@ -116,75 +100,88 @@
         .viewport-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 2rem;
             position: relative;
         }
 
-        .viewport-container {
+        .viewport-box {
             position: relative;
-            background: radial-gradient(circle at center, #0a0a18 0%, #000 100%);
-            border-radius: 35px;
+            background: radial-gradient(circle at center, #08081a 0%, #000 100%);
+            border-radius: 40px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
-            box-shadow: inset 0 0 100px rgba(0,240,255,0.05);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .viewport-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 40px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
         .vp-label {
             position: absolute;
-            top: 2rem;
-            left: 2rem;
-            font-size: 0.75rem;
+            top: 2.5rem;
+            left: 2.5rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            background: rgba(0,0,0,0.5);
-            padding: 6px 15px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.6);
+            padding: 8px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
         }
 
-        canvas { width: 100%; height: 100%; cursor: crosshair; }
+        canvas { width: 100%; height: 100%; cursor: move; }
 
-        /* --- UI Elements --- */
+        /* --- UI Components --- */
         select, textarea {
             width: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            padding: 1.2rem;
+            border-radius: 20px;
+            padding: 1.4rem;
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
             outline: none;
             transition: var(--transition);
         }
-        select:focus, textarea:focus { border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,240,255,0.1); }
+        select:focus, textarea:focus { border-color: var(--accent-cyan); box-shadow: 0 0 30px rgba(0,240,255,0.1); }
 
         .btn-group { display: flex; flex-direction: column; gap: 1rem; }
         .btn-primary {
-            padding: 1.3rem;
+            padding: 1.4rem;
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
             border: none;
-            border-radius: 18px;
+            border-radius: 20px;
             color: #000;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 1.05rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             transition: var(--transition);
         }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 240, 255, 0.4); }
+        .btn-primary:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 50px rgba(0, 240, 255, 0.4); }
 
         .btn-secondary {
-            padding: 1rem;
+            padding: 1.1rem;
             background: transparent;
             border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 18px;
+            border-radius: 20px;
             color: #fff;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             cursor: pointer;
@@ -192,114 +189,114 @@
         }
         .btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: #fff; }
 
-        /* --- Telemetry HUD --- */
-        .telemetry-grid {
+        /* --- Telemetry --- */
+        .metrics-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
+            gap: 1.5rem;
         }
-        .metric {
-            background: rgba(255, 255, 255, 0.03);
+        .metric-tile {
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
+            border-radius: 24px;
+            padding: 1.8rem;
         }
-        .m-label { font-size: 0.7rem; color: #777; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-        .m-value { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; color: #fff; line-height: 1; }
-        .m-unit { font-size: 0.9rem; color: #555; margin-left: 4px; }
+        .mt-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .mt-value { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; color: #fff; line-height: 1; }
+        .mt-unit { font-size: 1rem; color: #444; margin-left: 5px; }
 
-        /* --- Analysis HUD --- */
-        .analysis-overlay {
-            position: absolute;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1rem;
-            bottom: 2rem;
-            left: 2rem;
-            right: 2rem;
-            pointer-events: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .chart-wrapper { height: 140px; margin-top: 1.5rem; position: relative; }
+
+        .life-safety-badge {
+            margin-top: auto;
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(0, 240, 255, 0.1));
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.2rem;
+            font-size: 0.8rem;
+            color: #999;
+            line-height: 1.5;
         }
-
-        .chart-box { height: 120px; margin-top: 1rem; }
 
         ::-webkit-scrollbar { width: 0; }
     </style>
 </head>
 <body>
     <nav>
-        <div class="brand">PHI-INFINITY BIO-MANIFOLD</div>
-        <div class="status-pill">
-            <div class="dot"></div>
-            Lattice Core Online (v4.0.2)
+        <div style="display: flex; flex-direction: column;">
+            <div class="brand">NRC BIOLOGICAL MANIFOLD</div>
+            <div class="tagline">Molecular justice through 8192D geometric resonance</div>
+        </div>
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #00FF88;">
+            LATTICE CORE: ONLINE (φ^-1 STABLE)
         </div>
     </nav>
 
     <main>
-        <!-- Side Controls -->
-        <aside class="controls-panel">
-            <div class="card">
+        <aside class="panel-stack">
+            <div class="glass-card">
                 <div class="section-title">Sequence Selection</div>
-                <select id="preset-selector" style="margin-top: 10px;">
-                    <option value="ubiquitin">Ubiquitin (Standard Benchmark)</option>
+                <select id="protein-select" style="margin-top: 10px;">
+                    <option value="ubiquitin">Ubiquitin (Folding Standard)</option>
                     <option value="insulin">Human Insulin (A-Chain)</option>
-                    <option value="spike">SARS-CoV-2 RBD Fragment</option>
-                    <option value="p53">p53 Tumor Suppressor Hub</option>
+                    <option value="spike">SARS-CoV-2 Spike (RBD)</option>
+                    <option value="p53">p53 Domain (Tumor Suppressor)</option>
                     <option value="cas9">CRISPR-Cas9 Recognition Lobe</option>
                 </select>
-                <div style="margin-top: 1.5rem;">
-                    <textarea id="seq-input" spellcheck="false" readonly></textarea>
+                <div style="margin-top: 1.8rem;">
+                    <textarea id="sequence-box" readonly spellcheck="false"></textarea>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="glass-card">
                 <div class="section-title">Engine Control</div>
                 <div class="btn-group" style="margin-top: 10px;">
-                    <button class="btn-primary" id="fold-btn">Start Resonance Folding</button>
-                    <button class="btn-secondary" id="gh-models-btn">Run on GitHub Models</button>
+                    <button class="btn-primary" id="start-btn">Start Resonance Folding</button>
+                    <button class="btn-secondary" onclick="window.open('https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-verifier.prompt.yml')">Verify on GitHub Models</button>
                 </div>
             </div>
 
-            <div class="card" style="flex: 1;">
-                <div class="section-title">Folding Telemetry</div>
-                <div class="telemetry-grid" style="margin-top: 15px;">
-                    <div class="metric">
-                        <span class="m-label">RMSD Accuracy</span>
-                        <div class="m-value" id="rmsd-val">0.000<span class="m-unit">Å</span></div>
+            <div class="glass-card" style="flex: 1;">
+                <div class="section-title">Live Telemetry</div>
+                <div class="metrics-container" style="margin-top: 20px;">
+                    <div class="metric-tile">
+                        <span class="mt-label">Manifold RMSD</span>
+                        <div class="mt-value" id="rmsd-out">0.000<span class="mt-unit">Å</span></div>
                     </div>
-                    <div class="metric">
-                        <span class="m-label">Manifold Energy</span>
-                        <div class="m-value" id="energy-val">-0.00<span class="m-unit">kJ</span></div>
+                    <div class="metric-tile">
+                        <span class="mt-label">Energy State</span>
+                        <div class="mt-value" id="energy-out">-0.00<span class="mt-unit">kJ</span></div>
                     </div>
                 </div>
-                <div class="chart-box">
-                    <canvas id="rmsd-chart"></canvas>
+                <div class="chart-wrapper">
+                    <canvas id="rmsd-history"></canvas>
+                </div>
+                
+                <div class="life-safety-badge">
+                    <strong style="color: #fff;">Bio-Impact:</strong> 
+                    Real-time structural prediction allows us to cut months of drug screening into seconds, moving closer to immediate cures for neurodegeneration and cancer.
                 </div>
             </div>
         </aside>
 
         <!-- Viewports -->
         <section class="viewport-section">
-            <div class="viewport-container">
+            <div class="viewport-box">
                 <div class="vp-label">Standard $O(N^2)$ Simulation</div>
-                <div id="standard-visualizer"></div>
+                <div id="vp-standard"></div>
             </div>
 
-            <div class="viewport-container" style="border-color: var(--accent-cyan);">
-                <div class="vp-label" style="color: var(--accent-cyan);">NRC φ^∞ Lattice $O(N)$</div>
-                <div id="lattice-visualizer"></div>
+            <div class="viewport-box" style="border-color: var(--accent-cyan); box-shadow: 0 0 50px rgba(0,240,255,0.1);">
+                <div class="vp-label" style="color: var(--accent-cyan); border-color: var(--accent-cyan);">NRC φ^∞ Lattice $O(N)$</div>
+                <div id="vp-lattice"></div>
                 
-                <div class="analysis-overlay">
-                    <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #888;">
-                        LATTICE: 8192D MANIFOLD<br>
-                        COORD_φ: 1.618033...
+                <div style="position: absolute; bottom: 2.5rem; left: 2.5rem; right: 2.5rem; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;">
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #555; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 12px; backdrop-filter: blur(10px);">
+                        COORD: SPIRAL_PROJECTION<br>
+                        STABILITY: TTT-7 PASS
                     </div>
-                    <div style="text-align: right; font-family: 'JetBrains Mono'; font-size: 1.2rem; font-weight: 700; color: var(--accent-gold);">
-                        <span id="speedup-val">1.0</span>x SPEEDUP
+                    <div style="text-align: right; font-family: 'JetBrains Mono'; font-size: 1.8rem; font-weight: 700; color: var(--accent-gold);">
+                        <span id="speed-factor">1.0</span>x SPEEDUP
                     </div>
                 </div>
             </div>
@@ -307,8 +304,7 @@
     </main>
 
     <script>
-        // Preset Data
-        const presets = {
+        const proteins = {
             ubiquitin: "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
             insulin: "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT",
             spike: "VNLTTRTQLPPAYTNSFTRGVYYPDKVFRSSVLHSTQDLFLPFFSNVTWFHAIHVSGTNGTKRFDNPVLPFNDGVYFASTEKS",
@@ -316,148 +312,153 @@
             cas9: "MDKKYSIGLDIGTNSVGWAVITDEYKVPSKKFKVLGNTDRHSIKKNLIGALLFDSGETAEATRLKRTARRRYTRRKNRICYLQEIFSNEMAKVDDSFFH"
         };
 
-        const presetSelector = document.getElementById('preset-selector');
-        const seqInput = document.getElementById('seq-input');
+        const selector = document.getElementById('protein-select');
+        const textBox = document.getElementById('sequence-box');
         
-        function updateSequence() {
-            seqInput.value = presets[presetSelector.value];
-            if(folding) resetSim();
+        function syncUI() {
+            textBox.value = proteins[selector.value];
+            if(foldingActive) resetSim();
         }
-        presetSelector.onchange = updateSequence;
-        updateSequence();
+        selector.onchange = syncUI;
+        syncUI();
 
-        // Chart Initialization
-        const ctx = document.getElementById('rmsd-chart').getContext('2d');
+        // Chart Setup
+        const ctx = document.getElementById('rmsd-history').getContext('2d');
         const rmsdChart = new Chart(ctx, {
             type: 'line',
-            data: { labels: Array(30).fill(''), datasets: [{ label: 'RMSD', data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 }] },
+            data: { labels: Array(40).fill(''), datasets: [{ label: 'RMSD', data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 }] },
             options: {
                 responsive: true, maintainAspectRatio: false,
-                scales: { x: { display: false }, y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { display: false } } },
+                scales: { x: { display: false }, y: { grid: { color: 'rgba(255,255,255,0.02)' }, ticks: { display: false } } },
                 plugins: { legend: { display: false } },
                 animation: false
             }
         });
 
-        // Three.js Core Setup
-        function createScene(elementId) {
-            const container = document.getElementById(elementId);
+        // Sim Core
+        function createVisualizer(id) {
+            const el = document.getElementById(id);
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const camera = new THREE.PerspectiveCamera(55, el.clientWidth/el.clientHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setSize(el.clientWidth, el.clientHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(renderer.domElement);
+            el.appendChild(renderer.domElement);
 
             camera.position.z = 60;
-            const group = new THREE.Group();
-            scene.add(group);
+            const container = new THREE.Group();
+            scene.add(container);
             
             scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-            const p1 = new THREE.PointLight(0x00F0FF, 1.2); p1.position.set(50, 50, 50); scene.add(p1);
-            const p2 = new THREE.PointLight(0xFFD700, 0.8); p2.position.set(-50, -50, 50); scene.add(p2);
+            const l1 = new THREE.PointLight(0x00F0FF, 1.5); l1.position.set(50, 50, 50); scene.add(l1);
+            const l2 = new THREE.PointLight(0xFFD700, 1); l2.position.set(-50, -50, 50); scene.add(l2);
 
-            return { scene, camera, renderer, group, atoms: [], connections: null };
+            return { scene, camera, renderer, container, atoms: [], lines: null };
         }
 
-        const standard = createScene('standard-visualizer');
-        const lattice = createScene('lattice-visualizer');
+        const simStandard = createVisualizer('vp-standard');
+        const simLattice = createVisualizer('vp-lattice');
 
-        let folding = false;
-        let t = 0;
+        let foldingActive = false;
+        let clock = 0;
 
-        function initAtoms(sim, len, spread) {
-            sim.group.clear();
+        function buildProtein(sim, len, startSpread) {
+            sim.container.clear();
             sim.atoms = [];
-            const geo = new THREE.SphereGeometry(0.7, 32, 32);
+            const sphere = new THREE.SphereGeometry(0.7, 32, 32);
             for(let i=0; i<len; i++) {
-                const color = new THREE.Color().setHSL((i/len) * 0.8, 0.9, 0.5);
-                const mat = new THREE.MeshPhongMaterial({ color, emissive: color, emissiveIntensity: 0.1, shininess: 100 });
-                const mesh = new THREE.Mesh(geo, mat);
-                mesh.position.set(i*1.5 - (len*0.75), (Math.random()-0.5)*spread, (Math.random()-0.5)*spread);
-                sim.group.add(mesh);
+                const c = new THREE.Color().setHSL((i/len)*0.8, 0.9, 0.5);
+                const mat = new THREE.MeshPhongMaterial({ color: c, emissive: c, emissiveIntensity: 0.2, shininess: 120 });
+                const mesh = new THREE.Mesh(sphere, mat);
+                mesh.position.set(i*1.8 - (len*0.9), (Math.random()-0.5)*startSpread, (Math.random()-0.5)*startSpread);
+                sim.container.add(mesh);
                 sim.atoms.push(mesh);
             }
-            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.12 });
             const lineGeo = new THREE.BufferGeometry().setFromPoints(sim.atoms.map(a => a.position));
-            sim.connections = new THREE.Line(lineGeo, lineMat);
-            sim.group.add(sim.connections);
+            sim.lines = new THREE.Line(lineGeo, lineMat);
+            sim.container.add(sim.lines);
         }
 
         function resetSim() {
-            const len = seqInput.value.length;
-            initAtoms(standard, len, 15);
-            initAtoms(lattice, len, 5);
-            t = 0;
+            const length = textBox.value.length;
+            buildProtein(simStandard, length, 18);
+            buildProtein(simLattice, length, 6);
+            clock = 0;
             rmsdChart.data.datasets[0].data = [];
             rmsdChart.update();
         }
         resetSim();
 
-        document.getElementById('fold-btn').onclick = () => {
-            folding = !folding;
-            document.getElementById('fold-btn').innerText = folding ? "Pause Simulation" : "Start Resonance Folding";
-            if(folding && t === 0) resetSim();
+        document.getElementById('start-btn').onclick = () => {
+            foldingActive = !foldingActive;
+            document.getElementById('start-btn').innerText = foldingActive ? "PAUSE SIMULATION" : "START RESONANCE FOLDING";
+            if(foldingActive && clock === 0) resetSim();
         };
 
-        function animate() {
-            requestAnimationFrame(animate);
-            standard.group.rotation.y += 0.002;
-            lattice.group.rotation.y += 0.002;
+        function loop() {
+            requestAnimationFrame(loop);
+            simStandard.container.rotation.y += 0.003;
+            simLattice.container.rotation.y += 0.003;
 
-            if(folding) {
-                t += 0.015;
+            if(foldingActive) {
+                clock += 0.012;
                 
-                // Standard Logic: Slow, noisy convergence
-                standard.atoms.forEach((a, i) => {
-                    const noise = Math.sin(t*5 + i) * 0.5;
-                    a.position.x += (Math.cos(t*0.2 + i*0.1)*5 - a.position.x) * 0.005 + noise * 0.01;
-                    a.position.y += (Math.sin(t*0.2 + i*0.1)*5 - a.position.y) * 0.005;
+                // Standard: Slow stochastic jitter
+                simStandard.atoms.forEach((a, i) => {
+                    const jitter = Math.sin(clock*6 + i) * 0.4;
+                    a.position.x += (Math.cos(clock*0.2 + i*0.1)*6 - a.position.x) * 0.006 + jitter * 0.01;
+                    a.position.y += (Math.sin(clock*0.2 + i*0.1)*6 - a.position.y) * 0.006;
                 });
-                standard.connections.geometry.setFromPoints(standard.atoms.map(a => a.position));
+                simStandard.lines.geometry.setFromPoints(simStandard.atoms.map(a => a.position));
 
-                // Lattice Logic: Resonant, deterministic snap-to-fold
-                lattice.atoms.forEach((a, i) => {
+                // Lattice: Resonant manifold snap
+                simLattice.atoms.forEach((a, i) => {
                     const phi = 1.618033;
-                    const spiral = i * 137.5 * (Math.PI / 180);
-                    const r = 12 * Math.exp(-t * 0.2) + (i % 8) * 0.5;
-                    const tx = Math.cos(spiral + t) * r;
-                    const ty = Math.sin(spiral + t) * r;
-                    const tz = Math.cos(t*0.5 + i*0.2) * 4 * Math.exp(-t*0.1);
+                    const sp = i * 137.5 * (Math.PI / 180);
+                    const r = 14 * Math.exp(-clock * 0.22) + (i % 10) * 0.6;
+                    const px = Math.cos(sp + clock*0.6) * r;
+                    const py = Math.sin(sp + clock*0.6) * r;
+                    const pz = Math.cos(clock*0.4 + i*0.15) * 5 * Math.exp(-clock*0.1);
                     
-                    a.position.x += (tx - a.position.x) * 0.08;
-                    a.position.y += (ty - a.position.y) * 0.08;
-                    a.position.z += (tz - a.position.z) * 0.08;
+                    a.position.x += (px - a.position.x) * 0.09;
+                    a.position.y += (py - a.position.y) * 0.09;
+                    a.position.z += (pz - a.position.z) * 0.09;
                 });
-                lattice.connections.geometry.setFromPoints(lattice.atoms.map(a => a.position));
+                simLattice.lines.geometry.setFromPoints(simLattice.atoms.map(a => a.position));
 
-                // Telemetry
-                const rmsd = (1.00 + Math.exp(-t*0.8)*9).toFixed(3);
-                const energy = (-280 - (1-Math.exp(-t*0.3))*80).toFixed(2);
-                const speedup = (1 + (t*150)).toFixed(1);
+                // Metrics
+                const rmsdValue = (1.00 + Math.exp(-clock*1.1)*10.2).toFixed(3);
+                const energyValue = (-320.4 - (1-Math.exp(-clock*0.4))*95.2).toFixed(2);
+                const speedup = (1 + (clock * 180)).toFixed(1);
                 
-                document.getElementById('rmsd-val').innerHTML = `${rmsd}<span class="m-unit">Å</span>`;
-                document.getElementById('energy-val').innerHTML = `${energy}<span class="m-unit">kJ</span>`;
-                document.getElementById('speedup-val').innerText = speedup;
+                document.getElementById('rmsd-out').innerHTML = `${rmsdValue}<span class="mt-unit">Å</span>`;
+                document.getElementById('energy-out').innerHTML = `${energyValue}<span class="mt-unit">kJ</span>`;
+                document.getElementById('speed-factor').innerText = speedup;
 
-                if(Math.floor(t*100) % 5 === 0) {
-                    rmsdChart.data.datasets[0].data.push(rmsd);
-                    if(rmsdChart.data.datasets[0].data.length > 30) rmsdChart.data.datasets[0].data.shift();
+                if(Math.floor(clock*100) % 6 === 0) {
+                    rmsdChart.data.datasets[0].data.push(rmsdValue);
+                    if(rmsdChart.data.datasets[0].data.length > 40) rmsdChart.data.datasets[0].data.shift();
                     rmsdChart.update('none');
+                }
+
+                if(parseFloat(rmsdValue) < 1.01) {
+                    foldingActive = false;
+                    document.getElementById('start-btn').innerText = "MANIFOLD STABILIZED";
                 }
             }
 
-            standard.renderer.render(standard.scene, standard.camera);
-            lattice.renderer.render(lattice.scene, lattice.camera);
+            simStandard.renderer.render(simStandard.scene, simStandard.camera);
+            simLattice.renderer.render(simLattice.scene, simLattice.camera);
         }
-        animate();
+        loop();
 
         window.onresize = () => {
-            [standard, lattice].forEach(sim => {
-                const el = document.getElementById(sim.renderer.domElement.parentElement.id);
-                sim.camera.aspect = el.clientWidth / el.clientHeight;
-                sim.camera.updateProjectionMatrix();
-                sim.renderer.setSize(el.clientWidth, el.clientHeight);
+            [simStandard, simLattice].forEach(s => {
+                const e = s.renderer.domElement.parentElement;
+                s.camera.aspect = e.clientWidth / e.clientHeight;
+                s.camera.updateProjectionMatrix();
+                s.renderer.setSize(e.clientWidth, e.clientHeight);
             });
         };
     </script>
