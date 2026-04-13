@@ -3,20 +3,31 @@ site_url: https://nexus-resonance-codex.github.io/Protein-Folding/
 theme:
   name: material
   palette:
-    scheme: slate
-    primary: black
-    accent: cyan
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: cyan
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: cyan
+  font:
+    text: Outfit
+    code: JetBrains Mono
   features:
     - navigation.sections
     - navigation.expand
+    - navigation.top
     - content.code.copy
     - content.code.annotate
+    - content.tooltips
+  logo: https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/docs/assets/phi_spiral_banner.png
 
 nav:
-  - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
   - 'Home': 'index.md'
-  - '📐 Math Foundations': 'math-foundations.md'
+  - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
   - '🕹 Playground Hub': 'NRC-Playground-Guide.md'
+  - '📐 Math Foundations': 'math-foundations.md'
   - '🏗 Architecture': 'architecture.md'
   - '🌀 Lattice Visualizer': 'demos/lattice-visualizer.html'
   - '📦 Distributed Computing': 'DISTRIBUTED_COMPUTING_INTEGRATION.md'
@@ -27,6 +38,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_javascript:
   - javascripts/mathjax.js
