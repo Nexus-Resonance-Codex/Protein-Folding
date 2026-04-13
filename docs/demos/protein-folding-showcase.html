@@ -11,48 +11,45 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg: #020206;
-            --glass: rgba(10, 10, 22, 0.95);
+            --bg: #020205;
+            --glass: rgba(10, 10, 18, 0.94);
             --border: rgba(255, 255, 255, 0.12);
-            --cyan: #00F0FF;
             --gold: #FFD700;
+            --cyan: #00F0FF;
             --phi: 1.6180339887;
-            --font-main: 'Outfit', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            --transition: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-main); background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        nav { padding: 1.5rem 4rem; background: rgba(0,0,0,0.8); backdrop-filter: blur(40px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-        .brand { font-size: 1.3rem; font-weight: 700; letter-spacing: 6px; background: linear-gradient(90deg, var(--gold), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .status { font-family: var(--font-code); font-size: 0.75rem; color: #00FF88; text-transform: uppercase; letter-spacing: 2px; }
+        nav { padding: 1.2rem 3rem; background: rgba(0,0,0,0.8); backdrop-filter: blur(40px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .brand { font-size: 1.2rem; font-weight: 700; letter-spacing: 5px; background: linear-gradient(90deg, var(--gold), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        main { flex: 1; display: grid; grid-template-columns: 440px 1fr; gap: 2.5rem; padding: 2.5rem; overflow: hidden; }
+        main { flex: 1; display: grid; grid-template-columns: 420px 1fr; gap: 2rem; padding: 2rem; overflow: hidden; }
 
-        .sidebar { display: flex; flex-direction: column; gap: 2rem; overflow-y: auto; scrollbar-width: none; }
-        .card { background: var(--glass); backdrop-filter: blur(60px); border: 1px solid var(--border); border-radius: 40px; padding: 2.8rem; box-shadow: 0 30px 80px rgba(0,0,0,0.7); }
+        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; overflow-y: auto; scrollbar-width: none; }
+        .card { background: var(--glass); backdrop-filter: blur(50px); border: 1px solid var(--border); border-radius: 36px; padding: 2.22rem; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
 
-        .title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 4px; margin-bottom: 12px; display: flex; align-items: center; gap: 20px; }
-        .title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+        .title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 4px; margin-bottom: 10px; display: flex; align-items: center; gap: 20px; }
+        .title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
 
-        select, textarea { width: 100%; background: rgba(0,0,0,0.7); border: 1px solid var(--border); border-radius: 24px; padding: 1.5rem; color: #fff; font-family: var(--font-code); font-size: 0.95rem; transition: 0.4s; }
+        select, textarea { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; transition: 0.4s; }
         select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 40px rgba(0,240,255,0.1); }
 
-        .btn-main { width: 100%; padding: 1.5rem; background: linear-gradient(135deg, var(--gold), var(--cyan)); border: none; border-radius: 24px; color: #000; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-        .btn-main:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 25px 60px rgba(0, 240, 255, 0.45); }
+        .btn-main { width: 100%; padding: 1.4rem; background: linear-gradient(135deg, var(--gold), var(--cyan)); border: none; border-radius: 20px; color: #000; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s var(--transition); }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,240,255,0.4); }
 
-        .viewports { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; position: relative; }
-        .vp { position: relative; background: radial-gradient(circle at center, #0a0a22 0%, #000 100%); border-radius: 45px; overflow: hidden; border: 1px solid var(--border); }
-        .vp-tag { position: absolute; top: 3rem; left: 3rem; font-size: 0.85rem; font-weight: 800; letter-spacing: 3px; background: rgba(0,0,0,0.6); padding: 10px 25px; border-radius: 14px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); }
+        .viewports { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .vp { position: relative; background: radial-gradient(circle at center, #0a0a25 0%, #000 100%); border-radius: 40px; overflow: hidden; border: 1px solid var(--border); }
+        .vp-tag { position: absolute; top: 2.5rem; left: 2.5rem; font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; background: rgba(0,0,0,0.6); padding: 8px 20px; border-radius: 12px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
 
-        .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin-top: 2rem; }
-        .m-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 28px; padding: 2rem; }
-        .m-lab { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .m-val { font-family: var(--font-code); font-size: 2rem; font-weight: 700; }
-
-        .speed-overlay { position: absolute; bottom: 3rem; left: 3rem; right: 3rem; display: flex; justify-content: space-between; align-items: flex-end; }
-        .speed-big { font-family: var(--font-code); font-size: 2.2rem; font-weight: 900; color: var(--gold); }
+        .telemetry { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .tm-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 24px; padding: 1.8rem; }
+        .tm-lbl { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .tm-val { font-family: 'JetBrains Mono'; font-size: 1.8rem; font-weight: 700; }
+        
+        #speed-tag { font-family: 'JetBrains Mono'; font-size: 1.8rem; color: var(--gold); font-weight: 900; }
 
         ::-webkit-scrollbar { width: 0; }
     </style>
@@ -60,60 +57,55 @@
 <body>
     <nav>
         <div class="brand">PHI-INFINITY BIOMATERIALS</div>
-        <div class="status">MANIFOLD_STABILIZER: ACTIVE (φ^∞)</div>
+        <div style="font-family: 'JetBrains Mono'; color: #00FF88; font-size: 0.8rem;">CORE: φ^∞ STABLE (λ=1.618)</div>
     </nav>
     <main>
         <aside class="sidebar">
             <div class="card">
-                <div class="title">Protein Presets</div>
-                <select id="prot-sel" style="margin-top: 15px;">
+                <div class="title">Protein Preset</div>
+                <select id="sel" style="margin-top: 10px;">
                     <option value="ubiquitin">Ubiquitin (Benchmark)</option>
                     <option value="insulin">Human Insulin (A-Chain)</option>
                     <option value="spike">SARS-CoV-2 Spike (RBD)</option>
                     <option value="p53">p53 Domain (Tumor Suppressor)</option>
                     <option value="cas9">CRISPR-Cas9 Recognition Lobe</option>
                 </select>
-                <div style="margin-top: 2rem;">
-                    <textarea id="seq-view" readonly></textarea>
+                <div style="margin-top: 1.8rem;">
+                    <textarea id="box" readonly spellcheck="false"></textarea>
                 </div>
             </div>
             <div class="card">
-                <button class="btn-main" id="sim-btn">Initialize Resonance</button>
+                <button class="btn-main" id="btn">Initalize Resonance</button>
             </div>
             <div class="card" style="flex: 1;">
-                <div class="title">Live Telemetry</div>
-                <div class="metrics">
-                    <div class="m-box">
-                        <div class="m-lab">RMSD</div>
-                        <div class="m-val" id="rmsd-num">0.00<span style="font-size: 1rem; color: #444;">Å</span></div>
+                <div class="title">Live Manifold Metrics</div>
+                <div class="telemetry">
+                    <div class="tm-box">
+                        <div class="tm-lbl">RMSD</div>
+                        <div class="tm-val" id="rmsd">0.000<span style="font-size: 0.9rem; color: #444;">Å</span></div>
                     </div>
-                    <div class="m-box">
-                        <div class="m-lab">Energy</div>
-                        <div class="m-val" id="ener-num">-0.0<span style="font-size: 1rem; color: #444;">kJ</span></div>
+                    <div class="tm-box">
+                        <div class="tm-lbl">Energy</div>
+                        <div class="tm-val" id="ener">-0.0<span style="font-size: 0.9rem; color: #444;">kJ</span></div>
                     </div>
                 </div>
-                <div style="height: 150px; margin-top: 2rem;">
-                    <canvas id="live-chart"></canvas>
-                </div>
+                <div style="height: 140px; margin-top: 2rem;"><canvas id="chart"></canvas></div>
             </div>
         </aside>
-        <section class="viewports">
+        <div class="viewports">
             <div class="vp">
-                <div class="vp-tag" style="color: #666;">Standard O(N^2) Attention</div>
-                <div id="vp1-canvas"></div>
+                <div class="vp-tag" style="color: #666;">Standard O(N^2) Simulation</div>
+                <div id="cv1"></div>
             </div>
-            <div class="vp" style="border-color: var(--cyan); box-shadow: 0 0 60px rgba(0,240,255,0.15);">
+            <div class="vp" style="border-color: var(--cyan); box-shadow: 0 0 50px rgba(0,240,255,0.1);">
                 <div class="vp-tag" style="color: var(--cyan); border-color: var(--cyan);">NRC φ^∞ Lattice O(N)</div>
-                <div id="vp2-canvas"></div>
-                <div class="speed-overlay">
-                    <div style="font-family: var(--font-code); font-size: 0.8rem; color: #555; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 18px;">
-                        LATTICE: 8192-DIM<br>
-                        COORD: RESONANT_MANIFOLD
-                    </div>
-                    <div class="speed-big"><span id="speed-out">1.0</span>x</div>
+                <div id="cv2"></div>
+                <div style="position: absolute; bottom: 3rem; left: 3rem; right: 3rem; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;">
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #444; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 12px;">COORD: LATTICE_MANIFOLD<br>PASS: TTT-7 SYNCED</div>
+                    <div id="speed-tag">1.0x</div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
     <script>
         const prods = {
@@ -123,74 +115,45 @@
             p53: "MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAA",
             cas9: "MDKKYSIGLDIGTNSVGWAVITDEYKVPSKKFKVLGNTDRHSIKKNLIGALLFDSGETAEATRLKRTARRRYTRRKNRICYLQEIFSNEMAKVDDSFFH"
         };
-        const sel = document.getElementById('prot-sel');
-        const box = document.getElementById('seq-view');
-        function up() { box.value = prods[sel.value]; if(active) reset(); }
-        sel.onchange = up; up();
+        const s = document.getElementById('sel'), box = document.getElementById('box');
+        function up() { box.value = prods[s.value]; if(active) reset(); }
+        s.onchange = up; up();
 
-        const ctx = document.getElementById('live-chart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: { labels: Array(50).fill(''), datasets: [{ data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } }, animation: false }
-        });
+        const ctx = document.getElementById('chart').getContext('2d');
+        const chart = new Chart(ctx, { type: 'line', data: { labels: Array(40).fill(''), datasets: [{ data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } }, animation: false } });
 
-        function createVP(id) {
-            const el = document.getElementById(id);
-            const sc = new THREE.Scene();
-            const ca = new THREE.PerspectiveCamera(55, el.clientWidth/el.clientHeight, 0.1, 1000);
-            const re = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            re.setSize(el.clientWidth, el.clientHeight);
-            el.appendChild(re.domElement);
-            ca.position.z = 60;
-            const gr = new THREE.Group(); sc.add(gr);
-            sc.add(new THREE.AmbientLight(0xffffff, 0.5));
-            const l = new THREE.PointLight(0x00F0FF, 1.5); l.position.set(50,50,50); sc.add(l);
-            return { sc, ca, re, gr, ats: [], lines: null };
+        function create(id) {
+            const el = document.getElementById(id); const sc = new THREE.Scene(); const ca = new THREE.PerspectiveCamera(55, el.clientWidth/el.clientHeight, 0.1, 1000); const re = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            re.setSize(el.clientWidth, el.clientHeight); el.appendChild(re.domElement); ca.position.z = 60; const g = new THREE.Group(); sc.add(g);
+            sc.add(new THREE.AmbientLight(0xffffff, 0.5)); const l = new THREE.PointLight(0x00F0FF, 1.5); l.position.set(50,50,50); sc.add(l);
+            return { sc, ca, re, g, atoms: [], lines: null };
         }
-        const v1 = createVP('vp1-canvas');
-        const v2 = createVP('vp2-canvas');
+        const v1 = create('cv1'), v2 = create('cv2');
 
         let active = false, tick = 0;
         function make(sim, len, spread) {
-            sim.gr.clear(); sim.ats = [];
-            const geo = new THREE.SphereGeometry(0.75, 32, 32);
+            sim.g.clear(); sim.atoms = []; const geo = new THREE.SphereGeometry(0.7, 32, 32);
             for(let i=0; i<len; i++) {
-                const c = new THREE.Color().setHSL((i/len)*0.8, 0.9, 0.5);
-                const mat = new THREE.MeshPhongMaterial({ color: c, emissive: c, emissiveIntensity: 0.2 });
-                const m = new THREE.Mesh(geo, mat);
-                m.position.set(i*2 - len, (Math.random()-0.5)*spread, (Math.random()-0.5)*spread);
-                sim.gr.add(m); sim.ats.push(m);
+                const c = new THREE.Color().setHSL((i/len)*0.8, 0.9, 0.5); const mat = new THREE.MeshPhongMaterial({ color: c, emissive: c, emissiveIntensity: 0.2 }); const m = new THREE.Mesh(geo, mat);
+                m.position.set(i*1.8 - (len*0.9), (Math.random()-0.5)*spread, (Math.random()-0.5)*spread); sim.g.add(m); sim.atoms.push(m);
             }
-            const lmat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
-            const lgeo = new THREE.BufferGeometry().setFromPoints(sim.ats.map(a => a.position));
-            sim.lines = new THREE.Line(lgeo, lmat); sim.gr.add(sim.lines);
+            const lmat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 }); const lgeo = new THREE.BufferGeometry().setFromPoints(sim.atoms.map(a => a.position));
+            sim.lines = new THREE.Line(lgeo, lmat); sim.g.add(sim.lines);
         }
         function reset() { const l = box.value.length; make(v1, l, 22); make(v2, l, 6); tick = 0; chart.data.datasets[0].data = []; }
         reset();
 
-        document.getElementById('sim-btn').onclick = () => { active = !active; document.getElementById('sim-btn').innerText = active ? "PAUSE SIMULATION" : "START RESONANCE"; if(active && tick === 0) reset(); };
+        document.getElementById('btn').onclick = () => { active = !active; document.getElementById('btn').innerText = active ? "PAUSE SIMULATION" : "START RESONANCE"; if(active && tick === 0) reset(); };
 
         function loop() {
-            requestAnimationFrame(loop);
-            v1.gr.rotation.y += 0.003; v2.gr.rotation.y += 0.003;
+            requestAnimationFrame(loop); v1.g.rotation.y += 0.003; v2.g.rotation.y += 0.003;
             if(active) {
                 tick += 0.012;
-                v1.ats.forEach((a, i) => { a.position.x += (Math.cos(tick*0.2+i*0.1)*6 - a.position.x)*0.006; a.position.y += (Math.sin(tick*0.2+i*0.1)*6 - a.position.y)*0.006; });
-                v1.lines.geometry.setFromPoints(v1.ats.map(a => a.position));
-                v2.ats.forEach((a, i) => {
-                    const r = 16 * Math.exp(-tick*0.2) + (i%8);
-                    const sp = i*137.5*(Math.PI/180);
-                    const tx = Math.cos(sp+tick*0.5)*r, ty = Math.sin(sp+tick*0.5)*r, tz = Math.cos(tick*0.4+i*0.2)*4;
-                    a.position.x += (tx-a.position.x)*0.09; a.position.y += (ty-a.position.y)*0.09; a.position.z += (tz-a.position.z)*0.09;
-                });
-                v2.lines.geometry.setFromPoints(v2.ats.map(a => a.position));
-                const rmsd = (1.0 + Math.exp(-tick*1.2)*11).toFixed(3);
-                const ener = (-350 - (1-Math.exp(-tick*0.4))*80).toFixed(1);
-                document.getElementById('rmsd-num').innerHTML = rmsd + '<span style="font-size:1rem;color:#444;">Å</span>';
-                document.getElementById('ener-num').innerHTML = ener + '<span style="font-size:1rem;color:#444;">kJ</span>';
-                document.getElementById('speed-out').innerText = (1 + tick*200).toFixed(1);
-                if(Math.floor(tick*100)%5===0) { chart.data.datasets[0].data.push(rmsd); if(chart.data.datasets[0].data.length>50) chart.data.datasets[0].data.shift(); chart.update('none'); }
+                v1.atoms.forEach((a, i) => { a.position.x += (Math.cos(tick*0.2+i*0.1)*6 - a.position.x)*0.006; a.position.y += (Math.sin(tick*0.2+i*0.1)*6 - a.position.y)*0.006; }); v1.lines.geometry.setFromPoints(v1.atoms.map(a => a.position));
+                v2.atoms.forEach((a, i) => { const ph = 1.618033, sp = i*137.5*(Math.PI/180), r = 16 * Math.exp(-tick*0.2) + (i%8); const tx = Math.cos(sp+tick*0.5)*r, ty = Math.sin(sp+tick*0.5)*r, tz = Math.cos(tick*0.4+i*0.2)*4; a.position.x += (tx-a.position.x)*0.09; a.position.y += (ty-a.position.y)*0.09; a.position.z += (tz-a.position.z)*0.09; }); v2.lines.geometry.setFromPoints(v2.atoms.map(a => a.position));
+                const rmsd = (1.00 + Math.exp(-tick*1.2)*11).toFixed(3); const ener = (-350 - (1-Math.exp(-tick*0.4))*80).toFixed(1);
+                document.getElementById('rmsd').innerHTML = rmsd + '<span style="font-size:0.9rem;color:#444;">Å</span>'; document.getElementById('ener').innerHTML = ener + '<span style="font-size:0.9rem;color:#444;">kJ</span>'; document.getElementById('speed-tag').innerText = (1 + tick*200).toFixed(1) + 'x';
+                if(Math.floor(tick*100)%6===0) { chart.data.datasets[0].data.push(rmsd); if(chart.data.datasets[0].data.length>40) chart.data.datasets[0].data.shift(); chart.update('none'); }
             }
             v1.re.render(v1.sc, v1.ca); v2.re.render(v2.sc, v2.ca);
         }
