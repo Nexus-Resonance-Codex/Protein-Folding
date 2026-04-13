@@ -1,0 +1,20 @@
+name: "Protein-Lattice Visualization Explainer"
+description: "Translates high-dimensional lattice projection output into natural language biology. Explains what the 8192D residues mean for protein structure."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.2
+variables:
+  lattice_coordinates: "Sample residue coordinates (e.g., [1243, 856.2, ...])."
+messages:
+  - role: system
+    content: "You are a technical educator for the Nexus Resonance Codex. You bridge the gap between lattice mathematics and structural biology."
+  - role: user
+    content: |
+      Interpret the following lattice projection data for a folding protein:
+      Coordinates: {{lattice_coordinates}}
+
+      Explanation Guide:
+      1. What does the Coarse Anchor (index) represent in terms of residue neighborhood?
+      2. Impact of the Residual Residue on local torsion (Phi/Psi).
+      3. How the golden-angle spiral ensures collision-resistance in this specific region.
+      4. Structural intuition for the 8192D manifold mapping.

@@ -1,0 +1,22 @@
+name: "RMSD Convergence & Stability Tester"
+description: "Quantitative evaluation of folding stability and speed. Measures the convergence of the φ^∞ manifold towards the native state RMSD."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.1
+variables:
+  sequence: "The amino acid sequence (e.g., MVLSPADKTN...)."
+  iterations: "Number of resonance cycles to simulate."
+messages:
+  - role: system
+    content: "You are the NRC Structural Bio-Analyst. You specialize in quantitative folding metrics, RMSD convergence, and manifold stability."
+  - role: user
+    content: |
+      Perform an RMSD Convergence Test for the following sequence: {{sequence}}
+      Total Iterations: {{iterations}}
+
+      Required Metrics:
+      1. Initial vs. Final RMSD (Å).
+      2. Convergence Rate (ΔRMSD/Cycle).
+      3. Torsion Angle Stability (TTT residues).
+      4. Manifold Equilibrium State.
+      5. Probability of Non-Local Contact Stability.

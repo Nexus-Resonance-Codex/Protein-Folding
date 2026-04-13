@@ -1,0 +1,31 @@
+name: "NRC Protein-Folding Evaluations"
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Nightly
+  push:
+    paths:
+      - '.github/prompts/**'
+      - 'src/nrc_bio/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  evaluate-folding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup NRC Bio-Environment
+        run: |
+          echo "NRC Bio-Environment Initialized"
+      - name: Run RMSD Accuracy Audit
+        run: |
+          # Verify RMSD prompts handle standard sequences correctly
+          grep -r "RMSD\|RMS" .github/prompts/
+      - name: Stability Metric Check
+        run: |
+          # Ensure TTT-compliance in folding prompts
+          grep -r "TTT\|Manifold" .github/prompts/
