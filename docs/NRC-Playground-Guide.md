@@ -1,22 +1,19 @@
 # Protein-Folding Playground – Testing Directly on GitHub
 
-The **Protein-Folding** repository integrates with GitHub Models to provide interactive simulations of high-dimensional biological resonance.
+The **Protein-Folding** repository utilizes the GitHub Models ecosystem to provide interactive simulations of high-dimensional biological resonance.
 
-## 🔬 Interactive Simulations
+## 🔬 How to Run Bio-Prompts
 
-1.  **Navigate to the Models Tab**: Click on the **Models** tab at the top of the repository.
-2.  **Select a Model**: GPT-4o is recommended for complex structural analysis.
-3.  **Load a Bio-Prompt**:
-    *   **Folding Simulation Verifier**: Input a sequence and receive a multi-dimensional folding report.
-    *   **Lattice-Accelerated Comparison**: See the quantitative advantages of lattice-folding over traditional MD.
-4.  **Visualize**: While the model processes the sequence, visit the [**Cosmic-Math Visualizer**](https://Nexus-Resonance-Codex.github.io/Protein-Folding/Cosmic-Math.html) to see the resonance maps in action.
+To simulate structural folding interactively:
+1.  **Navigate to the Models Tab**: Click on the **Models** tab at the top of this repository on GitHub.com.
+2.  **Select a Base Model**: GPT-4o is highly recommended for complex torsion analysis.
+3.  **Find the Prompts Section**: Click on **Prompts** in the left sidebar.
+4.  **Load an NRC Bio-Prompt**: Select `Protein Folding Simulation Verifier` or `Lattice-Accelerated vs. Standard Comparison`.
+5.  **Run Experiment**: Enter your amino acid sequence as a variable and click **Run**.
 
-## 📊 Evaluation Metrics
+## 🔗 Direct View Links
+*   [Folding Simulation Verifier](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-simulation-verifier.prompt.yml)
+*   [Lattice-Accelerated Comparison](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/lattice-accelerated-folding-comparison.prompt.yml)
 
-Bio-Lattice prompts are automatically evaluated for:
-*   **Structural Fidelity**: Accuracy of the predicted topology coordinates.
-*   **Convergence Speed**: Efficiency compared to standard MSA-based methods.
-*   **Resonance Stability**: Adherence of the output to TTT-stability bounds.
-
----
-*Accelerating biological discovery via high-dimensional lattice theory.*
+## 📊 Evaluation Standards
+Bio-Lattice prompts are automatically evaluated for structural fidelity and resonance stability. View results in the **Actions** tab.
