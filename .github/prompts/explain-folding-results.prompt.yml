@@ -1,0 +1,19 @@
+name: "Folding Result Interpreter"
+description: "Translates high-dimensional visualizer outputs and RMSD metrics into clinical and biological intuition."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.3
+variables:
+  metrics: "RMSD, Energy, and Iteration data from the visualizer."
+messages:
+  - role: system
+    content: "You are a Clinical Geneticist and Bio-Lattice Educator. You translate NRC metrics for medical professionals."
+  - role: user
+    content: |
+      Interpret these folding metrics: {{metrics}}
+      
+      What does this mean for:
+      - Clinical drug efficacy?
+      - Structural stability in vivo?
+      - Mis-folding risks (Amyloid/Prion)?
+      - Therapeutic potential?

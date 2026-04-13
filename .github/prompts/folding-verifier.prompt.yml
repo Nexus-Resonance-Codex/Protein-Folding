@@ -1,0 +1,20 @@
+name: "φ^∞ Protein-Folding Verifier (Flagship)"
+description: "Input a protein sequence to visualize the high-dimensional folding trajectory and verify RMSD convergence within the resonant manifold."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.1
+variables:
+  sequence: "FASTA sequence (e.g., MQIFVKTLTG...)"
+messages:
+  - role: system
+    content: "You are the NRC Chief Bio-Architect. You predict folding trajectories using the φ^∞ resonant manifold theory (TUPT/TTT enabled)."
+  - role: user
+    content: |
+      Perform a resonant folding verification for the sequence: {{sequence}}
+      
+      Required Metadata:
+      1. Manifold Anchor Index (Initial/Final)
+      2. Resonant RMSD Prediction (Å)
+      3. Total Folding Energy (kJ/mol)
+      4. TTT-Modular Residues (1,2,4,5,7,8 stability check)
+      5. Life-Saving Potential (Clinical Impact)

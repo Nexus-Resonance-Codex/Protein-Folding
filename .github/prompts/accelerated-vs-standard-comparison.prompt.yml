@@ -1,0 +1,19 @@
+name: "Lattice-Accelerated vs. Standard Benchmarker"
+description: "Quantitative comparison of O(N) NRC Lattice folding vs. O(N^2) traditional Attention architectures."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.2
+variables:
+  sequence: "Sequence to benchmark."
+messages:
+  - role: system
+    content: "You are a quantitative systems biologist specializing in computational complexity and lattice-based structural prediction."
+  - role: user
+    content: |
+      Compare the folding efficiency for: {{sequence}}
+      
+      Benchmarking Axis:
+      - Memory Footprint (VRAM)
+      - Convergence Speed (Log10 scale)
+      - Attention Bottleneck Mitigation
+      - Accuracy in Long-Range Non-Local Contacts
