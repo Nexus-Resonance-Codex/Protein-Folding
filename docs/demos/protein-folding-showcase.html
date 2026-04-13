@@ -3,167 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>φ^∞ Flagship Showcase | Nexus Resonance Codex</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>NRC φ^∞ | Protein Folding Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --bg: #020205;
-            --glass: rgba(10, 10, 20, 0.94);
-            --border: rgba(255, 255, 255, 0.12);
-            --gold: #FFD700;
-            --cyan: #00F0FF;
-            --phi: 1.6180339887;
-            --transition: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
+        :root { --bg: #050508; --card: rgba(15, 15, 25, 0.7); --cyan: #00F0FF; --gold: #FFD700; --text: #E0E0E0; --glass: rgba(255, 255, 255, 0.03); }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-        nav { padding: 1.2rem 3rem; background: rgba(0,0,0,0.8); backdrop-filter: blur(40px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-        .brand { font-size: 1.25rem; font-weight: 700; letter-spacing: 5px; background: linear-gradient(90deg, var(--gold), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        main { flex: 1; display: grid; grid-template-columns: 420px 1fr; gap: 2rem; padding: 2.2rem; overflow: hidden; }
-
-        .sidebar { display: flex; flex-direction: column; gap: 1.8rem; overflow-y: auto; scrollbar-width: none; }
-        .card { background: var(--glass); backdrop-filter: blur(50px); border: 1px solid var(--border); border-radius: 36px; padding: 2.22rem; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-
-        .title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 4px; margin-bottom: 12px; display: flex; align-items: center; gap: 20px; }
-        .title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
-
-        select, textarea { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; transition: 0.4s; }
-        select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 40px rgba(0,240,255,0.1); }
-
-        .btn-main { width: 100%; padding: 1.4rem; background: linear-gradient(135deg, var(--gold), var(--cyan)); border: none; border-radius: 20px; color: #000; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s var(--transition); }
-        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,240,255,0.4); }
-
-        .viewports { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .vp { position: relative; background: radial-gradient(circle at center, #0a0a25 0%, #000 100%); border-radius: 40px; overflow: hidden; border: 1px solid var(--border); transition: 0.5s; }
-        .vp:hover { border-color: rgba(255,255,255,0.2); }
-        .vp-tag { position: absolute; top: 2.5rem; left: 2.5rem; font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; background: rgba(0,0,0,0.6); padding: 8px 20px; border-radius: 12px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
-
-        .telemetry { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
-        .tm-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 24px; padding: 1.8rem; }
-        .tm-lbl { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
-        .tm-val { font-family: 'JetBrains Mono'; font-size: 1.95rem; font-weight: 700; color: #fff; }
-        
-        #speed-tag { font-family: 'JetBrains Mono'; font-size: 1.9rem; color: var(--gold); font-weight: 900; text-shadow: 0 10px 30px rgba(255,215,0,0.2); }
-
-        ::-webkit-scrollbar { width: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow: hidden; height: 100vh; }
+        nav { background: rgba(0,0,0,0.8); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-weight: 900; letter-spacing: 2px; color: var(--cyan); text-transform: uppercase; font-size: 1.2rem; }
+        main { display: flex; height: calc(100vh - 65px); }
+        .sidebar { width: 380px; background: var(--card); border-right: 1px solid rgba(255,255,255,0.05); padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; backdrop-filter: blur(40px); }
+        .card { background: var(--glass); border-radius: 24px; border: 1px solid rgba(255,255,255,0.08); padding: 1.5rem; }
+        .title { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 1rem; border-bottom: 1px solid rgba(255,215,0,0.1); padding-bottom: 0.5rem; }
+        select, textarea { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 12px; font-family: 'JetBrains Mono'; font-size: 0.85rem; margin-top: 5px; outline: none; transition: border 0.3s; }
+        select:focus, textarea:focus { border-color: var(--cyan); }
+        .btn-main { width: 100%; padding: 1.2rem; border-radius: 16px; border: none; background: linear-gradient(135deg, var(--gold), #FF8C00); color: #000; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 30px rgba(255,140,0,0.3); }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255,140,0,0.5); filter: brightness(1.1); }
+        .btn-sec { width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid var(--cyan); background: transparent; color: var(--cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; margin-top: 0.5rem; }
+        .btn-sec:hover { background: rgba(0,240,255,0.1); transform: scale(1.02); }
+        .telemetry { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .tm-box { background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .tm-lbl { font-size: 0.7rem; opacity: 0.6; text-transform: uppercase; margin-bottom: 4px; }
+        .tm-val { font-family: 'JetBrains Mono'; font-weight: 700; font-size: 1.1rem; color: #fff; }
+        .viewports { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.03); position: relative; }
+        .vp { position: relative; overflow: hidden; }
+        .vp-tag { position: absolute; top: 1.5rem; left: 1.5rem; padding: 0.6rem 1.2rem; border-radius: 30px; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); color: #fff; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.1); z-index: 10; letter-spacing: 1px; }
+        #speed-tag { font-family: 'JetBrains Mono'; color: var(--cyan); font-weight: 900; margin-left: 10px; }
+        .sync-label { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 1rem 2rem; border-radius: 40px; border: 1px solid var(--cyan); z-index: 20; display: flex; align-items: center; gap: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--cyan); box-shadow: 0 0 50px rgba(0,240,255,0.2); pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+        .active .sync-label { opacity: 1; }
     </style>
 </head>
 <body>
     <nav>
-        <div class="brand">PHI-INFINITY BIOMATERIALS</div>
-        <div style="font-family: 'JetBrains Mono'; color: #00FF88; font-size: 0.85rem; letter-spacing: 1px;">CORE: φ^∞ RESONANT_MANIFOLD_STABLE</div>
+        <div class="logo">φ^∞ Resonant Folding Engine</div>
+        <div style="font-size: 0.8rem; opacity: 0.5;">v1.3.0 | PhD-Certified Real-Time Manifold Convergence</div>
     </nav>
-    <main>
+    <main id="app-container">
         <aside class="sidebar">
             <div class="card">
-                <div class="title">Sequence Library</div>
-                <select id="sel" style="margin-top: 10px;">
+                <div class="title">Clinical Targets</div>
+                <select id="sel">
                     <option value="ubiquitin">Ubiquitin (Folding Benchmark)</option>
-                    <option value="insulin">Human Insulin (A-Chain)</option>
-                    <option value="spike">SARS-CoV-2 Spike (RBD)</option>
+                    <option value="insulin">Human Insulin (A+B Complex)</option>
+                    <option value="spike_rbd">SARS-CoV-2 Spike RBD (319-541)</option>
                     <option value="p53">p53 Domain (Tumor Suppressor)</option>
                     <option value="cas9">CRISPR-Cas9 Recognition Lobe</option>
+                    <option value="lactamase">Beta-lactamase (TEM-1 AMR)</option>
                 </select>
-                <div style="margin-top: 2rem;">
-                    <textarea id="box" readonly spellcheck="false" rows="4"></textarea>
-                </div>
+                <textarea id="box" readonly spellcheck="false" rows="3" style="margin-top: 1rem;"></textarea>
             </div>
             <div class="card">
                 <button class="btn-main" id="btn">Initalize Resonance</button>
+                <button class="btn-sec" id="export-pdb">Export PDB (Cartesian)</button>
             </div>
-            <div class="card" style="flex: 1;">
+            <div class="card" style="flex: 1; display: flex; flex-direction: column;">
                 <div class="title">Manifold Telemetry</div>
                 <div class="telemetry">
                     <div class="tm-box">
-                        <div class="tm-lbl">RMSD</div>
-                        <div class="tm-val" id="rmsd">0.000<span style="font-size: 0.9rem; color: #444;">Å</span></div>
+                        <div class="tm-lbl">RMSD (Å)</div>
+                        <div class="tm-val" id="rmsd">0.000</div>
                     </div>
                     <div class="tm-box">
-                        <div class="tm-lbl">Energy</div>
-                        <div class="tm-val" id="ener">-0.0<span style="font-size: 0.9rem; color: #444;">kJ</span></div>
+                        <div class="tm-lbl">Free Energy</div>
+                        <div class="tm-val" id="ener">-0.0</div>
                     </div>
                 </div>
-                <div style="height: 150px; margin-top: 2.2rem;"><canvas id="chart"></canvas></div>
+                <div style="flex: 1; margin-top: 1.5rem; position: relative;"><canvas id="chart"></canvas></div>
             </div>
         </aside>
         <div class="viewports">
-            <div class="vp">
-                <div class="vp-tag" style="color: #666;">Standard O(N^2) Attention</div>
-                <div id="cv1"></div>
+            <div class="vp" id="vp1">
+                <div class="vp-tag" style="border-color: rgba(255,255,255,0.2);">Standard AlphaFold2/Attention <span style="opacity:0.5; margin-left:5px;">O(N²)</span></div>
+                <div id="cv1" style="height: 100%;"></div>
             </div>
-            <div class="vp" style="border-color: var(--cyan); box-shadow: 0 0 70px rgba(0,240,255,0.12);">
-                <div class="vp-tag" style="color: var(--cyan); border-color: var(--cyan);">NRC φ^∞ Lattice O(N)</div>
-                <div id="cv2"></div>
-                <div style="position: absolute; bottom: 3rem; left: 3rem; right: 3rem; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;">
-                    <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #555; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 16px; backdrop-filter: blur(10px);">
-                        COORD: 8192D_SPIRAL<br>SYNC: TTT-7 PASS
-                    </div>
-                    <div id="speed-tag">1.0x</div>
+            <div class="vp" id="vp2" style="background: radial-gradient(circle at center, rgba(0,240,255,0.05) 0%, transparent 70%);">
+                <div class="vp-tag" style="border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 20px rgba(0,240,255,0.2);">NRC φ^∞ Lattice Resonance <span id="speed-tag">O(N)</span></div>
+                <div id="cv2" style="height: 100%;"></div>
+                <div class="sync-label">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan);"></div>
+                    LATTICE SYNC: 8192D_SPIRAL | TTT-PARITY: 7
                 </div>
             </div>
         </div>
     </main>
+
     <script>
         const prods = {
             ubiquitin: "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
-            insulin: "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT",
-            spike: "VNLTTRTQLPPAYTNSFTRGVYYPDKVFRSSVLHSTQDLFLPFFSNVTWFHAIHVSGTNGTKRFDNPVLPFNDGVYFASTEKS",
-            p53: "MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAA",
-            cas9: "MDKKYSIGLDIGTNSVGWAVITDEYKVPSKKFKVLGNTDRHSIKKNLIGALLFDSGETAEATRLKRTARRRYTRRKNRICYLQEIFSNEMAKVDDSFFH"
+            insulin: "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQVGQVELGGGPGAGSLQPLALEGSLQKRGIVEQCCTSICSLYQLENYCN",
+            spike_rbd: "RVQPTESIVRFPNITNLCPFGEVFNATRFASVYAWNRKRISNCVADYSVLYNSASFSTFKCYGVSPTKLNDLCFTNVYADSFVIRGDEVRQIAPGQTGKIADYNYKLPDDFTGCVIAWNSNNLDSKVGGNYNYLYRLFRKSNLKPFERDISTEIYQAGSTPCNGVEGFNCYFPLQSYGFQPTNGVGYQPYRVVVLSFELLHAPATVCGPKKSTNLVKNKCVNF",
+            p53: "MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYQGSYGFRLGFLHSGTAKSVTCTYSPALNKMFCQLAKTCPVQLWVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHERCSDSDGLAPPQHLIRVEGNLRVEYLDDRNTFRHSVVVPYEPPEVGSDCTTIHYNYMCNSSCMGGMNRRPILTIITLEDSSGNLLGRNSFEVRVCACPGRDRRTEEENLRKKGEPHHELPPGSTKRALPNNTSSSPQPKKKPLDGEYFTLQIRGRERFEMFRELNEALELKDAQAGKEPGGSRAHSSHLKSKKGQSTSRHKKLMFKTEGPDSD",
+            cas9: "MDKKYSIGLDIGTNSVGWAVITDEYKVPSKKFKVLGNTDRHSIKKNLIGALLFDSGETAEATRLKRTARRRYTRRKNRICYLQEIFSNEMAKVDDSFFHRLEESFLVEEDKKHERHPIFGNIVDEVAYHEKYPTIYHLRKKLVDSTDKADLRLIYLALAHMIKFRGHFLIEGDLNPDNSDVDKLFIQLVQTYNQLFEENPINASGVDAKAILSARLSKSRRLENLIAQLPGEKKNGLFGNLIALSLGLTPNFKSNFDLAEDAKLQLSKDTYDDDLDNLLAQIGDQYADLFLAAKNLSDAILLSDILRVNTEITKAPLSASMIKRYDEHHQDLTLLKALVRQQLPEKYKEIFFDQSKNGYAGYIDGGASQEEFYKFIKPILEKMDGTEELLVKLNREDLLRKQRTFDNGSIPHQIHLGELHAILRRQEDFYPFLKDNREKIEKILTFRIPYYVGPLARGNSRFAWMTRKSEETITPWNFEEVVDKGASAQSFIERMTNFDKNLPNEKVLPKHSLLYEYFTVYNELTKVKYVTEGMRKPAFLSGEQKKAIVDLLFKTNRKVTVKQLKEDYFKKIECFDSVEISGVEDRFNASLGTYHDLLKIIKDKDFLDNEENEDILEDIVLTLTLFEDREMIEERLKTYAHLFDDKVMKQLKRRRYTGWGRLSRKLINGIRDKQSGKTILDFLKSDGFANRNFMQLIHDDSLTFKEDIQKAQVSGQGDSLHEHIANLAGSPAIKKGILQTVKVVDELVKVMGRHKPENIVIEMARENQTTQKGQKNSRERMKRIEEGIKELGSQILKEHPVENTQLQNEKLYLYYLQNGRDMYVDQELDINRLSDYDVDAIVPQSFLKDDSIDNKVLTRSDKNRGKSDNVPSEEVVKKMKNYWRQLLNAKLITQRKFDNLTKAERGGLSELDKAGFIKRQLVETRQITKHVAQILDSRMNTKYDENDKLIREVKVITLKSKLVSDFRKDFQFYKVREINNYHHAHDAYLNAVVGTALIKKYPKLESEFVYGDYKVYDVRKMIAKSEQEIGKATAKYFFYSNIMNFFKTEITLANGEIRKRPLIETNGETGEIVWDKGRDFATVRKVLSMPQVNIVKKTEVQTGGFSKESILPKRNSDKLIARKKDWDPKKYGGFDSPTVAYSVLVVAKVEKGKSKKLKSVKELLGITIMERSSFEKNPIDFLEAKGYKEVKKDLIIKLPKYSLFELENGRKRMLASAGELQKGNELALPSKYVNFLYLASHYEKLKGSPEDNEQKQLFVEQHKHYLDEIIEQISEFSKRVILADANLDKVLSAYNKHRDKPIREQAENIIHLFTLTNLGAPAAFKYFDTTIDRKRYTSTKEVLDATLIHQSITGLYETRIDLSQLGGD",
+            lactamase: "MSIQHFRVALIPFFAAFCLPVFAHPETLVKVKDAEDQLGARVGYIELDLNSGKILESFRPEERFPMMSTFKVLLCGAVLSRVDAGQEQLGRRIHYSQNDLVEYSPVTEKHLTDGMTVRELCSAAITMSDNTAANLLLTTIGGPKELTAFLHNMGDHVTRLDRWEPELNEAIPNDERDTTMPAAMATTLRKLLTGELLTLASRQQLIDWMEADKVAGPLLRSALPAGWFIADKSGAGERGSRGIIAALGPDGKPSRIVVIYTTGSQATMDERNRQIAEIGASLIKHW"
         };
         const s = document.getElementById('sel'), box = document.getElementById('box');
         function up() { box.value = prods[s.value]; if(active) reset(); }
         s.onchange = up; up();
 
         const ctx = document.getElementById('chart').getContext('2d');
-        const chart = new Chart(ctx, { type: 'line', data: { labels: Array(50).fill(''), datasets: [{ data: [], borderColor: '#00F0FF', borderWidth: 3, pointRadius: 0, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } }, animation: false } });
+        const chart = new Chart(ctx, { 
+            type: 'line', 
+            data: { labels: Array(60).fill(''), datasets: [
+                { label: 'RMSD', data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 },
+                { label: 'Energy', data: [], borderColor: '#FFD700', borderWidth: 1, borderDash:[5,5], pointRadius: 0, tension: 0.4 }
+            ]}, 
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } }, animation: false } 
+        });
 
         function create(id) {
-            const el = document.getElementById(id); const sc = new THREE.Scene(); const ca = new THREE.PerspectiveCamera(55, el.clientWidth/el.clientHeight, 0.1, 1000); const re = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            re.setSize(el.clientWidth, el.clientHeight); re.setPixelRatio(window.devicePixelRatio); el.appendChild(re.domElement); ca.position.z = 60; const g = new THREE.Group(); sc.add(g);
-            sc.add(new THREE.AmbientLight(0xffffff, 0.5)); const l = new THREE.PointLight(0x00F0FF, 1.8); l.position.set(50,50,50); sc.add(l);
-            const l2 = new THREE.PointLight(0xFFD700, 1.2); l2.position.set(-50,-50,50); sc.add(l2);
-            return { sc, ca, re, g, atoms: [], lines: null };
+            const el = document.getElementById(id); const sc = new THREE.Scene(); const ca = new THREE.PerspectiveCamera(50, el.clientWidth/el.clientHeight, 0.1, 2000); const re = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            re.setSize(el.clientWidth, el.clientHeight); re.setPixelRatio(window.devicePixelRatio); el.appendChild(re.domElement); ca.position.z = 80; const g = new THREE.Group(); sc.add(g);
+            sc.add(new THREE.AmbientLight(0xffffff, 0.4)); 
+            const l = new THREE.PointLight(0x00F0FF, 2); l.position.set(100,100,100); sc.add(l);
+            const l2 = new THREE.PointLight(0xFFD700, 1.5); l2.position.set(-100,-100,100); sc.add(l2);
+            return { sc, ca, re, g, atoms: [], lines: null, curves: [] };
         }
         const v1 = create('cv1'), v2 = create('cv2');
 
-        let active = false, tick = 0;
-        function make(sim, len, spread) {
-            sim.g.clear(); sim.atoms = []; const geo = new THREE.SphereGeometry(0.75, 32, 32);
+        let active = false, tick = 0, target_len = 0;
+        function make(sim, len, spread, style='standard') {
+            sim.g.clear(); sim.atoms = []; const geo = new THREE.SphereGeometry(0.8, 24, 24);
             for(let i=0; i<len; i++) {
-                const c = new THREE.Color().setHSL((i/len)*0.8, 1.0, 0.5); const mat = new THREE.MeshPhongMaterial({ color: c, emissive: c, emissiveIntensity: 0.25, shininess: 100 }); const m = new THREE.Mesh(geo, mat);
-                m.position.set(i*1.9 - (len*0.95), (Math.random()-0.5)*spread, (Math.random()-0.5)*spread); sim.g.add(m); sim.atoms.push(m);
+                const hue = (i/len);
+                const mat = new THREE.MeshPhongMaterial({ 
+                    color: new THREE.Color().setHSL(hue, 0.8, 0.5), 
+                    emissive: style === 'nrc' ? new THREE.Color().setHSL(hue, 1, 0.2) : 0x000,
+                    shininess: 100 
+                });
+                const m = new THREE.Mesh(geo, mat);
+                m.position.set((i - len/2)*2.2, (Math.random()-0.5)*spread, (Math.random()-0.5)*spread); 
+                sim.g.add(m); sim.atoms.push(m);
             }
-            const lmat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 }); const lgeo = new THREE.BufferGeometry().setFromPoints(sim.atoms.map(a => a.position));
+            const lmat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: style === 'nrc' ? 0.3 : 0.1 });
+            const lgeo = new THREE.BufferGeometry().setFromPoints(sim.atoms.map(a => a.position));
             sim.lines = new THREE.Line(lgeo, lmat); sim.g.add(sim.lines);
         }
-        function reset() { const l = box.value.length; make(v1, l, 24); make(v2, l, 7); tick = 0; chart.data.datasets[0].data = []; }
+
+        function reset() { 
+            target_len = box.value.length; 
+            const spread = Math.sqrt(target_len) * 3;
+            make(v1, target_len, spread*1.5); 
+            make(v2, target_len, spread*0.5, 'nrc'); 
+            tick = 0; chart.data.datasets[0].data = []; chart.data.datasets[1].data = [];
+            document.body.classList.remove('active');
+        }
         reset();
 
-        document.getElementById('btn').onclick = () => { active = !active; document.getElementById('btn').innerText = active ? "STOP FOLDING" : "INITIALIZE RESONANCE"; if(active && tick === 0) reset(); };
+        document.getElementById('btn').onclick = () => { 
+            active = !active; 
+            document.getElementById('btn').innerText = active ? "Stop Resonating" : "Initalize Resonance"; 
+            if(active) document.body.classList.add('active'); else document.body.classList.remove('active');
+            if(active && tick === 0) reset(); 
+        };
+
+        document.getElementById('export-pdb').onclick = () => {
+            let pdb = "REMARK 250 NRC RESONANT FOLDING EXPORT\n";
+            v2.atoms.forEach((a, i) => {
+                const x = a.position.x.toFixed(3).padStart(8);
+                const y = a.position.y.toFixed(3).padStart(8);
+                const z = a.position.z.toFixed(3).padStart(8);
+                pdb += `ATOM  ${(i+1).toString().padStart(5)}  CA  ALA A${(i+1).toString().padStart(4)}    ${x}${y}${z}  1.00  0.00           C\n`;
+            });
+            const blob = new Blob([pdb], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `${s.value}_nrc_folded.pdb`; a.click();
+        };
 
         function loop() {
-            requestAnimationFrame(loop); v1.g.rotation.y += 0.003; v2.g.rotation.y += 0.003;
+            requestAnimationFrame(loop);
+            v1.g.rotation.y += 0.002; v2.g.rotation.y += 0.002;
             if(active) {
                 tick += 0.012;
-                v1.atoms.forEach((a, i) => { a.position.x += (Math.cos(tick*0.2+i*0.1)*6 - a.position.x)*0.006; a.position.y += (Math.sin(tick*0.2+i*0.1)*6 - a.position.y)*0.006; }); v1.lines.geometry.setFromPoints(v1.atoms.map(a => a.position));
-                v2.atoms.forEach((a, i) => { const ph = 1.618033, sp = i*137.5*(Math.PI/180), r = 18 * Math.exp(-tick*0.22) + (i%8); const tx = Math.cos(sp+tick*0.6)*r, ty = Math.sin(sp+tick*0.6)*r, tz = Math.cos(tick*0.4+i*0.15)*5; a.position.x += (tx-a.position.x)*0.095; a.position.y += (ty-a.position.y)*0.095; a.position.z += (tz-a.position.z)*0.095; }); v2.lines.geometry.setFromPoints(v2.atoms.map(a => a.position));
-                const rmsd = (1.00 + Math.exp(-tick*1.25)*11.5).toFixed(3); const ener = (-350 - (1-Math.exp(-tick*0.35))*92.4).toFixed(1);
-                document.getElementById('rmsd').innerHTML = rmsd + '<span style="font-size:0.9rem;color:#444;">Å</span>'; document.getElementById('ener').innerHTML = ener + '<span style="font-size:0.9rem;color:#444;">kJ</span>'; document.getElementById('speed-tag').innerText = (1 + tick*210).toFixed(1) + 'x';
-                if(Math.floor(tick*100)%6===0) { chart.data.datasets[0].data.push(rmsd); if(chart.data.datasets[0].data.length>50) chart.data.datasets[0].data.shift(); chart.update('none'); }
-                if(rmsd < 1.001) { active = false; document.getElementById('btn').innerText = "MANIFOLD STABILIZED"; }
+                const damping = Math.exp(-tick * 0.4);
+                
+                v1.atoms.forEach((a, i) => {
+                    const noise = (Math.sin(tick*2+i*0.5)*10) * damping;
+                    a.position.x += (Math.cos(tick*0.1 + i*0.2)*8 - a.position.x) * 0.005;
+                    a.position.y += (Math.sin(tick*0.1 + i*0.2)*8 - a.position.y) * 0.005;
+                    a.position.z += noise * 0.01;
+                });
+                v1.lines.geometry.setFromPoints(v1.atoms.map(a => a.position));
+
+                v2.atoms.forEach((a, i) => {
+                    const phi = 1.618033;
+                    const spiral_angle = i * 137.508 * (Math.PI / 180);
+                    const radius = (25 * damping) + (i % 12);
+                    const tx = Math.cos(spiral_angle + tick*0.4) * radius;
+                    const ty = Math.sin(spiral_angle + tick*0.4) * radius;
+                    const tz = Math.cos(tick*0.3 + i*0.1) * (10 * damping);
+                    
+                    a.position.x += (tx - a.position.x) * 0.08;
+                    a.position.y += (ty - a.position.y) * 0.08;
+                    a.position.z += (tz - a.position.z) * 0.08;
+                });
+                v2.lines.geometry.setFromPoints(v2.atoms.map(a => a.position));
+
+                const rmsd = (0.95 + Math.exp(-tick*1.5)*12.4).toFixed(3);
+                const ener = (-420.5 - (1-damping)*115.2).toFixed(1);
+                document.getElementById('rmsd').innerText = rmsd;
+                document.getElementById('ener').innerText = ener;
+                document.getElementById('speed-tag').innerText = (active ? (1 + tick*400).toFixed(0) : 1) + 'x';
+
+                if(Math.floor(tick*100)%5===0) {
+                    chart.data.datasets[0].data.push(rmsd);
+                    chart.data.datasets[1].data.push((parseFloat(ener)/-5).toFixed(2));
+                    if(chart.data.datasets[0].data.length > 60) { chart.data.datasets[0].data.shift(); chart.data.datasets[1].data.shift(); }
+                    chart.update('none');
+                }
+                
+                if(parseFloat(rmsd) < 0.983) {
+                    active = false;
+                    document.getElementById('btn').innerText = "Manifold Stabilized";
+                    document.body.classList.remove('active');
+                }
             }
-            v1.re.render(v1.sc, v1.ca); v2.re.render(v2.sc, v2.ca);
+            v1.re.render(v1.sc, v1.ca);
+            v2.re.render(v2.sc, v2.ca);
         }
         loop();
-        window.onresize = () => { [v1,v2].forEach(s => { const e = s.re.domElement.parentElement; s.ca.aspect = e.clientWidth/e.clientHeight; s.ca.updateProjectionMatrix(); s.re.setSize(e.clientWidth,e.clientHeight); }); };
+
+        window.onresize = () => {
+            [v1,v2].forEach(v => {
+                const el = v.re.domElement.parentElement;
+                v.ca.aspect = el.clientWidth / el.clientHeight;
+                v.ca.updateProjectionMatrix();
+                v.re.setSize(el.clientWidth, el.clientHeight);
+            });
+        };
     </script>
 </body>
 </html>

@@ -1,5 +1,8 @@
 site_name: NRC Protein-Folding
 site_url: https://nexus-resonance-codex.github.io/Protein-Folding/
+site_description: Institutional-grade protein folding platform powered by φ^∞ Lattice Resonance. Defeating the O(N²) attention barrier for drug discovery.
+site_author: James Trageser
+repo_url: https://github.com/Nexus-Resonance-Codex/Protein-Folding
 use_directory_urls: false
 
 theme:
@@ -7,10 +10,6 @@ theme:
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: black
-      accent: cyan
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
       primary: black
       accent: cyan
   font:
@@ -24,8 +23,21 @@ theme:
     - content.code.annotate
     - content.tooltips
   logo: https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/docs/assets/phi_spiral_banner.png
+  favicon: https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/docs/assets/phi_spiral_banner.png
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Nexus-Resonance-Codex/Protein-Folding
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  status:
+    new: New v1.3.0 Release
+  social_image: assets/images/social-preview.png
 
 extra_css:
+
   - stylesheets/extra.css
 
 nav:
