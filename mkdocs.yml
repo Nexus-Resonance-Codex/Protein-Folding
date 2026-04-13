@@ -1,6 +1,6 @@
 site_name: NRC Protein-Folding
 site_url: https://nexus-resonance-codex.github.io/Protein-Folding/
-use_directory_urls: true
+use_directory_urls: false
 
 theme:
   name: material
@@ -30,14 +30,14 @@ extra_css:
 
 nav:
   - 'Home': 'index.md'
-  - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.md'
+  - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
   - '🕹 Playground Hub': 'NRC-Playground-Guide.md'
   - '📐 Math Foundations': 'math-foundations.md'
   - '📽 Demo Arena':
-    - 'Folding Showcase': 'demos/protein-folding-showcase.md'
-    - 'Lattice Mode': 'demos/lattice-visualizer.md'
-    - 'Scaling Benchmarks': 'demos/rmsd-benchmark.md'
-    - 'Cosmic Math': 'demos/cosmic-math.md'
+    - 'Folding Showcase': 'demos/protein-folding-showcase.html'
+    - 'Lattice Mode': 'demos/lattice-visualizer.html'
+    - 'Scaling Benchmarks': 'demos/rmsd-benchmark.html'
+    - 'Cosmic Math': 'demos/cosmic-math.html'
   - '🏗 Architecture': 'architecture.md'
   - '📦 Distributed Computing': 'DISTRIBUTED_COMPUTING_INTEGRATION.md'
 
