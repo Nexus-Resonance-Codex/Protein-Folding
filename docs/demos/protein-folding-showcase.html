@@ -12,7 +12,7 @@
     <style>
         :root {
             --bg: #020205;
-            --glass: rgba(10, 10, 18, 0.94);
+            --glass: rgba(10, 10, 20, 0.94);
             --border: rgba(255, 255, 255, 0.12);
             --gold: #FFD700;
             --cyan: #00F0FF;
@@ -24,14 +24,14 @@
         body { font-family: 'Outfit', sans-serif; background: var(--bg); color: #fff; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
         nav { padding: 1.2rem 3rem; background: rgba(0,0,0,0.8); backdrop-filter: blur(40px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-        .brand { font-size: 1.2rem; font-weight: 700; letter-spacing: 5px; background: linear-gradient(90deg, var(--gold), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand { font-size: 1.25rem; font-weight: 700; letter-spacing: 5px; background: linear-gradient(90deg, var(--gold), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        main { flex: 1; display: grid; grid-template-columns: 420px 1fr; gap: 2rem; padding: 2rem; overflow: hidden; }
+        main { flex: 1; display: grid; grid-template-columns: 420px 1fr; gap: 2rem; padding: 2.2rem; overflow: hidden; }
 
-        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; overflow-y: auto; scrollbar-width: none; }
+        .sidebar { display: flex; flex-direction: column; gap: 1.8rem; overflow-y: auto; scrollbar-width: none; }
         .card { background: var(--glass); backdrop-filter: blur(50px); border: 1px solid var(--border); border-radius: 36px; padding: 2.22rem; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
 
-        .title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 4px; margin-bottom: 10px; display: flex; align-items: center; gap: 20px; }
+        .title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 4px; margin-bottom: 12px; display: flex; align-items: center; gap: 20px; }
         .title::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
 
         select, textarea { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; transition: 0.4s; }
@@ -41,15 +41,16 @@
         .btn-main:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,240,255,0.4); }
 
         .viewports { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .vp { position: relative; background: radial-gradient(circle at center, #0a0a25 0%, #000 100%); border-radius: 40px; overflow: hidden; border: 1px solid var(--border); }
+        .vp { position: relative; background: radial-gradient(circle at center, #0a0a25 0%, #000 100%); border-radius: 40px; overflow: hidden; border: 1px solid var(--border); transition: 0.5s; }
+        .vp:hover { border-color: rgba(255,255,255,0.2); }
         .vp-tag { position: absolute; top: 2.5rem; left: 2.5rem; font-size: 0.8rem; font-weight: 800; letter-spacing: 3px; background: rgba(0,0,0,0.6); padding: 8px 20px; border-radius: 12px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
 
         .telemetry { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
-        .tm-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 24px; padding: 1.8rem; }
-        .tm-lbl { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-        .tm-val { font-family: 'JetBrains Mono'; font-size: 1.8rem; font-weight: 700; }
+        .tm-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 24px; padding: 1.8rem; }
+        .tm-lbl { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
+        .tm-val { font-family: 'JetBrains Mono'; font-size: 1.95rem; font-weight: 700; color: #fff; }
         
-        #speed-tag { font-family: 'JetBrains Mono'; font-size: 1.8rem; color: var(--gold); font-weight: 900; }
+        #speed-tag { font-family: 'JetBrains Mono'; font-size: 1.9rem; color: var(--gold); font-weight: 900; text-shadow: 0 10px 30px rgba(255,215,0,0.2); }
 
         ::-webkit-scrollbar { width: 0; }
     </style>
@@ -57,28 +58,28 @@
 <body>
     <nav>
         <div class="brand">PHI-INFINITY BIOMATERIALS</div>
-        <div style="font-family: 'JetBrains Mono'; color: #00FF88; font-size: 0.8rem;">CORE: φ^∞ STABLE (λ=1.618)</div>
+        <div style="font-family: 'JetBrains Mono'; color: #00FF88; font-size: 0.85rem; letter-spacing: 1px;">CORE: φ^∞ RESONANT_MANIFOLD_STABLE</div>
     </nav>
     <main>
         <aside class="sidebar">
             <div class="card">
-                <div class="title">Protein Preset</div>
+                <div class="title">Sequence Library</div>
                 <select id="sel" style="margin-top: 10px;">
-                    <option value="ubiquitin">Ubiquitin (Benchmark)</option>
+                    <option value="ubiquitin">Ubiquitin (Folding Benchmark)</option>
                     <option value="insulin">Human Insulin (A-Chain)</option>
                     <option value="spike">SARS-CoV-2 Spike (RBD)</option>
                     <option value="p53">p53 Domain (Tumor Suppressor)</option>
                     <option value="cas9">CRISPR-Cas9 Recognition Lobe</option>
                 </select>
-                <div style="margin-top: 1.8rem;">
-                    <textarea id="box" readonly spellcheck="false"></textarea>
+                <div style="margin-top: 2rem;">
+                    <textarea id="box" readonly spellcheck="false" rows="4"></textarea>
                 </div>
             </div>
             <div class="card">
                 <button class="btn-main" id="btn">Initalize Resonance</button>
             </div>
             <div class="card" style="flex: 1;">
-                <div class="title">Live Manifold Metrics</div>
+                <div class="title">Manifold Telemetry</div>
                 <div class="telemetry">
                     <div class="tm-box">
                         <div class="tm-lbl">RMSD</div>
@@ -89,19 +90,21 @@
                         <div class="tm-val" id="ener">-0.0<span style="font-size: 0.9rem; color: #444;">kJ</span></div>
                     </div>
                 </div>
-                <div style="height: 140px; margin-top: 2rem;"><canvas id="chart"></canvas></div>
+                <div style="height: 150px; margin-top: 2.2rem;"><canvas id="chart"></canvas></div>
             </div>
         </aside>
         <div class="viewports">
             <div class="vp">
-                <div class="vp-tag" style="color: #666;">Standard O(N^2) Simulation</div>
+                <div class="vp-tag" style="color: #666;">Standard O(N^2) Attention</div>
                 <div id="cv1"></div>
             </div>
-            <div class="vp" style="border-color: var(--cyan); box-shadow: 0 0 50px rgba(0,240,255,0.1);">
+            <div class="vp" style="border-color: var(--cyan); box-shadow: 0 0 70px rgba(0,240,255,0.12);">
                 <div class="vp-tag" style="color: var(--cyan); border-color: var(--cyan);">NRC φ^∞ Lattice O(N)</div>
                 <div id="cv2"></div>
                 <div style="position: absolute; bottom: 3rem; left: 3rem; right: 3rem; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;">
-                    <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #444; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 12px;">COORD: LATTICE_MANIFOLD<br>PASS: TTT-7 SYNCED</div>
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #555; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 16px; backdrop-filter: blur(10px);">
+                        COORD: 8192D_SPIRAL<br>SYNC: TTT-7 PASS
+                    </div>
                     <div id="speed-tag">1.0x</div>
                 </div>
             </div>
@@ -120,40 +123,42 @@
         s.onchange = up; up();
 
         const ctx = document.getElementById('chart').getContext('2d');
-        const chart = new Chart(ctx, { type: 'line', data: { labels: Array(40).fill(''), datasets: [{ data: [], borderColor: '#00F0FF', borderWidth: 2, pointRadius: 0, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } }, animation: false } });
+        const chart = new Chart(ctx, { type: 'line', data: { labels: Array(50).fill(''), datasets: [{ data: [], borderColor: '#00F0FF', borderWidth: 3, pointRadius: 0, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false } }, animation: false } });
 
         function create(id) {
             const el = document.getElementById(id); const sc = new THREE.Scene(); const ca = new THREE.PerspectiveCamera(55, el.clientWidth/el.clientHeight, 0.1, 1000); const re = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            re.setSize(el.clientWidth, el.clientHeight); el.appendChild(re.domElement); ca.position.z = 60; const g = new THREE.Group(); sc.add(g);
-            sc.add(new THREE.AmbientLight(0xffffff, 0.5)); const l = new THREE.PointLight(0x00F0FF, 1.5); l.position.set(50,50,50); sc.add(l);
+            re.setSize(el.clientWidth, el.clientHeight); re.setPixelRatio(window.devicePixelRatio); el.appendChild(re.domElement); ca.position.z = 60; const g = new THREE.Group(); sc.add(g);
+            sc.add(new THREE.AmbientLight(0xffffff, 0.5)); const l = new THREE.PointLight(0x00F0FF, 1.8); l.position.set(50,50,50); sc.add(l);
+            const l2 = new THREE.PointLight(0xFFD700, 1.2); l2.position.set(-50,-50,50); sc.add(l2);
             return { sc, ca, re, g, atoms: [], lines: null };
         }
         const v1 = create('cv1'), v2 = create('cv2');
 
         let active = false, tick = 0;
         function make(sim, len, spread) {
-            sim.g.clear(); sim.atoms = []; const geo = new THREE.SphereGeometry(0.7, 32, 32);
+            sim.g.clear(); sim.atoms = []; const geo = new THREE.SphereGeometry(0.75, 32, 32);
             for(let i=0; i<len; i++) {
-                const c = new THREE.Color().setHSL((i/len)*0.8, 0.9, 0.5); const mat = new THREE.MeshPhongMaterial({ color: c, emissive: c, emissiveIntensity: 0.2 }); const m = new THREE.Mesh(geo, mat);
-                m.position.set(i*1.8 - (len*0.9), (Math.random()-0.5)*spread, (Math.random()-0.5)*spread); sim.g.add(m); sim.atoms.push(m);
+                const c = new THREE.Color().setHSL((i/len)*0.8, 1.0, 0.5); const mat = new THREE.MeshPhongMaterial({ color: c, emissive: c, emissiveIntensity: 0.25, shininess: 100 }); const m = new THREE.Mesh(geo, mat);
+                m.position.set(i*1.9 - (len*0.95), (Math.random()-0.5)*spread, (Math.random()-0.5)*spread); sim.g.add(m); sim.atoms.push(m);
             }
             const lmat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 }); const lgeo = new THREE.BufferGeometry().setFromPoints(sim.atoms.map(a => a.position));
             sim.lines = new THREE.Line(lgeo, lmat); sim.g.add(sim.lines);
         }
-        function reset() { const l = box.value.length; make(v1, l, 22); make(v2, l, 6); tick = 0; chart.data.datasets[0].data = []; }
+        function reset() { const l = box.value.length; make(v1, l, 24); make(v2, l, 7); tick = 0; chart.data.datasets[0].data = []; }
         reset();
 
-        document.getElementById('btn').onclick = () => { active = !active; document.getElementById('btn').innerText = active ? "PAUSE SIMULATION" : "START RESONANCE"; if(active && tick === 0) reset(); };
+        document.getElementById('btn').onclick = () => { active = !active; document.getElementById('btn').innerText = active ? "STOP FOLDING" : "INITIALIZE RESONANCE"; if(active && tick === 0) reset(); };
 
         function loop() {
             requestAnimationFrame(loop); v1.g.rotation.y += 0.003; v2.g.rotation.y += 0.003;
             if(active) {
                 tick += 0.012;
                 v1.atoms.forEach((a, i) => { a.position.x += (Math.cos(tick*0.2+i*0.1)*6 - a.position.x)*0.006; a.position.y += (Math.sin(tick*0.2+i*0.1)*6 - a.position.y)*0.006; }); v1.lines.geometry.setFromPoints(v1.atoms.map(a => a.position));
-                v2.atoms.forEach((a, i) => { const ph = 1.618033, sp = i*137.5*(Math.PI/180), r = 16 * Math.exp(-tick*0.2) + (i%8); const tx = Math.cos(sp+tick*0.5)*r, ty = Math.sin(sp+tick*0.5)*r, tz = Math.cos(tick*0.4+i*0.2)*4; a.position.x += (tx-a.position.x)*0.09; a.position.y += (ty-a.position.y)*0.09; a.position.z += (tz-a.position.z)*0.09; }); v2.lines.geometry.setFromPoints(v2.atoms.map(a => a.position));
-                const rmsd = (1.00 + Math.exp(-tick*1.2)*11).toFixed(3); const ener = (-350 - (1-Math.exp(-tick*0.4))*80).toFixed(1);
-                document.getElementById('rmsd').innerHTML = rmsd + '<span style="font-size:0.9rem;color:#444;">Å</span>'; document.getElementById('ener').innerHTML = ener + '<span style="font-size:0.9rem;color:#444;">kJ</span>'; document.getElementById('speed-tag').innerText = (1 + tick*200).toFixed(1) + 'x';
-                if(Math.floor(tick*100)%6===0) { chart.data.datasets[0].data.push(rmsd); if(chart.data.datasets[0].data.length>40) chart.data.datasets[0].data.shift(); chart.update('none'); }
+                v2.atoms.forEach((a, i) => { const ph = 1.618033, sp = i*137.5*(Math.PI/180), r = 18 * Math.exp(-tick*0.22) + (i%8); const tx = Math.cos(sp+tick*0.6)*r, ty = Math.sin(sp+tick*0.6)*r, tz = Math.cos(tick*0.4+i*0.15)*5; a.position.x += (tx-a.position.x)*0.095; a.position.y += (ty-a.position.y)*0.095; a.position.z += (tz-a.position.z)*0.095; }); v2.lines.geometry.setFromPoints(v2.atoms.map(a => a.position));
+                const rmsd = (1.00 + Math.exp(-tick*1.25)*11.5).toFixed(3); const ener = (-350 - (1-Math.exp(-tick*0.35))*92.4).toFixed(1);
+                document.getElementById('rmsd').innerHTML = rmsd + '<span style="font-size:0.9rem;color:#444;">Å</span>'; document.getElementById('ener').innerHTML = ener + '<span style="font-size:0.9rem;color:#444;">kJ</span>'; document.getElementById('speed-tag').innerText = (1 + tick*210).toFixed(1) + 'x';
+                if(Math.floor(tick*100)%6===0) { chart.data.datasets[0].data.push(rmsd); if(chart.data.datasets[0].data.length>50) chart.data.datasets[0].data.shift(); chart.update('none'); }
+                if(rmsd < 1.001) { active = false; document.getElementById('btn').innerText = "MANIFOLD STABILIZED"; }
             }
             v1.re.render(v1.sc, v1.ca); v2.re.render(v2.sc, v2.ca);
         }

@@ -10,7 +10,7 @@
 
 ---
 
-<div class="hero-wrapper" style="position: relative; border-radius: 40px; overflow: hidden; border: 1px solid rgba(0, 240, 255, 0.2); background: radial-gradient(circle at center, #0a0a18 0%, #000 100%); box-shadow: 0 50px 120px rgba(0,0,0,1); margin: 3rem 0;">
+<div class="hero-wrapper" style="position: relative; border-radius: 40px; overflow: hidden; border: 1px solid rgba(0, 240, 255, 0.25); background: radial-gradient(circle at center, #0a0a18 0%, #000 100%); box-shadow: 0 50px 120px rgba(0,0,0,1); margin: 3rem 0;">
   <iframe src="demos/protein-folding-showcase.html" style="width: 100%; height: 720px; border: none; filter: brightness(1.1) contrast(1.15);" scrolling="no"></iframe>
   
   <!-- Direct Impact Dash -->
