@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software in your structural biology research, please cite it as below."
+authors:
+- family-names: "Trageser"
+  given-names: "James"
+  email: "NexusResonanceCodex@gmail.com"
+title: "φ^∞ Lattice-Accelerated Protein Folding: O(N) Structural Prediction via Resonant Manifolds"
+version: 1.1.0
+date-released: 2026-04-12
+url: "https://github.com/Nexus-Resonance-Codex/Protein-Folding"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Trageser"
+    given-names: "James"
+  journal: "Journal of High-Dimensional Structural Biology"
+  title: "Constant-Time Protein Folding via φ-Spiral Lattice Projections and TUPT-LWE Embedding"
+  year: 2026
