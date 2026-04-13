@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/index.html</loc>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/</loc>
          <lastmod>2026-04-13</lastmod>
     </url>
     <url>
-         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/DISTRIBUTED_COMPUTING_INTEGRATION.html</loc>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/DISTRIBUTED_COMPUTING_INTEGRATION/</loc>
          <lastmod>2026-04-13</lastmod>
     </url>
     <url>
-         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/NRC-Playground-Guide.html</loc>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/NRC-Playground-Guide/</loc>
          <lastmod>2026-04-13</lastmod>
     </url>
     <url>
-         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/architecture.html</loc>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/architecture/</loc>
          <lastmod>2026-04-13</lastmod>
     </url>
     <url>
-         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/math-foundations.html</loc>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/math-foundations/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/demos/cosmic-math/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/demos/folding-demo/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/demos/lattice-visualizer/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
+         <loc>https://nexus-resonance-codex.github.io/Protein-Folding/demos/rmsd-benchmark/</loc>
          <lastmod>2026-04-13</lastmod>
     </url>
 </urlset>

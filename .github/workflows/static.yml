@@ -15,9 +15,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # ------------------------------------------------------------
-  # Job 1: Mathematical & Biological Integrity
-  # ------------------------------------------------------------
   verify:
     name: "Bio-Lattice Integrity Audit"
     runs-on: ubuntu-latest
@@ -35,13 +32,11 @@ jobs:
         run: |
           pytest tests/ -v
 
-  # ------------------------------------------------------------
-  # Job 2: Documentation & Showcase Deployment
-  # ------------------------------------------------------------
   deploy-site:
     name: "Deploy Flagship Documentation"
     needs: verify
     runs-on: ubuntu-latest
+    if: success()
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -54,11 +49,6 @@ jobs:
       - name: Build MkDocs Site
         run: |
           mkdocs build
-      - name: Integrate Static Showcase
-        run: |
-          # Ensure showcase is accessible at root or expected paths
-          cp docs/demos/protein-folding-showcase.html site/showcase.html
-          cp docs/demos/lattice-visualizer.html site/lattice.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload Artifact
