@@ -33,7 +33,7 @@ nav:
   - '📐 Math Foundations': 'math-foundations.md'
   - '📽 Demo Arena':
     - 'Folding Showcase': 'demos/protein-folding-showcase.html'
-    - 'Lattice Mode': 'demos/lattice-visualizer-protein-mode.html'
+    - 'Lattice Mode': 'demos/lattice-visualizer.html'
     - 'Scaling Benchmarks': 'demos/rmsd-benchmark.html'
     - 'Cosmic Math': 'demos/cosmic-math.html'
   - '🏗 Architecture': 'architecture.md'
