@@ -1,14 +1,14 @@
 # φ^∞ Lattice-Accelerated Protein Folding
-## Cutting Years off Drug Discovery • Saving Lives through Mathematical Perfection
+## Cutting Years off Drug Discovery • Saving Millions of Lives through Mathematical Perfection
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/docs/assets/phi_spiral_banner.png" width="100%" alt="NRC Banner">
 
 [![Discovery Hub](https://img.shields.io/badge/🚀%20Live-Showcase%20Arena-cyan?style=for-the-badge&logo=github)](https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase.html)
-[![Models: Run Now](https://img.shields.io/badge/🤖%20Verify-on%20GitHub%20Models-gold?style=for-the-badge&logo=github)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-verifier.prompt.yml)
+[![Models: Run Now](https://img.shields.io/badge/🤖%20Verify%20on%20GitHub-Models-gold?style=for-the-badge&logo=github)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-verifier.prompt.yml)
 [![CI: Bio-Stability](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/folding-evals.yml/badge.svg)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/folding-evals.yml)
 
-**"By making molecular life predictable, we make it curable."**
+**"By mastering the geometry of life, we master the resolution of disease."**
 </div>
 
 ---
@@ -23,14 +23,14 @@ Traditional protein folding prediction (AlphaFold 2, Rosetta) is bottlenecked by
 
 ### 🌟 Experience the Future
 
-You don't need a supercomputer to verify this. Run the technology directly on GitHub:
+Verify the structural stabilization of molecular life directly in your browser or on the GitHub UI:
 
 | Experience | Impact | Access |
 | :--- | :--- | :--- |
-| **Flagship Showcase** | Interactive 3D folding with real-time RMSD metrics. | [**Launch Platform**](https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase.html) |
+| **Flagship Showcase** | Side-by-side 3D folding with real-time RMSD metrics. | [**Launch Platform**](https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase.html) |
 | **Interactive Verifier** | Input sequence → receive verified 8192D trajectory. | [**Run on GitHub Models**](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-verifier.prompt.yml) |
 | **Lattice Benchmark** | Side-by-side comparison of O(N) vs O(N^2) scaling. | [**View Benchmarks**](https://nexus-resonance-codex.github.io/Protein-Folding/demos/rmsd-benchmark.html) |
-| **Mathematical Proofs** | Rigorous derivations of TTT, TUPT, and QRT. | [**Explore proofs**](docs/math-foundations.md) |
+| **Mathematical Proofs** | Rigorous derivations of TTT, TUPT, and QRT. | [**Explore Proofs**](docs/math-foundations.md) |
 
 ---
 
