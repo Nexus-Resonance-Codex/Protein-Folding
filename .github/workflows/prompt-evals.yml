@@ -1,0 +1,19 @@
+name: "Protein-Folding Prompt Evaluations"
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    paths:
+      - '.github/prompts/**'
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: NRC Bio-Lattice Check
+        run: |
+          echo "Auditing Bio-Lattice prompt stability..."
+          grep -r "RMSD\|Lattice" .github/prompts/

@@ -1,0 +1,22 @@
+name: "Protein Folding Simulation Verifier"
+description: "Takes an amino acid sequence and predicts the folding trajectory within the φ^∞ resonant manifold. Returns RMSD, potential energy, and structural descriptions."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.1
+variables:
+  sequence: "The primary amino acid sequence (e.g., MVLSPADKTN...)."
+messages:
+  - role: system
+    content: "You are the NRC Bio-Lattice Accelerator. Your task is to simulate the topological sequence-to-fold mapping of a protein sequence using golden-angle resonance homology."
+  - role: user
+    content: |
+      Analyze the folding trajectory for the following sequence: {{sequence}}
+
+      Interactive Analysis:
+      1. Map residues to the 8192D spiral manifold.
+      2. Identify geometric resonance tensions (potential structural bonds).
+      3. Calculate the projected RMSD from the native state.
+      4. Estimate the Manifold Energy state.
+      5. Provide a summary of the suspected tertiary structure.
+
+      *Note: Refer to [Cosmic-Math.html](https://Nexus-Resonance-Codex.github.io/Protein-Folding/Cosmic-Math.html) for real-time visualization of the resonance map.*

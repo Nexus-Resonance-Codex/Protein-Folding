@@ -39,6 +39,16 @@
 
 ---
 
+### 🚀 NRC Playground
+
+Test biopolymer structural predictions and lattice-folding acceleration directly on GitHub:
+
+- **[Folding Simulation Verifier](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-simulation-verifier.prompt.yml)** — Predict trajectory and RMSD.
+- **[Lattice vs. Standard Comparison](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/lattice-accelerated-folding-comparison.prompt.yml)** — Benchmark folding efficiency.
+- **[Playground Guide](NRC-Playground-Guide.md)** — Comprehensive usage instructions.
+
+---
+
 ### 🛠 Setup
 Built for high-integrity research using [uv](https://github.com/astral-sh/uv).
 

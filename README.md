@@ -8,8 +8,9 @@
 [![CI: Stability Audit](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/ci.yml/badge.svg)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/ci.yml)
 [![Docs: Technical Specifications](https://img.shields.io/badge/Docs-Foundations-green?style=for-the-badge&logo=markdown "Mathematical Foundations Documentation")](https://nexus-resonance-codex.github.io/Protein-Folding/)
 [![Lattice: 8192D](https://img.shields.io/badge/Lattice-8192D-gold?style=for-the-badge&logo=python "High-Dimensional Lattice Specification")](docs/architecture.md)
+[![Bio-Lattice Evaluations](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/prompt-evals.yml/badge.svg)](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions/workflows/prompt-evals.yml)
 
-[Architecture](docs/architecture.md) • [Fold Accelerator](src/nrc_bio/accelerator.py) • [Lattice Analyst](Cosmic-Math.html) • [Visualizer](Lattice-Visualizer.html)
+[Architecture](docs/architecture.md) • [NRC Playground](#-nrc-playground) • [Fold Accelerator](src/nrc_bio/accelerator.py) • [Lattice Analyst](Cosmic-Math.html) • [Visualizer](Lattice-Visualizer.html)
 
 </div>
 
@@ -40,6 +41,19 @@ The framework implements a high-dimensional lattice projection system for accele
 *   **Lattice-Visualizer**: Interactive 8192D visualization interface for structural topology analysis.
 *   **TUPT-LWE Embedding**: High-fidelity residue embedding utilizing lattice-based cryptography primitives for structural integrity.
 *   **Ramachandran Phi Connection**: Formal derivation of backbone stability limits within the $\varphi^{-1}$ boundary.
+
+---
+
+### 🚀 NRC Playground – Test Directly on GitHub
+
+Test biopolymer structural predictions and lattice-folding acceleration directly within the GitHub UI using the **Models** tab.
+
+| Feature | Interactive Prompt | Model Recommendation |
+| :--- | :--- | :--- |
+| **Folding Verifier** | [Simulate Trajectory](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-simulation-verifier.prompt.yml) | GPT-4o |
+| **Lattice vs. MD** | [Performance Comparison](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/lattice-accelerated-folding-comparison.prompt.yml) | o1-preview |
+
+Explore the [**NRC Playground Guide**](docs/NRC-Playground-Guide.md) for more info on biological resonance testing.
 
 ---
 

@@ -1,0 +1,23 @@
+name: "Lattice-Accelerated vs. Standard Folding Comparison"
+description: "Compares traditional molecular dynamics complexity with NRC lattice-accelerated folding efficiency. Demonstrates O(N^2) vs O(3^N) scaling."
+model: "openai/gpt-4o"
+modelParameters:
+  temperature: 0.2
+variables:
+  protein_name: "Name of a protein for comparison (e.g., Ubiquitin, Insulin)."
+messages:
+  - role: system
+    content: "You are a computational biologist evaluating the performance of the φ^∞ Protein Lattice Accelerator."
+  - role: user
+    content: |
+      Compare the computational cost of folding {{protein_name}} using:
+      A) Standard Force-Field Molecular Dynamics (e.g., AMBER/CHARMM)
+      B) NRC Lattice-Accelerated Resonance Folding
+
+      Metrics to include:
+      - Theoretical Time Complexity (O-notation)
+      - Energy Minimization Cycles Required
+      - Hardware Requirement Estimates
+      - Stability Score (TTT-compliance)
+
+      *Note: The [Lattice-Visualizer.html](https://Nexus-Resonance-Codex.github.io/Protein-Folding/Lattice-Visualizer.html) demonstrates the real-time resonance manifold interface.*
