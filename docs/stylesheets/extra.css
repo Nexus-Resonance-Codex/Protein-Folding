@@ -1,0 +1,45 @@
+:root {
+  --md-primary-fg-color: #000;
+  --md-accent-fg-color: #00f0ff;
+}
+
+.md-header {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(20px);
+}
+
+.md-main__inner {
+  margin-top: 2rem;
+}
+
+.md-content {
+  background: transparent !important;
+}
+
+/* Cinematic Hero button styles */
+.md-button--primary {
+  background: linear-gradient(135deg, #FFD700, #00F0FF) !important;
+  color: #000 !important;
+  border: none !important;
+  font-weight: 700 !important;
+  transition: all 0.3s ease !important;
+}
+
+.md-button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4) !important;
+}
+
+/* Performance table styling */
+table {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+th {
+  background-color: rgba(255,255,255,0.03) !important;
+  text-transform: uppercase;
+  font-size: 0.7rem !important;
+  letter-spacing: 1px;
+}

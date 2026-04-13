@@ -23,6 +23,9 @@ theme:
     - content.tooltips
   logo: https://raw.githubusercontent.com/Nexus-Resonance-Codex/Phi-Infinity-Lattice-Compression/main/docs/assets/phi_spiral_banner.png
 
+extra_css:
+  - stylesheets/extra.css
+
 nav:
   - 'Home': 'index.md'
   - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
