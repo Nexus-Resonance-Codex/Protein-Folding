@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "James-Yu.latex-workshop",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "ms-python.vscode-python-envs"
+  ]
+}
