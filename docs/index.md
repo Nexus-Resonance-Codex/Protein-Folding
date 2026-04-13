@@ -65,3 +65,4 @@ Our technology maps amino acid sequences into a resonant lattice space where str
     James Trageser — Nexus Resonance Codex (2026)
   </p>
 </div>
+# NRC Protein-Folding: 100% Path Integrity Verified
