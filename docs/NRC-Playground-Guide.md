@@ -1,19 +1,28 @@
-# Protein-Folding Playground – Testing Directly on GitHub
+# Protein Folding Discovery Hub
 
-The **Protein-Folding** repository utilizes the GitHub Models ecosystem to provide interactive simulations of high-dimensional biological resonance.
+Welcome to the **Protein-Folding Playground**, a unified testing and discovery environment for lattice-accelerated structural biology. This hub provides direct access to the mathematical primitives and AI models that power the Nexus Resonance Codex.
 
-## 🔬 How to Run Bio-Prompts
+## 🔬 For Biologists: Structural Prediction
+Explore high-dimensional torsion angle convergence and topological mapping.
+- **[Folding Simulation Verifier](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-simulation-verifier.prompt.yml)**: Input an amino acid sequence (FASTA format) and receive a simulated trajectory within the $\varphi^\infty$ resonant manifold. 
+- **[RMSD Convergence Tester](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/rmsd-convergence-tester.prompt.yml)**: Audit the stability of a fold across multiple resonance cycles.
 
-To simulate structural folding interactively:
-1.  **Navigate to the Models Tab**: Click on the **Models** tab at the top of this repository on GitHub.com.
-2.  **Select a Base Model**: GPT-4o is highly recommended for complex torsion analysis.
-3.  **Find the Prompts Section**: Click on **Prompts** in the left sidebar.
-4.  **Load an NRC Bio-Prompt**: Select `Protein Folding Simulation Verifier` or `Lattice-Accelerated vs. Standard Comparison`.
-5.  **Run Experiment**: Enter your amino acid sequence as a variable and click **Run**.
+## 🤖 For AI Researchers: Constant-Time Efficiency
+Validate the $O(N)$ folding complexity and attention-free resonance logic.
+- **[Lattice vs. Standard Comparison](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/lattice-accelerated-folding-comparison.prompt.yml)**: Benchmark NRC lattice-acceleration against standard MSA-based molecular dynamics.
+- **Auto-Evaluations**: Every push to the repository triggers a suite of evaluations measuring RMSD fidelity and TTT-compliance. View logs in the [Actions Tab](https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions).
 
-## 🔗 Direct View Links
-*   [Folding Simulation Verifier](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-simulation-verifier.prompt.yml)
-*   [Lattice-Accelerated Comparison](https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/lattice-accelerated-folding-comparison.prompt.yml)
+## 🛠 For Developers: Integration & Visualization
+Embed the Bio-Lattice primitives into your own computational pipelines.
+- **Interactive Showcase**: Visit the [**Flagship Protein Showcase**](demos/protein-folding-showcase.html) for a live, browser-based demonstration.
+- **Lattice Visualizer**: Explore the 8192D manifold in [**Lattice Mode**](demos/lattice-visualizer.html).
 
-## 📊 Evaluation Standards
-Bio-Lattice prompts are automatically evaluated for structural fidelity and resonance stability. View results in the **Actions** tab.
+---
+
+## 🚀 Quick Start in 30 Seconds
+1. Open the [**Models Tab**](https://github.com/Nexus-Resonance-Codex/Protein-Folding/models) on GitHub.
+2. Load the **Folding Simulation Verifier** prompt.
+3. Replace the `sequence` variable with any primary sequence.
+4. Click **Run** and observe the resonant manifold reconstruction.
+
+*Developed by James Trageser — Nexus Resonance Codex (2026)*

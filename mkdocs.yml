@@ -1,55 +1,34 @@
-site_name: Protein-Folding
-site_description: Professional-Grade Protein Folding via φ^∞ Lattice Resonance
-site_author: James Trageser
-site_url: https://Nexus-Resonance-Codex.github.io/Protein-Folding/
-
+site_name: NRC Protein-Folding
+site_url: https://nexus-resonance-codex.github.io/Protein-Folding/
 theme:
   name: material
   palette:
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: light blue
-      accent: gold
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: light blue
-      accent: gold
+    scheme: slate
+    primary: black
+    accent: cyan
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.expand
     - content.code.copy
     - content.code.annotate
 
+nav:
+  - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
+  - 'Home': 'index.md'
+  - '📐 Math Foundations': 'math-foundations.md'
+  - '🕹 Playground Hub': 'NRC-Playground-Guide.md'
+  - '🏗 Architecture': 'architecture.md'
+  - '🌀 Lattice Visualizer': 'demos/lattice-visualizer.html'
+  - '📦 Distributed Computing': 'DISTRIBUTED_COMPUTING_INTEGRATION.md'
+
 markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - attr_list
+  - md_in_html
   - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
-  - attr_list
-  - md_in_html
 
 extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-
-nav:
-  - Home: index.md
-  - Interactive Demos:
-      - Real-time Folding: demos/folding-demo.html
-      - Lattice Visualizer: demos/lattice-visualizer.html
-      - Cosmic Math: demos/cosmic-math.html
-  - Technical Documentation:
-      - Architecture: architecture.md
-      - Distributed Integration: DISTRIBUTED_COMPUTING_INTEGRATION.md
-  - Professional Artifacts:
-      - LaTeX Full Paper: Nexus-Resonance-Codex-tex-files/main.pdf
-
-plugins:
-  - search
-  - minify:
-      minify_html: true
