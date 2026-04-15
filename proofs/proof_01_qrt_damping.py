@@ -5,7 +5,7 @@ def prove_qrt_damping_constant() -> bool:
     """Mathematical Proof 1: The Optimal Geometric Damping Constant.
 
     Demonstrates that the optimal projection angle for maximum density
-    in a High-Dimensional Lattice naturally aligns with the 
+    in a High-Dimensional Lattice naturally aligns with the
     geometric damping constant (THETA_QRT ≈ 51.853°).
 
     This scalar value acts as the professional structural bias in the NRC architecture.

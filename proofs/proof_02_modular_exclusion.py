@@ -3,7 +3,7 @@
 PROOF 2: The TTT Modular Residue Stability Principle.
 =============================================================================
 Demonstrates that the Fibonacci sequence generates a 24-step repeating
-Pisano Period in Modulo 9 arithmetic, and that {0, 3, 6} appear 
+Pisano Period in Modulo 9 arithmetic, and that {0, 3, 6} appear
 as structurally unstable nodes within this universal cycle.
 
 Used by:

@@ -10,8 +10,8 @@ class NRCGeometricTransformerLayer(nn.Module):
     """NRC-Enhanced Geometric Transformer Layer for Protein Folding.
 
     This layer replaces standard scaled dot-product attention with phi-tensor
-    contractions in a 2048D coordinate lattice space. It applies the TTT 
-    modular residue stability filter and QRT damping to optimize the 
+    contractions in a 2048D coordinate lattice space. It applies the TTT
+    modular residue stability filter and QRT damping to optimize the
     attention mechanism.
     """
 
@@ -49,7 +49,7 @@ class NRCGeometricTransformerLayer(nn.Module):
     def ttt_filter(self, scores: torch.Tensor) -> torch.Tensor:
         """Applies the Trageser Transformation Theorem (TTT) modular stability gating.
 
-        Gates residues aligning with unstable modular residues (0, 3, 6) 
+        Gates residues aligning with unstable modular residues (0, 3, 6)
         to optimize the attention landscape.
         """
         # Pseudo-integer reduction for modular stability check

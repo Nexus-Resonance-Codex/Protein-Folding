@@ -3,7 +3,7 @@
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
 #  "This work is part of the Nexus Resonance Codex (NRC) incorporating the Trageser
-#  Transformation Theorem (TTT) modular residue alignment, phi^inf compression, 
+#  Transformation Theorem (TTT) modular residue alignment, phi^inf compression,
 #  2048D coordinate projection, and the Trageser Universal Pattern Theorem (TUPT)."
 
 """NRCFoldAccelerator: High-Dimensional Coordinate Projection for Protein Structural Biology.
@@ -56,9 +56,7 @@ class NRCFoldAccelerator:
             Damped structural coordinates.
         """
         if isinstance(x, torch.Tensor):
-            term1 = torch.sin(self.phi * math.sqrt(2) * 51.853 * x) * torch.exp(
-                -(x**2) / self.phi
-            )
+            term1 = torch.sin(self.phi * math.sqrt(2) * 51.853 * x) * torch.exp(-(x**2) / self.phi)
             term2 = torch.cos(math.pi / self.phi * x)
             return term1 + term2
 
@@ -123,9 +121,7 @@ def fold_sequence(sequence: str) -> dict[str, Any]:
     accelerator = NRCFoldAccelerator()
     # Structural coordinate projection
     residues = len(sequence)
-    lattice_state = accelerator.lattice_project_256_to_729(
-        np.random.rand(8).astype(np.float64)
-    )
+    lattice_state = accelerator.lattice_project_256_to_729(np.random.rand(8).astype(np.float64))
 
     return {
         "sequence": sequence,

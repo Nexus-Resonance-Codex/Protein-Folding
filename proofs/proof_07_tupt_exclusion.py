@@ -13,7 +13,6 @@ Used by:
 """
 
 
-
 def tupt_classify(value: int, mod: int = 9) -> str:
     """Classify a value as 'resonant' or 'chaotic' under TUPT."""
     r = value % mod
