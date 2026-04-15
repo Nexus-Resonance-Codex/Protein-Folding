@@ -30,7 +30,7 @@ jobs:
       - name: Compile LaTeX Document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: NRC-Protein-Folding.tex
+          root_file: docs/Nexus-Resonance-Codex-tex-files/NRC-Protein-Folding.tex
           working_directory: docs/Nexus-Resonance-Codex-tex-files/
           compiler: latexmk
           args: -pdf -interaction=nonstopmode -synctex=1
