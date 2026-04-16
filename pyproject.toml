@@ -70,6 +70,7 @@ ignore = [
 convention = "google"
 
 [tool.mypy]
+exclude = ["examples"]
 strict = true
 python_version = "3.12"
 warn_return_any = true
