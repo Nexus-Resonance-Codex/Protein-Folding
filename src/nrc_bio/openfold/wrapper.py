@@ -9,8 +9,8 @@ from typing import Any, cast
 
 import torch
 import torch.nn as nn
-from nrc.math.qrt import qrt_damping
-from nrc.math.tupt_exclusion import apply_exclusion_gate
+from nrc_math.qrt import qrt_damping
+from nrc_math.tupt_exclusion import apply_exclusion_gate
 
 
 class NRCOpenFoldWrapper(nn.Module):

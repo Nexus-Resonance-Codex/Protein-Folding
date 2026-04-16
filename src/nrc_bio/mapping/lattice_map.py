@@ -12,7 +12,7 @@ into the 2048D resonance manifold.
 """
 
 import numpy as np
-from nrc.math.lattice import phi_lattice_project  # type: ignore[import-untyped]
+from nrc_math.lattice import phi_lattice_project  # type: ignore[import-untyped]
 from numpy.typing import NDArray
 
 
