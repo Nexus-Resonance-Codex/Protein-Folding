@@ -81,3 +81,7 @@ disallow_incomplete_defs = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--cov=nrc_bio --cov-report=term-missing --cov-fail-under=95"
+
+[[tool.mypy.overrides]]
+module = "nrc_math.*"
+ignore_missing_imports = true
