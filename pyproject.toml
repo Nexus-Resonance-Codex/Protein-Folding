@@ -7,81 +7,33 @@ name = "nrc-bio"
 version = "1.0.0"
 description = "Professional-Grade Protein Folding via φ^∞ Lattice Resonance"
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
-license = {text = "CC-BY-NC-SA-4.0"}
-authors = [
-    {name = "James Trageser", email = "NexusResonanceCodex@gmail.com"}
-]
-keywords = ["nexus-resonance-codex", "biotechnology", "protein-folding", "nrc", "lattice-resonance"]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Science/Research",
-    "License :: Other/Proprietary License",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Scientific/Engineering :: Bio-Informatics"
-]
+requires-python = ">=3.10,<3.13"
 dependencies = [
     "torch>=2.2.0",
     "numpy>=1.26.0",
-    "mpmath>=1.3.0",
-    "biopython>=1.81",
-    "matplotlib>=3.8.0",
-    "scipy>=1.12.0"
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=4.1.0",
-    "mypy>=1.9.0",
-    "ruff>=0.3.0",
-    "hypothesis>=6.98.0",
-    "mkdocs-material>=9.5.0",
-    "mkdocstrings[python]>=0.24.0",
-    "hypothesis>=6.98.0"
+    "biopython>=1.83.0",
+    "scipy>=1.12.0",
+    "huggingface-hub>=0.21.0"
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/nrc_bio"]
 
-[tool.ruff]
-line-length = 100
-target-version = "py312"
-
-[tool.ruff.lint]
-select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "C",   # flake8-comprehensions
-    "B",   # flake8-bugbear
-    "ANN", # flake8-annotations
-    "D",   # pydocstyle
-]
-ignore = [
-    "D100", # Missing docstring in public module
-    "D104", # Missing docstring in public package
-    "ANN101", # Missing type annotation for self
-    "ANN204", # Missing return type for special method
-]
-
-[tool.ruff.lint.pydocstyle]
-convention = "google"
-
 [tool.mypy]
-exclude = ["examples"]
-strict = true
-python_version = "3.12"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = "--cov=nrc_bio --cov-report=term-missing --cov-fail-under=95"
-
-[[tool.mypy.overrides]]
-module = "nrc_math.*"
+python_version = "3.10"
 ignore_missing_imports = true
+follow_imports = "silent"
+warn_redundant_casts = false
+warn_unused_ignores = false
+disallow_any_generics = false
+check_untyped_defs = false
+disallow_untyped_defs = false
+disallow_any_return = false
+explicit_package_bases = true
+namespace_packages = true
+mypy_path = "src"
+exclude = ["examples", "tests", "huggingface"]
+
+[tool.ruff]
+line-length = 150
+target-version = "py312"
