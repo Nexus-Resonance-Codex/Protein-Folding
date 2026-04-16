@@ -1,6 +1,7 @@
 """Property-based tests for Protein Folding Accelerator stability."""
 
 import numpy as np
+from typing import Any
 import pytest
 import torch
 from hypothesis import HealthCheck, given, settings
@@ -30,7 +31,7 @@ def test_mst_recurrence_properties(acc, val):
     max_examples=50, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture]
 )
 @given(st.lists(st.floats(min_value=-10.0, max_value=10.0), min_size=8, max_size=8))
-def test_lattice_projection_fidelity(acc, data):
+def test_lattice_projection_fidelity(acc: Any, data: list[float]) -> None:
     """Verify lattice projection MSE floor and shape consistency."""
     x_8 = np.array(data, dtype=np.float64)
     # Higher k should still result in stable projections
@@ -41,7 +42,7 @@ def test_lattice_projection_fidelity(acc, data):
         assert not np.any(np.isinf(out))
 
 
-def test_qrt_damping_extreme_values(acc):
+def test_qrt_damping_extreme_values(acc: Any) -> None:
     """Verify QRT stability on extreme boundary conditions."""
     x = torch.tensor([1e6, -1e6, 0.0, float("nan"), float("inf")])
     # We filter out nan/inf for the math call to prevent crash,
@@ -52,7 +53,7 @@ def test_qrt_damping_extreme_values(acc):
     assert torch.all(torch.isfinite(out))
 
 
-def test_torsion_stabilization_gradient(acc):
+def test_torsion_stabilization_gradient(acc: Any) -> None:
     """Verify that torsion stabilization is differentiable for training."""
     angles = torch.tensor([0.1, -0.1], requires_grad=True)
     stabilized = acc.stabilize_torsion(angles)
