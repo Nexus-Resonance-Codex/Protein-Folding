@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nexus-Resonance-Codex/.github/main/profile/nrc_logo.png" alt="NRC Scientific Logo" width="300">
+</p>
+
+# [Nexus Resonance Codex (NRC)](https://github.com/Nexus-Resonance-Codex)
+
 # Resonance for Life: φ^∞ Lattice-Accelerated Protein Folding
 ## Defeating the Geometry of Disease • Saving Generations through Resonant Science
 
