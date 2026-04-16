@@ -2,7 +2,7 @@ name: "NRC Protein-Folding: 100% Integrity Suite & Deployment"
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
