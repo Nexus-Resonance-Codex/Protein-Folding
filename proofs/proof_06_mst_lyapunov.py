@@ -34,10 +34,7 @@ def prove_mst_lyapunov() -> None:
 
     initial_states = [1.0, 10.0, 100.0, 999.0, 1e6, 3.14159, 2.71828, 42.0]
 
-    print(
-        f"  {'x0':>12} | {'MST1(x)':>12} | {'MST2(x)':>12} | {'MST3(x)':>12} | "
-        f"{'MST4(x)':>12} | {'MST5(x)':>12} | {'Bounded':>8}"
-    )
+    print(f"  {'x0':>12} | {'MST1(x)':>12} | {'MST2(x)':>12} | {'MST3(x)':>12} | {'MST4(x)':>12} | {'MST5(x)':>12} | {'Bounded':>8}")
     print("-" * 90)
 
     all_bounded = True

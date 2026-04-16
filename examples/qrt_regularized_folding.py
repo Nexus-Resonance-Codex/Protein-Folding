@@ -20,9 +20,7 @@ def qrt_regularized_folding(sequence_length: int = 150) -> np.ndarray:
     alpha = np.radians(51.85)  # TTT precise alignment slope
 
     print(f"Applying Giza Slope alpha = {np.degrees(alpha):.3f}...")
-    giza_matrix = np.cos(alpha) * lattice_coords + np.sin(alpha) * np.roll(
-        lattice_coords, 1, axis=1
-    )
+    giza_matrix = np.cos(alpha) * lattice_coords + np.sin(alpha) * np.roll(lattice_coords, 1, axis=1)
 
     # 3. TTT Modular Filter Integration
     print("Applying Trageser Transform Theorem (TTT) Filter [3-6-9-7]...")
@@ -37,19 +35,14 @@ def qrt_regularized_folding(sequence_length: int = 150) -> np.ndarray:
         else:
             stable_indices.append(i)
 
-    print(
-        f"Discarded {len(chaotic_indices)} sequence coordinates resolving to {3, 6, 9} "
-        "(Destructive Interference)."
-    )
+    print(f"Discarded {len(chaotic_indices)} sequence coordinates resolving to {3, 6, 9} (Destructive Interference).")
     print(f"Retained {len(stable_indices)} stable geometries (Anchored via TTT {{7}} principles).")
 
     # 4. Entropy Collapse
     print("Applying exact QRT Entropy Collapse damping function...")
     # Strict DB Formula: ψ(x) = sin(φ √2 · 51.85 x) · exp(-x² / φ) + cos(π / φ · x)
     x = giza_matrix[stable_indices, :3]
-    qrt_damping = np.sin(phi * np.sqrt(2) * 51.85 * x) * np.exp(-(x**2) / phi) + np.cos(
-        np.pi / phi * x
-    )
+    qrt_damping = np.sin(phi * np.sqrt(2) * 51.85 * x) * np.exp(-(x**2) / phi) + np.cos(np.pi / phi * x)
     final_3d_structure = x * qrt_damping
 
     print("Folding Complete. Sequence collapsed to global geometric minimum.")

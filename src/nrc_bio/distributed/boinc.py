@@ -8,9 +8,7 @@ capable of running seamlessly on the BOINC network.
 from typing import Any, Dict, List
 
 
-def generate_boinc_workunits(
-    sequence_data: List[float], shard_count: int = 100
-) -> List[Dict[str, Any]]:
+def generate_boinc_workunits(sequence_data: List[float], shard_count: int = 100) -> List[Dict[str, Any]]:
     """Splits long protein target sequences into parallel computation shards.
 
     Computation shards are formatted specifically for distributed BOINC processing.

@@ -76,9 +76,7 @@ class NRCFoldAccelerator:
         res = math.floor(1000 * math.sinh(x_n)) + math.log(x_n**2 + 1) + self.phi**x_n
         return int(res) % MST_MOD
 
-    def lattice_project_256_to_729(
-        self, x_8: NDArray[np.float64], k: int = 1
-    ) -> NDArray[np.float64]:
+    def lattice_project_256_to_729(self, x_8: NDArray[np.float64], k: int = 1) -> NDArray[np.float64]:
         """Project high-dimensional residue data into coordinate space.
 
         x_729 = phi^k * Proj(x_8) + phi^-k * shift(x_8, k)

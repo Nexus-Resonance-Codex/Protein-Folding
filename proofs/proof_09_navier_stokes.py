@@ -17,9 +17,7 @@ PHI = (1 + math.sqrt(5)) / 2
 PHI_INV = 1 / PHI
 
 
-def navier_stokes_damping(
-    gradient_norm: float, viscosity: float = PHI_INV, dt: float = 0.01
-) -> float:
+def navier_stokes_damping(gradient_norm: float, viscosity: float = PHI_INV, dt: float = 0.01) -> float:
     """NS-inspired viscous damping: dv/dt = -v*v  =>  v(t+dt) = v*exp(-v*dt)."""
     return gradient_norm * math.exp(-viscosity * dt)
 

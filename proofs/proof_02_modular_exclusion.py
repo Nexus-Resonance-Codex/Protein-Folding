@@ -31,10 +31,7 @@ def prove_ttt_modular_stability() -> None:
     cycle = fib_mod9[0:24]
     for offset in [24, 48, 72]:
         segment = fib_mod9[offset : offset + 24]
-        assert cycle == segment, (
-            f"Pisano period mismatch at offset {offset}!\n"
-            f"  Expected: {cycle}\n  Got:      {segment}"
-        )
+        assert cycle == segment, f"Pisano period mismatch at offset {offset}!\n  Expected: {cycle}\n  Got:      {segment}"
 
     print("Pisano Period π(9) = 24  ✓  VERIFIED (checked 4 consecutive cycles)")
     print(f"Cycle: {cycle}\n")
@@ -66,10 +63,7 @@ def prove_ttt_modular_stability() -> None:
     stability_ratio = stability_count / total
 
     print("-" * 70)
-    print(
-        f"\nStable nodes occupy {stability_count}/{total} = "
-        f"{stability_ratio:.1%} of the Pisano cycle."
-    )
+    print(f"\nStable nodes occupy {stability_count}/{total} = {stability_ratio:.1%} of the Pisano cycle.")
     print("This is the mathematical basis for deterministic structural alignment.\n")
 
     # --- Step 5: Verify stability gating ---
@@ -77,10 +71,7 @@ def prove_ttt_modular_stability() -> None:
     # unstable modular residue classes are gated.
     gated_nodes = {0, 3, 6}
     gated_count = sum(counts[n] for n in gated_nodes)
-    print(
-        f"Gated nodes (0,3,6) occupy {gated_count}/{total} = "
-        f"{gated_count / total:.1%} of the cycle."
-    )
+    print(f"Gated nodes (0,3,6) occupy {gated_count}/{total} = {gated_count / total:.1%} of the cycle.")
     print("These positions are where the Stability Router gates gradients.\n")
 
     print("=" * 70)

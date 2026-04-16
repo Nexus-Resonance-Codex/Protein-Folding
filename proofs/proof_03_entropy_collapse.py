@@ -41,10 +41,7 @@ def prove_entropy_collapse() -> None:
         speedup = std_error / nrc_error if nrc_error > 0 else 0
 
         marker = " ✓" if speedup > 2.0 else ""
-        print(
-            f"  {step:>4}  |  {nrc_error:>18.12f}  |"
-            f"  {std_error:>18.5f}  |  {speedup:>10.1f}x{marker}"
-        )
+        print(f"  {step:>4}  |  {nrc_error:>18.12f}  |  {std_error:>18.5f}  |  {speedup:>10.1f}x{marker}")
 
     print("-" * 75)
     print(f"\n  Final NRC Bound: {nrc_error:.12e}")

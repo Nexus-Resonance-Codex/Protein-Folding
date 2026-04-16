@@ -61,9 +61,7 @@ def prove_shard_folding() -> None:
     print(f"\n  Fixed Shard Size: {shard_size}")
     print(f"  Compression Factor: phi-inv = {PHI_INV:.6f}\n")
 
-    print(
-        f"  {'Seq Length':>14} | {'Folds':>6} | {'Memory':>8} | {'Final Size':>12} | {'Ratio':>12}"
-    )
+    print(f"  {'Seq Length':>14} | {'Folds':>6} | {'Memory':>8} | {'Final Size':>12} | {'Ratio':>12}")
     print("-" * 70)
 
     for seq_len in test_lengths:

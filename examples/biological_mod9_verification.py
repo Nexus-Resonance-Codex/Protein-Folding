@@ -32,10 +32,7 @@ def verify_mod9_biological_structures(pdb_file: str, pdb_id: str) -> None:
 
     chi2, p = chisquare(observed, expected)
     print(f"Chi2 = {chi2:.4f}, p = {p:.4e}")
-    print(
-        "According to the NRC DB, native folds strictly avoid residues "
-        "structurally mapped to 0, 3, 6, 9."
-    )
+    print("According to the NRC DB, native folds strictly avoid residues structurally mapped to 0, 3, 6, 9.")
 
 
 def qrt_regularized_folding(sequence_length: int = 250) -> None:
@@ -85,10 +82,7 @@ def qrt_regularized_folding(sequence_length: int = 250) -> None:
     print("--- SIMULATED VERIFICATION RESULT ---")
     print(f"Observed modulo 9 distribution: {observed}")
     print(f"Chi2 = {chi2:.4f}, p = {p:.4e}")
-    print(
-        f"Discarded {len(chaotic_indices)} sequence coordinates resolving to {3, 6, 9} "
-        "(Destructive Interference)."
-    )
+    print(f"Discarded {len(chaotic_indices)} sequence coordinates resolving to {3, 6, 9} (Destructive Interference).")
     print("Results also demonstrate mapping towards the TTT {7} stabilization anchor.")
 
 
