@@ -1,4 +1,5 @@
 from hypothesis import HealthCheck, settings
+from hypothesis import HealthCheck, settings
 import numpy as np
 import pytest
 import torch
@@ -27,6 +28,7 @@ def acc() -> Any:
 
 
 @settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
 @given(st.floats(min_value=-10, max_value=10))
 def test_mst_recurrence_properties(acc: Any, val: float) -> None:
     """Verify MST recurrence stays within modular bounds and is consistent."""
@@ -35,6 +37,7 @@ def test_mst_recurrence_properties(acc: Any, val: float) -> None:
     assert -1.0 <= res <= 1.0
 
 
+@settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
 @settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
 @given(st.lists(st.floats(min_value=-10.0, max_value=10.0), min_size=8, max_size=8))
 def test_lattice_projection_fidelity(acc: Any, data: list[float]) -> None:
