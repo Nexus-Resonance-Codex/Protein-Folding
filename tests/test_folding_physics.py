@@ -4,6 +4,7 @@ import torch
 from hypothesis import given, strategies as st
 from typing import Any
 
+
 # Mocking the ProteinLatticeAccelerator for isolation
 class MockAccelerator:
     def mst_recurrence(self, val: float) -> float:
@@ -18,9 +19,11 @@ class MockAccelerator:
     def torsion_stabilization(self, angles: torch.Tensor) -> torch.Tensor:
         return torch.cos(angles).sum()
 
+
 @pytest.fixture
 def acc() -> Any:
     return MockAccelerator()
+
 
 @given(st.floats(min_value=-10, max_value=10))
 def test_mst_recurrence_properties(acc: Any, val: float) -> None:
@@ -28,6 +31,7 @@ def test_mst_recurrence_properties(acc: Any, val: float) -> None:
     res = acc.mst_recurrence(val)
     assert isinstance(res, float)
     assert -1.0 <= res <= 1.0
+
 
 @given(st.lists(st.floats(min_value=-10.0, max_value=10.0), min_size=8, max_size=8))
 def test_lattice_projection_fidelity(acc: Any, data: list[float]) -> None:
@@ -37,6 +41,7 @@ def test_lattice_projection_fidelity(acc: Any, data: list[float]) -> None:
     assert res.shape == (8,)
     assert isinstance(res, np.ndarray)
 
+
 def test_qrt_damping_extreme_values(acc: Any) -> None:
     """Verify QRT stability on extreme boundary conditions."""
     x = torch.tensor([1e6, -1e6, 0.0, 1.0])
@@ -44,6 +49,7 @@ def test_qrt_damping_extreme_values(acc: Any) -> None:
     assert not torch.isnan(res).any()
     assert torch.all(res <= 1.0)
     assert torch.all(res >= -1.0)
+
 
 def test_torsion_stabilization_gradient(acc: Any) -> None:
     """Verify that torsion stabilization is differentiable for training."""
