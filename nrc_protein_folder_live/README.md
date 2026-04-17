@@ -5,7 +5,7 @@ colorFrom: green
 colorTo: indigo
 sdk: gradio
 sdk_version: "5.25.2"
-python_version: 3.10
+python_version: "3.10"
 app_file: app.py
 pinned: true
 license: cc-by-nc-sa-4.0
