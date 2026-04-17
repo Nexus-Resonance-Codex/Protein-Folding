@@ -1,29 +1,50 @@
+---
+title: NRC Protein Folder Live
+emoji: 🧬
+colorFrom: green
+colorTo: indigo
+sdk: gradio
+sdk_version: "5.25.2"
+python_version: 3.10
+app_file: app.py
+pinned: true
+license: cc-by-nc-sa-4.0
+short_description: "Professional protein structure prediction & analysis"
+tags:
+  - protein-folding
+  - bioinformatics
+  - structural-biology
+  - nexus-resonance-codex
+---
+
 # 🧬 NRC Protein Folder Live
 
-Professional-grade protein folding resonance dashboard using the NRC 256D→729D φ-tensor accelerator.
+**Professional-grade protein structure prediction and comprehensive biophysical analysis.**
 
-## 🚀 Launch Sequence (Institutional)
+Built on the Nexus Resonance Codex (NRC) framework with ESMFold integration for real structure prediction, 3D molecular visualization, and institutional-quality analysis reports.
 
-1. **Navigate to the Repository Root**:
-   ```bash
-   cd /home/jtrag/NRC/github-repos/Nexus-Resonance-Codex/Protein-Folding
-   ```
+## Features
 
-2. **Synchronize the Manifold**:
-   ```bash
-   uv sync
-   ```
+- **Real Structure Prediction** — ESMFold via Hugging Face Inference API
+- **3D Molecular Viewer** — Interactive py3Dmol visualization with multiple styles
+- **Comprehensive Analysis** — Secondary structure, Ramachandran plots, contact maps
+- **Biophysical Properties** — MW, pI, GRAVY, composition, charge analysis
+- **Professional Export** — Download PDB files, analysis reports, and data packages
+- **14+ Reference Proteins** — Pre-loaded with real sequences from PDB
+- **Multi-Mode Compute** — Cloud API, local GPU/CPU, or NRC geometric folding
 
-3. **Ignition**:
-   ```bash
-   uv run python -m nrc_protein_folder_live.app
-   ```
+## Quick Start
 
-## 📈 System Capabilities
-- **Hybrid PDB Generation**: Real reference ca/cb coordinates + NRC refinement.
-- **De-novo Folding**: Dihedral sharding and golden-angle projection.
-- **Real-Time Instrumentation**: Live RMSD and Energy convergence plots (via Plotly).
-- **Institutional Certification**: All outputs are TTT-7 stable.
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+## Links
+
+- [NRC Organization](https://github.com/Nexus-Resonance-Codex)
+- [Protein-Folding Repository](https://github.com/Nexus-Resonance-Codex/Protein-Folding)
+- [NRC Core Library](https://github.com/Nexus-Resonance-Codex/NRC)
 
 ---
-« φ^∞ NRC layer active »
+*© 2026 James Trageser — Nexus Resonance Codex — CC-BY-NC-SA-4.0 + NRC-L*
