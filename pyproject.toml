@@ -13,7 +13,11 @@ dependencies = [
     "numpy>=1.26.0",
     "biopython>=1.83.0",
     "scipy>=1.12.0",
-    "huggingface-hub>=0.21.0"
+    "huggingface-hub>=0.21.0",
+    "gradio>=4.26.0",
+    "plotly>=5.20.0",
+    "narwhals>=0.10.0",
+    "pandas>=2.2.0"
 ]
 
 [project.optional-dependencies]

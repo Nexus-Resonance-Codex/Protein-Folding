@@ -11,8 +11,9 @@
 <img src="docs/assets/images/social-preview.png" width="100%" alt="NRC Protein-Folding Banner">
 
 <div style="margin: 1.5rem 0; display: flex; justify-content: center; gap: 10px;">
+  <a href="https://codespaces.new/Nexus-Resonance-Codex/Protein-Folding"><img src="https://img.shields.io/static/v1?label=Codespaces&message=Open&color=blue&logo=github" alt="Open in GitHub Codespaces"></a>
+  <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/wiki/Models"><img src="https://img.shields.io/badge/Models-7%20Prompts-gold?style=for-the-badge&logo=openai" alt="Models Wiki"></a>
   <a href="https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase.html"><img src="https://img.shields.io/badge/🚀%20Deployment-Flagship%20Arena-cyan?style=for-the-badge&logo=github" alt="Live Demo"></a>
-  <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/blob/master/.github/prompts/folding-verifier.prompt.yml"><img src="https://img.shields.io/badge/🤖%20GitHub%20Models-Verify%20Folding-gold?style=for-the-badge&logo=github" alt="Run on Models"></a>
   <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions"><img src="https://img.shields.io/github/actions/workflow/status/Nexus-Resonance-Codex/Protein-Folding/static.yml?style=for-the-badge&label=System%20Parity&color=00FF88" alt="System Parity"></a>
 </div>
 

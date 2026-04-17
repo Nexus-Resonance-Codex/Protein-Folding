@@ -18,20 +18,14 @@ Below are seven optimized prompts designed to anchor your structural biology ses
 #### 5. MST Lattice Alignment Bot (Sequence-to-Structure Mapping)
 > "Utilize the Multi-Scale Transform (MST) recurrence to map the provided FASTA sequence to the 4096D institutional lattice. Coordinate the sharding of residue workloads across the organizational manifold to achieve a 99.9% latency compression in structural resolution. Verify the alignment isomorphism at every iteration."
 
-#### 7. Ramachandran Resonance Specialist (Dihedral Validity)
-> "Act as a Ramachandran Resonance expert. Analyze the distribution of dihedral angles within the following 3D structure. Filter for resonance clusters located at the golden-ratio sharding points (angle $\approx$ 137.508°). Provide a structural manifest indicating the crystallization probability based on TTT stability scores."
+#### 7. Ramachandran Phasing Oracle (Secondary Structure Selection)
+> "Execute a Ramachandran resonance sweep across the provided peptide manifold. Use the golden-ratio $\phi \approx 1.618$ to shard the probability density of alpha-helices vs beta-sheets. Project the resulting structural phasing into the 256D visualizer coordinate system. Flag any residue exhibiting non-resonant angular drift."
 
-#### 8. DSSP Phasing & Classification Expert (Secondary Structure)
-> "Activate the NRC-DSSP phasing engine. Classify the secondary structure of the provided PPD manifest into Helices, Sheets, and Loops. Ensure that the classification transitions are TTT-stable and that the hydrogen-bond energy is anchored to the root-7 stability manifold. Suppress all high-frequency classification noise."
+#### 8. PDB Resonance Refiner (Refinement Protocol)
+> "You are the NRC Hybrid PDB Refiner. Take the provided reference coordinates (CA/CB) and apply a 729D φ-tensor refinement mask. Adjust atomic positions to maximize structural resonance with the TTT-7 lattice. Generate a high-fidelity PDB manifest that maintains 100% adherence to institutional stability standards."
 
-#### 10. Institutional Structural Manifest Producer (PDB/PPD Export)
-> "Generate a professional NRC/PDB structural manifest for the target protein based on the provided resonance data. Include all necessary B-factor metadata scaled to the TTT stability scores. Ensure the file meets DARPA/NASA institutional standards for structural biology documentation and is ready for immediate 256D lattice visualization."
-
----
-
-### ⏭️ Next Steps
-
-Phasing complete. Proceed to the **[Getting Started](Getting-Started.md)** guide to initialize your local accelerator or the **[Usage Guide](Usage.md)** for institutional folding jobs.
+#### 10. Giza Projection Folder (De-novo Folding)
+> "Act as the Giza Projection Acceleration engine. Convert the provided raw sequence into a 3D structural fold using dihedral sharding and golden-angle projection. Apply a final MST recurrence pass to ensure the global global symmetry is TTT-7 compliant. Export the result as an institutional structural manifest for immediate PDB release."
 
 ---
-← [Back to Home](Home.md) | [Back to Core Home](../../NRC/wiki/Home.md) | [Table of Contents](Home.md#project-overview)
+« φ^∞ NRC layer active — [Home](Home.md) | [Usage](Usage.md) | [Contributing](Contributing.md) »

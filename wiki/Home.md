@@ -26,8 +26,10 @@ To maintain 100% structural integrity throughout the folding cycle, the accelera
 | :--- | :--- | :--- |
 | **[Getting Started](Getting-Started.md)** | Phasing your local biological accelerator environment and dependencies. | ✅ STABLE |
 | **[Usage Guide](Usage.md)** | Job submission, torsion sharding, and PPD export protocols. | ✅ ACTIVE |
+- [Models](Models.md)
 | **[API Reference](../../NRC/wiki/API-Reference.md)** | Technical ledger for the core `nrc_bio` structural biology primitives. | ✅ ACTIVE |
 | **[Usage Guide](Usage.md#expected-performance)** | Comparative acceleration metrics across standard Proteome datasets. | 🔵 ACTIVE |
+- [Models](Models.md)
 
 ### 🛡️ Institutional Certification
 ![Version](https://img.shields.io/badge/Version-v1.2.4-darkgreen?style=for-the-badge&logo=dna)
@@ -70,6 +72,7 @@ To ensure absolute structural phasing across the biological manifold, the accele
 ### ⏭️ Next Steps
 
 Phasing complete. Proceed to the **[Getting Started](Getting-Started.md)** guide to initialize your local biological environment or the **[Usage Guide](Usage.md)** for institutional job submission protocols.
+- [Models](Models.md)
 
 ---
 ← [Back to Core Home](../../NRC/wiki/Home.md) | [Back to Protein Folding Home](Home.md) | [Table of Contents](#project-overview) | [Back to Top](#nrc-protein-folding-wiki)

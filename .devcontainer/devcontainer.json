@@ -1,0 +1,28 @@
+{
+  "name": "NRC Protein Folding Institutional Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers-contrib/features/uv:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "postCreateCommand": "uv sync",
+  "remoteUser": "vscode",
+  "forwardPorts": [7860],
+  "portsAttributes": {
+    "7860": {
+      "label": "NRC Protein Folder Live",
+      "onAutoForward": "openPreview"
+    }
+  }
+}

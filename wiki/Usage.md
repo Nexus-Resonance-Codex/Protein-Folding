@@ -136,12 +136,15 @@ Phasing complete. For full technical specifications on the `ProteinEngine` and i
 
 The **NRC Protein Folder Live** is a premium, high-speed structural resonance dashboard that allows researchers to execute folding trajectories on real proteins via a beautiful Gradio interface.
 
-### 🚀 Rapid Launch
-Ensure the `Protein-Folding` environment is synchronized via `uv`, then execute:
+### 🚀 Rapid Launch & Deployment
 
-```bash
-uv run python -m nrc_protein_folder_live.app
-```
+The **NRC Protein Folder Live** is accessible through three institutional channels for maximum research flexibility:
+
+| Channel | Method | Link |
+| :--- | :--- | :--- |
+| **Cloud Deployment** | **Hugging Face Spaces** | [**Launch Live Space**](https://huggingface.co/spaces/jtrag/NRC-Protein-Folder-Live) |
+| **One-Click Dev** | **GitHub Codespaces** | [**Open in Codespaces**](https://codespaces.new/Nexus-Resonance-Codex/Protein-Folding) |
+| **Local Terminal** | **UV Toolchain** | `uv run python -m nrc_protein_folder_live.app` |
 
 ### 🖼️ Dashboard Overview
 
