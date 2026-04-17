@@ -29,7 +29,7 @@ def process_folding(selection: str, custom_seq: str, steps: int, damping: float)
     # 1. Resolve Sequence
     seq = custom_seq.strip() if custom_seq.strip() else ""
     if selection and selection in ProteinLibrary.DATA:
-        seq = ProteinLibrary.DATA[selection]["sequence"]
+        seq = str(ProteinLibrary.DATA[selection]["sequence"])
 
     if not seq:
         return ("ERROR: Missing Sequence Anchor", None, None, None, None, "Lattice Drift Detected: Re-anchor required.")

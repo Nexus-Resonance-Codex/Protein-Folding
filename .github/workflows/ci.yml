@@ -26,7 +26,6 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        uv venv .venv
         uv pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
         uv pip install git+https://github.com/Nexus-Resonance-Codex/NRC.git
         uv pip install -e .[dev]
