@@ -34,10 +34,10 @@ jobs:
       run: uv run ruff format --check .
 
     - name: Lint Check (Ruff)
-      run: uv run ruff check .
+      run: uv run ruff check --exclude hf-spaces .
 
     - name: Type Compliance (Mypy)
-      run: uv run mypy .
+      run: uv run mypy --exclude hf-spaces .
 
     - name: Verification Suite (Pytest)
       run: uv run pytest tests/

@@ -40,7 +40,6 @@ warn_unused_ignores = false
 disallow_any_generics = false
 check_untyped_defs = false
 disallow_untyped_defs = false
-disallow_any_return = false
 explicit_package_bases = true
 namespace_packages = true
 mypy_path = "src"
