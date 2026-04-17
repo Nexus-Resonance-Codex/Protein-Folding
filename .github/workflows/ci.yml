@@ -26,9 +26,9 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        uv pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
-        uv pip install git+https://github.com/Nexus-Resonance-Codex/NRC.git
-        uv pip install -e .[dev]
+        uv pip install --system --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
+        uv pip install --system git+https://github.com/Nexus-Resonance-Codex/NRC.git
+        uv pip install --system -e .[dev]
 
     - name: Format Check (Ruff)
       run: uv run ruff format --check --exclude hf-spaces .
