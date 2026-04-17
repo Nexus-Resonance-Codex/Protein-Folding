@@ -13,6 +13,7 @@ into the 2048D resonance manifold.
 
 import numpy as np
 from nrc.lattice import phi_lattice_project  # type: ignore[import-untyped]
+from nrc.math import QuantumShadowVeil
 from numpy.typing import NDArray
 
 
@@ -30,7 +31,6 @@ def sequence_to_lattice(mass_array: NDArray[np.float64]) -> NDArray[np.float64]:
     res_list = [phi_lattice_project(float(m)) for m in mass_array]
     return np.stack(res_list)
 
-from nrc.math import QuantumShadowVeil
 
 def apply_biological_veil(state_tensor, seed=137):
     """Protects biological torsion states using the Quantum Shadow Veil."""
