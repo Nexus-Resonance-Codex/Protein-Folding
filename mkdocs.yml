@@ -41,6 +41,7 @@ extra_css:
   - stylesheets/extra.css
 
 nav:
+  - '🧬 Protein Models': Models.md
   - 'Home': 'index.md'
   - '🚀 Flagship Showcase': 'demos/protein-folding-showcase.html'
   - '🕹 Playground Hub': 'NRC-Playground-Guide.md'
