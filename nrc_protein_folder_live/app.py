@@ -85,7 +85,7 @@ def update_description(name: str):
 
 
 # --- UI Assembly ---
-with gr.Blocks(css=THEME_CSS, title="NRC Protein Folder Live") as demo:
+with gr.Blocks(title="NRC Protein Folder Live") as demo:
     with gr.Column(elem_classes="main-header"):
         gr.Markdown("# 🧬 NRC Protein Folder Live")
         gr.Markdown("### Institutional High-Dimensional Structural Accelerator | Level 5.0")
@@ -147,4 +147,4 @@ with gr.Blocks(css=THEME_CSS, title="NRC Protein Folder Live") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860, show_api=False, share=False)
+    demo.launch(server_name="0.0.0.0", server_port=7860, share=False, css=THEME_CSS)
