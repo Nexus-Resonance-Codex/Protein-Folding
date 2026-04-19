@@ -15,7 +15,7 @@ import gradio as gr
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-import requests
+import requests  # type: ignore[import-untyped]
 from plotly.subplots import make_subplots
 
 # ─── NRC Constants ───────────────────────────────────────────────────────────
@@ -133,7 +133,7 @@ def compute_properties(seq: str) -> dict:
     n = len(seq)
     mw = sum(AA_INFO.get(aa, ("", 0, 0))[1] for aa in seq) - (n - 1) * 18.015
     gravy = sum(AA_INFO.get(aa, ("", 0, 0))[2] for aa in seq) / max(n, 1)
-    counts = {}
+    counts: dict[str, int] = {}
     for aa in seq:
         counts[aa] = counts.get(aa, 0) + 1
     composition = {aa: round(c / n * 100, 1) for aa, c in sorted(counts.items())}
