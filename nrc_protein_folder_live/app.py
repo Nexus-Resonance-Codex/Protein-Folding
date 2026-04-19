@@ -26,16 +26,26 @@ GIZA_SLOPE = 51.853
 
 # ─── Amino Acid Data ─────────────────────────────────────────────────────────
 AA_INFO = {
-    "A": ("Alanine", 89.09, 1.8), "R": ("Arginine", 174.20, -4.5),
-    "N": ("Asparagine", 132.12, -3.5), "D": ("Aspartic acid", 133.10, -3.5),
-    "C": ("Cysteine", 121.16, 2.5), "E": ("Glutamic acid", 147.13, -3.5),
-    "Q": ("Glutamine", 146.15, -3.5), "G": ("Glycine", 75.03, -0.4),
-    "H": ("Histidine", 155.16, -3.2), "I": ("Isoleucine", 131.17, 4.5),
-    "L": ("Leucine", 131.17, 3.8), "K": ("Lysine", 146.19, -3.9),
-    "M": ("Methionine", 149.21, 1.9), "F": ("Phenylalanine", 165.19, 2.8),
-    "P": ("Proline", 115.13, -1.6), "S": ("Serine", 105.09, -0.8),
-    "T": ("Threonine", 119.12, -0.7), "W": ("Tryptophan", 204.23, -0.9),
-    "Y": ("Tyrosine", 181.19, -1.3), "V": ("Valine", 117.15, 4.2),
+    "A": ("Alanine", 89.09, 1.8),
+    "R": ("Arginine", 174.20, -4.5),
+    "N": ("Asparagine", 132.12, -3.5),
+    "D": ("Aspartic acid", 133.10, -3.5),
+    "C": ("Cysteine", 121.16, 2.5),
+    "E": ("Glutamic acid", 147.13, -3.5),
+    "Q": ("Glutamine", 146.15, -3.5),
+    "G": ("Glycine", 75.03, -0.4),
+    "H": ("Histidine", 155.16, -3.2),
+    "I": ("Isoleucine", 131.17, 4.5),
+    "L": ("Leucine", 131.17, 3.8),
+    "K": ("Lysine", 146.19, -3.9),
+    "M": ("Methionine", 149.21, 1.9),
+    "F": ("Phenylalanine", 165.19, 2.8),
+    "P": ("Proline", 115.13, -1.6),
+    "S": ("Serine", 105.09, -0.8),
+    "T": ("Threonine", 119.12, -0.7),
+    "W": ("Tryptophan", 204.23, -0.9),
+    "Y": ("Tyrosine", 181.19, -1.3),
+    "V": ("Valine", 117.15, 4.2),
 }
 VALID_AA = set(AA_INFO.keys())
 
@@ -104,6 +114,7 @@ def clean_sequence(raw: str) -> str:
     lines = raw.strip().splitlines()
     seq_lines = [l.strip() for l in lines if not l.startswith(">")]
     import re
+
     return re.sub(r"[^A-Za-z]", "", "".join(seq_lines)).upper()
 
 
@@ -133,9 +144,14 @@ def compute_properties(seq: str) -> dict:
     positive = sum(1 for aa in seq if aa in "RKH")
     negative = sum(1 for aa in seq if aa in "DE")
     return {
-        "length": n, "mw": round(mw, 1), "gravy": round(gravy, 4),
-        "composition": composition, "polar": polar, "nonpolar": nonpolar,
-        "positive": positive, "negative": negative,
+        "length": n,
+        "mw": round(mw, 1),
+        "gravy": round(gravy, 4),
+        "composition": composition,
+        "polar": polar,
+        "nonpolar": nonpolar,
+        "positive": positive,
+        "negative": negative,
         "charge_ph7": round(positive * 0.8 - negative * 0.9, 1),
     }
 
@@ -214,15 +230,30 @@ def fold_nrc_geometric(seq: str, steps: int = 250, damping: float = 0.5) -> dict
     pdb_lines.append(f"REMARK   4 ITERATIONS: {steps}, DAMPING: {damping}")
     for i, (x, y, z) in enumerate(coords):
         aa = seq[i] if i < len(seq) else "A"
-        aa3 = {"A":"ALA","R":"ARG","N":"ASN","D":"ASP","C":"CYS","E":"GLU",
-               "Q":"GLN","G":"GLY","H":"HIS","I":"ILE","L":"LEU","K":"LYS",
-               "M":"MET","F":"PHE","P":"PRO","S":"SER","T":"THR","W":"TRP",
-               "Y":"TYR","V":"VAL"}.get(aa, "ALA")
+        aa3 = {
+            "A": "ALA",
+            "R": "ARG",
+            "N": "ASN",
+            "D": "ASP",
+            "C": "CYS",
+            "E": "GLU",
+            "Q": "GLN",
+            "G": "GLY",
+            "H": "HIS",
+            "I": "ILE",
+            "L": "LEU",
+            "K": "LYS",
+            "M": "MET",
+            "F": "PHE",
+            "P": "PRO",
+            "S": "SER",
+            "T": "THR",
+            "W": "TRP",
+            "Y": "TYR",
+            "V": "VAL",
+        }.get(aa, "ALA")
         bfac = plddt[i]
-        pdb_lines.append(
-            f"ATOM  {i+1:5d}  CA  {aa3} A{i+1:4d}    "
-            f"{x:8.3f}{y:8.3f}{z:8.3f}  1.00{bfac:6.2f}           C"
-        )
+        pdb_lines.append(f"ATOM  {i + 1:5d}  CA  {aa3} A{i + 1:4d}    {x:8.3f}{y:8.3f}{z:8.3f}  1.00{bfac:6.2f}           C")
     pdb_lines.append("TER")
     pdb_lines.append("END")
 
@@ -268,9 +299,9 @@ def assign_dssp_simple(pdb_text: str) -> list[str]:
     assignments = ["C"] * len(coords)
     for i in range(1, len(coords) - 2):
         # Use CA-CA distances to estimate secondary structure
-        d1 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i-1], coords[i])))
-        d2 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i], coords[i+1])))
-        d3 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i-1], coords[i+1])))
+        d1 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i - 1], coords[i])))
+        d2 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i], coords[i + 1])))
+        d3 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i - 1], coords[i + 1])))
 
         if d3 < 5.5:
             assignments[i] = "H"  # helix
@@ -287,7 +318,8 @@ def make_3d_viewer_html(pdb_text: str, style: str = "cartoon", color: str = "con
     """Generate an HTML block with an embedded 3Dmol.js viewer."""
     color_js = ""
     if color == "confidence":
-        color_js = """
+        color_js = (
+            """
         var atoms = viewer.getModel().selectedAtoms({});
         for (var i = 0; i < atoms.length; i++) {
             var b = atoms[i].b;
@@ -298,8 +330,11 @@ def make_3d_viewer_html(pdb_text: str, style: str = "cartoon", color: str = "con
             else { r=255; g=125; bl=69; }
             atoms[i].color = 'rgb(' + r + ',' + g + ',' + bl + ')';
         }
-        viewer.setStyle({}, {""" + style + """: {colorfunc: function(atom) { return atom.color; }}});
+        viewer.setStyle({}, {"""
+            + style
+            + """: {colorfunc: function(atom) { return atom.color; }}});
         """
+        )
     elif color == "rainbow":
         color_js = f'viewer.setStyle({{}}, {{{style}: {{color: "spectrum"}}}});'
     elif color == "secondary":
@@ -342,37 +377,42 @@ def make_plddt_plot(plddt: list[float]) -> go.Figure:
         else:
             colors.append("#ff7d45")
 
-    fig = go.Figure(go.Bar(
-        x=list(range(1, len(plddt) + 1)), y=plddt,
-        marker_color=colors, name="pLDDT",
-    ))
+    fig = go.Figure(
+        go.Bar(
+            x=list(range(1, len(plddt) + 1)),
+            y=plddt,
+            marker_color=colors,
+            name="pLDDT",
+        )
+    )
     fig.update_layout(
         title="Per-Residue Confidence (pLDDT)",
-        xaxis_title="Residue", yaxis_title="pLDDT Score",
+        xaxis_title="Residue",
+        yaxis_title="pLDDT Score",
         yaxis_range=[0, 100],
         template="plotly_dark",
-        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-        height=350, margin=dict(l=40, r=20, t=50, b=40),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        height=350,
+        margin=dict(l=40, r=20, t=50, b=40),
     )
     # Add confidence bands
-    for y, label, color in [(90, "Very High", "#0053d6"), (70, "High", "#65cbf3"),
-                             (50, "Medium", "#ffdb5c")]:
-        fig.add_hline(y=y, line_dash="dot", line_color=color, opacity=0.4,
-                      annotation_text=label, annotation_position="top right")
+    for y, label, color in [(90, "Very High", "#0053d6"), (70, "High", "#65cbf3"), (50, "Medium", "#ffdb5c")]:
+        fig.add_hline(y=y, line_dash="dot", line_color=color, opacity=0.4, annotation_text=label, annotation_position="top right")
     return fig
 
 
 def make_convergence_plot(rmsd: list[float], energy: list[float]) -> go.Figure:
-    fig = make_subplots(rows=2, cols=1, subplot_titles=["RMSD Convergence (Å)", "Energy (kcal/mol)"],
-                        vertical_spacing=0.15)
-    fig.add_trace(go.Scatter(y=rmsd, mode="lines", name="RMSD",
-                             line=dict(color="#7eb344", width=2)), row=1, col=1)
-    fig.add_trace(go.Scatter(y=energy, mode="lines", name="Energy",
-                             line=dict(color="#e06c75", width=2)), row=2, col=1)
+    fig = make_subplots(rows=2, cols=1, subplot_titles=["RMSD Convergence (Å)", "Energy (kcal/mol)"], vertical_spacing=0.15)
+    fig.add_trace(go.Scatter(y=rmsd, mode="lines", name="RMSD", line=dict(color="#7eb344", width=2)), row=1, col=1)
+    fig.add_trace(go.Scatter(y=energy, mode="lines", name="Energy", line=dict(color="#e06c75", width=2)), row=2, col=1)
     fig.update_layout(
-        template="plotly_dark", height=450,
-        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-        margin=dict(l=40, r=20, t=50, b=30), showlegend=False,
+        template="plotly_dark",
+        height=450,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        margin=dict(l=40, r=20, t=50, b=30),
+        showlegend=False,
     )
     return fig
 
@@ -383,13 +423,16 @@ def make_composition_plot(props: dict) -> go.Figure:
         return go.Figure()
     aas = list(comp.keys())
     vals = list(comp.values())
-    colors = ["#7eb344" if aa in "AVLIPFMWG" else "#65cbf3" if aa in "STNQCY"
-              else "#e06c75" if aa in "DE" else "#c678dd" for aa in aas]
+    colors = ["#7eb344" if aa in "AVLIPFMWG" else "#65cbf3" if aa in "STNQCY" else "#e06c75" if aa in "DE" else "#c678dd" for aa in aas]
     fig = go.Figure(go.Bar(x=aas, y=vals, marker_color=colors))
     fig.update_layout(
-        title="Amino Acid Composition (%)", xaxis_title="Amino Acid", yaxis_title="%",
-        template="plotly_dark", height=300,
-        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        title="Amino Acid Composition (%)",
+        xaxis_title="Amino Acid",
+        yaxis_title="%",
+        template="plotly_dark",
+        height=300,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
         margin=dict(l=40, r=20, t=50, b=40),
     )
     return fig
@@ -411,21 +454,28 @@ def make_ramachandran_plot(n_residues: int) -> go.Figure:
     psi = np.concatenate([psi_helix, psi_sheet, psi_coil])
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=phi, y=psi, mode="markers",
-        marker=dict(size=4, color="#7eb344", opacity=0.7),
-        name="Residues",
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=phi,
+            y=psi,
+            mode="markers",
+            marker=dict(size=4, color="#7eb344", opacity=0.7),
+            name="Residues",
+        )
+    )
     # Add favored regions
-    fig.add_shape(type="rect", x0=-160, x1=-20, y0=-80, y1=0,
-                  fillcolor="rgba(126,179,68,0.1)", line=dict(color="rgba(126,179,68,0.3)"))
-    fig.add_shape(type="rect", x0=-180, x1=-90, y0=80, y1=180,
-                  fillcolor="rgba(101,203,243,0.1)", line=dict(color="rgba(101,203,243,0.3)"))
+    fig.add_shape(type="rect", x0=-160, x1=-20, y0=-80, y1=0, fillcolor="rgba(126,179,68,0.1)", line=dict(color="rgba(126,179,68,0.3)"))
+    fig.add_shape(type="rect", x0=-180, x1=-90, y0=80, y1=180, fillcolor="rgba(101,203,243,0.1)", line=dict(color="rgba(101,203,243,0.3)"))
     fig.update_layout(
-        title="Ramachandran Plot", xaxis_title="φ (degrees)", yaxis_title="ψ (degrees)",
-        xaxis_range=[-180, 180], yaxis_range=[-180, 180],
-        template="plotly_dark", height=450,
-        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        title="Ramachandran Plot",
+        xaxis_title="φ (degrees)",
+        yaxis_title="ψ (degrees)",
+        xaxis_range=[-180, 180],
+        yaxis_range=[-180, 180],
+        template="plotly_dark",
+        height=450,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
         margin=dict(l=40, r=20, t=50, b=40),
     )
     return fig
@@ -444,22 +494,29 @@ def make_contact_map(n_residues: int) -> go.Figure:
                 val = max(0, 1.0 - dist * 0.08)
                 mat[i][j] = mat[j][i] = val
 
-    fig = go.Figure(go.Heatmap(
-        z=mat, colorscale=[[0, "#0b0e14"], [0.5, "#7eb344"], [1, "#ffffff"]],
-        showscale=True, colorbar=dict(title="Contact"),
-    ))
+    fig = go.Figure(
+        go.Heatmap(
+            z=mat,
+            colorscale=[[0, "#0b0e14"], [0.5, "#7eb344"], [1, "#ffffff"]],
+            showscale=True,
+            colorbar=dict(title="Contact"),
+        )
+    )
     fig.update_layout(
-        title="Predicted Contact Map", xaxis_title="Residue i", yaxis_title="Residue j",
-        template="plotly_dark", height=450,
-        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        title="Predicted Contact Map",
+        xaxis_title="Residue i",
+        yaxis_title="Residue j",
+        template="plotly_dark",
+        height=450,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
         margin=dict(l=40, r=20, t=50, b=40),
     )
     return fig
 
 
 # ─── Export ───────────────────────────────────────────────────────────────────
-def create_export_package(seq: str, pdb_text: str, props: dict, method: str,
-                          plddt: list, dssp: list) -> str:
+def create_export_package(seq: str, pdb_text: str, props: dict, method: str, plddt: list, dssp: list) -> str:
     """Create a ZIP with all analysis artifacts."""
     tmp = tempfile.mkdtemp()
     zip_path = os.path.join(tmp, "nrc_protein_fold_results.zip")
@@ -472,7 +529,8 @@ def create_export_package(seq: str, pdb_text: str, props: dict, method: str,
             "=" * 72,
             "  NRC PROTEIN FOLDER LIVE — ANALYSIS REPORT",
             "  Nexus Resonance Codex © 2026 James Trageser",
-            "=" * 72, "",
+            "=" * 72,
+            "",
             f"  Method:           {method}",
             f"  Sequence Length:   {props['length']} AA",
             f"  Molecular Weight:  {props['mw']:.1f} Da",
@@ -481,7 +539,8 @@ def create_export_package(seq: str, pdb_text: str, props: dict, method: str,
             f"  Polar Residues:    {props['polar']}",
             f"  Nonpolar Residues: {props['nonpolar']}",
             f"  Positive (+):      {props['positive']}",
-            f"  Negative (-):      {props['negative']}", "",
+            f"  Negative (-):      {props['negative']}",
+            "",
         ]
         if plddt:
             avg_conf = sum(plddt) / len(plddt)
@@ -490,15 +549,22 @@ def create_export_package(seq: str, pdb_text: str, props: dict, method: str,
             h = dssp.count("H")
             e = dssp.count("E")
             c = len(dssp) - h - e
-            report.extend([
-                f"  Helix (H):         {h} ({h/len(dssp)*100:.1f}%)",
-                f"  Sheet (E):         {e} ({e/len(dssp)*100:.1f}%)",
-                f"  Coil  (C):         {c} ({c/len(dssp)*100:.1f}%)",
-            ])
-        report.extend(["", "=" * 72,
-                        "  This report was generated by the NRC Protein Folder Live.",
-                        "  https://github.com/Nexus-Resonance-Codex/Protein-Folding",
-                        "=" * 72])
+            report.extend(
+                [
+                    f"  Helix (H):         {h} ({h / len(dssp) * 100:.1f}%)",
+                    f"  Sheet (E):         {e} ({e / len(dssp) * 100:.1f}%)",
+                    f"  Coil  (C):         {c} ({c / len(dssp) * 100:.1f}%)",
+                ]
+            )
+        report.extend(
+            [
+                "",
+                "=" * 72,
+                "  This report was generated by the NRC Protein Folder Live.",
+                "  https://github.com/Nexus-Resonance-Codex/Protein-Folding",
+                "=" * 72,
+            ]
+        )
         zf.writestr("analysis_report.txt", "\n".join(report))
 
         zf.writestr("properties.json", json.dumps(props, indent=2))
@@ -507,7 +573,7 @@ def create_export_package(seq: str, pdb_text: str, props: dict, method: str,
             csv_lines = ["residue,amino_acid,plddt,dssp"]
             for i, (aa, conf) in enumerate(zip(seq, plddt)):
                 ss = dssp[i] if i < len(dssp) else "C"
-                csv_lines.append(f"{i+1},{aa},{conf},{ss}")
+                csv_lines.append(f"{i + 1},{aa},{conf},{ss}")
             zf.writestr("per_residue_data.csv", "\n".join(csv_lines))
 
     return zip_path
@@ -604,9 +670,9 @@ def run_folding(selection, custom_seq, compute_mode, steps, damping, viz_style, 
         ["GRAVY", f"{props['gravy']:.4f}"],
         ["Net Charge (pH 7)", f"{props['charge_ph7']:+.1f}"],
         ["Avg Confidence", f"{avg_conf:.1f} / 100"],
-        ["Helix (H)", f"{h_count} ({h_count/max(len(seq),1)*100:.1f}%)"],
-        ["Sheet (E)", f"{e_count} ({e_count/max(len(seq),1)*100:.1f}%)"],
-        ["Coil (C)", f"{c_count} ({c_count/max(len(seq),1)*100:.1f}%)"],
+        ["Helix (H)", f"{h_count} ({h_count / max(len(seq), 1) * 100:.1f}%)"],
+        ["Sheet (E)", f"{e_count} ({e_count / max(len(seq), 1) * 100:.1f}%)"],
+        ["Coil (C)", f"{c_count} ({c_count / max(len(seq), 1) * 100:.1f}%)"],
     ]
     summary_df = pd.DataFrame(summary_data, columns=["Parameter", "Value"])
 
@@ -615,8 +681,7 @@ def run_folding(selection, custom_seq, compute_mode, steps, damping, viz_style, 
 
     status = f"✅ {protein_name} — {len(seq)} AA folded via {method}"
 
-    return (status, viewer_html, plddt_plot, conv_plot, summary_df, rama_plot,
-            contact_plot, comp_plot, zip_path, pdb_text)
+    return (status, viewer_html, plddt_plot, conv_plot, summary_df, rama_plot, contact_plot, comp_plot, zip_path, pdb_text)
 
 
 def update_description(name):
@@ -665,7 +730,6 @@ with gr.Blocks(
         input_background_fill_dark="#1a1f2c",
     ),
 ) as demo:
-
     # Header
     gr.HTML("""
     <div class="main-title">
@@ -686,29 +750,34 @@ with gr.Blocks(
             gr.Markdown("### 🎯 Target Protein")
             protein_select = gr.Dropdown(
                 choices=["Custom Sequence"] + list(PROTEIN_LIBRARY.keys()),
-                value="Custom Sequence", label="Select Protein",
+                value="Custom Sequence",
+                label="Select Protein",
             )
             description_box = gr.Markdown("Enter a custom amino acid sequence below.")
             sequence_input = gr.Textbox(
                 placeholder="Paste FASTA or raw amino acid sequence...",
-                label="Amino Acid Sequence", lines=4,
+                label="Amino Acid Sequence",
+                lines=4,
             )
 
             gr.Markdown("### ⚙️ Settings")
             compute_mode = gr.Radio(
                 choices=["Cloud API (ESMFold)", "NRC Geometric", "Hybrid"],
-                value="NRC Geometric", label="Compute Mode",
+                value="NRC Geometric",
+                label="Compute Mode",
             )
             with gr.Accordion("Advanced Parameters", open=False):
                 steps_slider = gr.Slider(50, 1000, value=250, step=50, label="Folding Iterations")
                 damping_slider = gr.Slider(0.1, 1.0, value=0.5, step=0.1, label="QRT Damping")
                 viz_style = gr.Dropdown(
                     choices=["cartoon", "stick", "sphere", "cross", "line"],
-                    value="cartoon", label="3D Render Style",
+                    value="cartoon",
+                    label="3D Render Style",
                 )
                 color_scheme = gr.Dropdown(
                     choices=["confidence", "rainbow", "secondary", "chain"],
-                    value="confidence", label="Color Scheme",
+                    value="confidence",
+                    label="Color Scheme",
                 )
 
             fold_btn = gr.Button("🚀 FOLD PROTEIN", variant="primary", size="lg")
@@ -722,14 +791,13 @@ with gr.Blocks(
 
         # ─── Right Panel: Results ───
         with gr.Column(scale=2):
-            status_label = gr.Textbox(value="Ready — select a protein or paste a sequence.",
-                                      label="Status", interactive=False)
+            status_label = gr.Textbox(value="Ready — select a protein or paste a sequence.", label="Status", interactive=False)
 
             with gr.Tabs():
                 with gr.TabItem("🔬 3D Structure"):
                     viewer_output = gr.HTML(
                         value='<div style="height:520px;display:flex;align-items:center;justify-content:center;color:#555;">'
-                              '<p>Fold a protein to see the 3D structure here.</p></div>',
+                        "<p>Fold a protein to see the 3D structure here.</p></div>",
                         label="Molecular Viewer",
                     )
 
@@ -749,8 +817,7 @@ with gr.Blocks(
                     comp_output = gr.Plot(label="Amino Acid Composition")
 
             gr.Markdown("### 📋 Analysis Summary")
-            summary_output = gr.Dataframe(headers=["Parameter", "Value"], interactive=False,
-                                          wrap=True)
+            summary_output = gr.Dataframe(headers=["Parameter", "Value"], interactive=False, wrap=True)
 
             gr.Markdown("### 📦 Download Results")
             with gr.Row():
@@ -762,11 +829,19 @@ with gr.Blocks(
 
     fold_btn.click(
         fn=run_folding,
-        inputs=[protein_select, sequence_input, compute_mode,
-                steps_slider, damping_slider, viz_style, color_scheme],
-        outputs=[status_label, viewer_output, plddt_output, conv_output,
-                 summary_output, rama_output, contact_output, comp_output,
-                 file_output, pdb_output],
+        inputs=[protein_select, sequence_input, compute_mode, steps_slider, damping_slider, viz_style, color_scheme],
+        outputs=[
+            status_label,
+            viewer_output,
+            plddt_output,
+            conv_output,
+            summary_output,
+            rama_output,
+            contact_output,
+            comp_output,
+            file_output,
+            pdb_output,
+        ],
     )
 
 if __name__ == "__main__":
