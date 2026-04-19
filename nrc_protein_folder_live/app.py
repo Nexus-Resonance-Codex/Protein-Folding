@@ -9,9 +9,7 @@ import math
 import os
 import random
 import tempfile
-import time
 import zipfile
-from pathlib import Path
 
 import gradio as gr
 import numpy as np
@@ -112,7 +110,7 @@ PROTEIN_LIBRARY = {
 # ─── Sequence Utilities ──────────────────────────────────────────────────────
 def clean_sequence(raw: str) -> str:
     lines = raw.strip().splitlines()
-    seq_lines = [l.strip() for l in lines if not l.startswith(">")]
+    seq_lines = [line.strip() for line in lines if not line.startswith(">")]
     import re
 
     return re.sub(r"[^A-Za-z]", "", "".join(seq_lines)).upper()
@@ -224,7 +222,7 @@ def fold_nrc_geometric(seq: str, steps: int = 250, damping: float = 0.5) -> dict
 
     # Build PDB
     pdb_lines = ["HEADER    NRC PHI-TENSOR GEOMETRIC FOLD"]
-    pdb_lines.append(f"REMARK   1 FOLDED BY NRC PROTEIN FOLDER LIVE")
+    pdb_lines.append("REMARK   1 FOLDED BY NRC PROTEIN FOLDER LIVE")
     pdb_lines.append(f"REMARK   2 METHOD: NRC GEOMETRIC (PHI={PHI:.10f})")
     pdb_lines.append(f"REMARK   3 SEQUENCE LENGTH: {n}")
     pdb_lines.append(f"REMARK   4 ITERATIONS: {steps}, DAMPING: {damping}")
@@ -299,8 +297,8 @@ def assign_dssp_simple(pdb_text: str) -> list[str]:
     assignments = ["C"] * len(coords)
     for i in range(1, len(coords) - 2):
         # Use CA-CA distances to estimate secondary structure
-        d1 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i - 1], coords[i])))
-        d2 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i], coords[i + 1])))
+        math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i - 1], coords[i])))
+        math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i], coords[i + 1])))
         d3 = math.sqrt(sum((a - b) ** 2 for a, b in zip(coords[i - 1], coords[i + 1])))
 
         if d3 < 5.5:
@@ -601,7 +599,7 @@ def run_folding(selection, custom_seq, compute_mode, steps, damping, viz_style, 
     props = compute_properties(seq)
 
     # 3. Fold
-    status_text = f"⏳ Folding {len(seq)} AA via {compute_mode}..."
+    f"⏳ Folding {len(seq)} AA via {compute_mode}..."
     pdb_text = ""
     method = ""
     plddt = []
