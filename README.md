@@ -14,6 +14,8 @@
   <a href="https://codespaces.new/Nexus-Resonance-Codex/Protein-Folding"><img src="https://img.shields.io/static/v1?label=Codespaces&message=Open&color=blue&logo=github" alt="Open in GitHub Codespaces"></a>
   <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/wiki/Models"><img src="https://img.shields.io/badge/Models-7%20Prompts-gold?style=for-the-badge&logo=openai" alt="Models Wiki"></a>
   <a href="https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase.html"><img src="https://img.shields.io/badge/🚀%20Deployment-Flagship%20Arena-cyan?style=for-the-badge&logo=github" alt="Live Demo"></a>
+  <a href="https://huggingface.co/spaces/jtrag/NRC-Phi-Infinity-Engine"><img src="https://img.shields.io/badge/HF%20Space-Protein%20Folder-FFD21E?style=for-the-badge&logo=huggingface" alt="HF Protein Space"></a>
+  <a href="https://huggingface.co/spaces/jtrag/NRC-Phi-Infinity-Engine"><img src="https://img.shields.io/badge/HF%20Space-Infinite%20Engine-gold?style=for-the-badge&logo=huggingface" alt="HF Engine Space"></a>
   <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions"><img src="https://img.shields.io/github/actions/workflow/status/Nexus-Resonance-Codex/Protein-Folding/static.yml?style=for-the-badge&label=System%20Parity&color=00FF88" alt="System Parity"></a>
 </div>
 
