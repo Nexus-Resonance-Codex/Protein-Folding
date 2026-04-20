@@ -239,7 +239,7 @@ HEAD_HTML = """
 
 with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     # Disable API documentation logic to prevent schema-parsing crash in Gradio 4.44.1
-    demo.show_api = False
+    
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1></div>")
     
     with gr.Tabs():
@@ -302,4 +302,4 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860, show_api=False)
+    demo.launch(server_name="0.0.0.0", server_port=7860, show_api=True)
