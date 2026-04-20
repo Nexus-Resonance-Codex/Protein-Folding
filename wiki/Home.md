@@ -1,16 +1,16 @@
-# NRC Protein Folding Wiki
+# Resonance-Fold Wiki
 
-Welcome to the institutional gateway for high-dimensional structural biology. The **NRC Protein Folding Accelerator** utilizes the 256D $\to$ 729D $\phi$-tensor lattice to solve the protein folding problem with near-instantaneous global energy minima resolution.
+Welcome to the institutional gateway for high-dimensional structural biology. **Resonance-Fold** utilizes the 256D $\to$ 729D $\phi$-tensor lattice to solve the protein folding problem with near-instantaneous global energy minima resolution.
 
 ## Project Overview
 
 > **"Resonating Structural Biology in the High-Dimensional Lattice."**
 
-The accelerator represents a fundamental shift in computational biology. By mapping amino acid dihedral angles ($\phi$, $\psi$) as resonant state vectors within the golden-basis lattice, we bypass the chaotic energy voids of classical force fields. This platform unifies **Multi-Scale Tensor (MST)** mathematics with **Ramachandran Resonance** to achieve 99.9% acceleration over standard distributed folding models.
+**Resonance-Fold** represents a fundamental shift in computational biology. By mapping amino acid dihedral angles ($\phi$, $\psi$) as resonant state vectors within the golden-basis lattice, we bypass the chaotic energy voids of classical force fields. This platform unifies **Multi-Scale Tensor (MST)** mathematics with **Ramachandran Resonance** to achieve 99.9% acceleration over standard distributed folding models.
 
 ### 🧬 Key Features
 
-To maintain 100% structural integrity throughout the folding cycle, the accelerator implements the following institutional capabilities:
+To maintain 100% structural integrity throughout the folding cycle, **Resonance-Fold** implements the following institutional capabilities:
 
 *   **Dihedral Manifold Mapping**: Recursive transformation of primary sequences into high-dimensional torsion states.
 *   **TTT-Anchored Minimization**: Global energy resolution governed by the 7-stable resonance anchor for absolute precision.
@@ -20,16 +20,14 @@ To maintain 100% structural integrity throughout the folding cycle, the accelera
 
 ---
 
-### 🚀 Protein Folding Quick Links
+### 🚀 Resonance-Fold Quick Links
 
 | Resource | Description | Status |
 | :--- | :--- | :--- |
 | **[Getting Started](Getting-Started.md)** | Phasing your local biological accelerator environment and dependencies. | ✅ STABLE |
 | **[Usage Guide](Usage.md)** | Job submission, torsion sharding, and PPD export protocols. | ✅ ACTIVE |
-- [Models](Models.md)
-| **[API Reference](../../NRC/wiki/API-Reference.md)** | Technical ledger for the core `nrc_bio` structural biology primitives. | ✅ ACTIVE |
-| **[Usage Guide](Usage.md#expected-performance)** | Comparative acceleration metrics across standard Proteome datasets. | 🔵 ACTIVE |
-- [Models](Models.md)
+| **[Models](Models.md)** | Pre-trained structural resonance models for specific proteome subsets. | ✅ ACTIVE |
+| **[API Reference](../../NRC/wiki/API-Reference.md)** | Technical ledger for the core `resonance_fold` structural biology primitives. | ✅ ACTIVE |
 
 ### 🛡️ Institutional Certification
 ![Version](https://img.shields.io/badge/Version-v1.2.4-darkgreen?style=for-the-badge&logo=dna)
@@ -42,11 +40,11 @@ To maintain 100% structural integrity throughout the folding cycle, the accelera
 
 ## Key Capabilities and Technical Foundations
 
-The accelerator's proficiency is derived from its unique convergence of high-dimensional lattice theory and biological structural mechanics. By bridging the gap between discrete mathematical primitives and continuous dihedral manifolds, the engine resolves folding paradoxes that are computationally intractable for classical architectures.
+**Resonance-Fold**'s proficiency is derived from its unique convergence of high-dimensional lattice theory and biological structural mechanics. By bridging the gap between discrete mathematical primitives and continuous dihedral manifolds, the engine resolves folding paradoxes that are computationally intractable for classical architectures.
 
 ### 🏛️ Technical Capabilities
 
-To ensure absolute structural phasing across the biological manifold, the accelerator implements the following institutional-grade capabilities:
+To ensure absolute structural phasing across the biological manifold, **Resonance-Fold** implements the following institutional-grade capabilities:
 
 *   **$\phi$-Tensor Dihedral Mapping**: Automated projection of amino acid torsion states into the 256D $\to$ 729D complex manifold for absolute structural fidelity.
 *   **TUPT/QRT/MST Integration**: Recursive numerical stabilization and damping of high-frequency dihedral noise to prevent folding drift across long sequences.
@@ -72,7 +70,6 @@ To ensure absolute structural phasing across the biological manifold, the accele
 ### ⏭️ Next Steps
 
 Phasing complete. Proceed to the **[Getting Started](Getting-Started.md)** guide to initialize your local biological environment or the **[Usage Guide](Usage.md)** for institutional job submission protocols.
-- [Models](Models.md)
 
 ---
-← [Back to Core Home](../../NRC/wiki/Home.md) | [Back to Protein Folding Home](Home.md) | [Table of Contents](#project-overview) | [Back to Top](#nrc-protein-folding-wiki)
+← [Back to Core Home](../../NRC/wiki/Home.md) | [Back to Resonance-Fold Home](Home.md) | [Table of Contents](#project-overview) | [Back to Top](#resonance-fold-wiki)

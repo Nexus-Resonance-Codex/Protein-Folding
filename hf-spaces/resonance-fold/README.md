@@ -1,5 +1,4 @@
----
-title: NRC Protein Folder Live
+title: Resonance-Fold
 emoji: 🧬
 colorFrom: green
 colorTo: indigo
@@ -17,7 +16,7 @@ tags:
   - nexus-resonance-codex
 ---
 
-# 🧬 NRC Protein Folder Live
+# 🧬 Resonance-Fold
 
 **Professional-grade protein structure prediction and comprehensive biophysical analysis.**
 

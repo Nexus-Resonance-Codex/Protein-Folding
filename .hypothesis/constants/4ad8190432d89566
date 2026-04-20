@@ -1,0 +1,4 @@
+# file: /home/jtrag/NRC/github-repos/Nexus-Resonance-Codex/Protein-Folding/.venv/bin/pytest
+# hypothesis_version: 6.152.1
+
+['-script.pyw', '.exe', '__main__']

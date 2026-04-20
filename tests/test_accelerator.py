@@ -3,7 +3,7 @@
 import numpy as np
 import torch
 
-from nrc_bio import NRCFoldAccelerator, fold_sequence
+from resonance_fold import NRCFoldAccelerator, fold_sequence
 
 
 def test_qrt_damping() -> None:
@@ -53,7 +53,7 @@ def test_fold_sequence() -> None:
 
 def test_metadata() -> None:
     """Verify package metadata."""
-    from nrc_bio import __about__
+    from resonance_fold import __about__
 
     assert __about__.__version__ == "1.0.0"
     assert __about__.__author__ == "James Trageser"

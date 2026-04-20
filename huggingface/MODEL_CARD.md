@@ -16,20 +16,20 @@ tags:
   - resonance
   - nrc
 pipeline_tag: feature-extraction
-library_name: nrc_bio
-model_type: nrc-Protein-Folding
+library_name: resonance_fold
+model_type: resonance-fold
 datasets:
   - Nexus-Resonance-Codex/nrc-protein-dataset
 ---
 
 <div align="center">
 
-# NRC Protein Folding
+# Resonance-Fold
 
 **2048-Dimensional Golden Ratio Lattice Mapping for Structural Biology**
 _A Nexus Resonance Codex framework that maps biological sequences into φ-bounded hyperdimensional geometry_
 
-[![GitHub](https://img.shields.io/badge/GitHub-protein--folding-181717?logo=github)](https://github.com/Nexus-Resonance-Codex/Protein-Folding)
+[![GitHub](https://img.shields.io/badge/GitHub-Resonance--Fold-181717?logo=github)](https://github.com/Nexus-Resonance-Codex/Protein-Folding)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python)](https://python.org)
 [![BioPython](https://img.shields.io/badge/BioPython-1.80%2B-green)](https://biopython.org)
 [![License](https://img.shields.io/badge/License-NRC--L--2.0-gold)](LICENSE.md)
@@ -40,12 +40,12 @@ _A Nexus Resonance Codex framework that maps biological sequences into φ-bounde
 
 ## Overview
 
-The NRC Protein Folding library maps biological sequences into a **2048-dimensional lattice** governed by the Golden Ratio φ and the Giza Pyramid slope (51.853°). This provides a deterministic geometric embedding of protein structures that complements statistical folding models like AlphaFold and OpenFold.
+**Resonance-Fold** maps biological sequences into a **2048-dimensional lattice** governed by the Golden Ratio φ and the Giza Pyramid slope (51.853°). This provides a deterministic geometric embedding of protein structures that complements statistical folding models like AlphaFold and OpenFold.
 
 The key insight: amino acid mass distributions in stable protein structures cluster around **φ-weighted attractor zones** that can be precisely characterized using the same mathematics that govern crystal lattices and cosmological structure formation.
 
 ```python
-pip install "nrc_bio @ git+https://github.com/Nexus-Resonance-Codex/Protein-Folding.git"
+pip install "resonance_fold @ git+https://github.com/Nexus-Resonance-Codex/Protein-Folding.git"
 ```
 
 ---
@@ -69,7 +69,7 @@ This creates a unique geometric fingerprint for each residue. When the full poly
 ## Quick Start
 
 ```python
-from nrc_bio import sequence_to_mass_array, map_sequence_to_lattice, NRCOpenFoldWrapper
+from resonance_fold import sequence_to_mass_array, map_sequence_to_lattice, NRCOpenFoldWrapper
 import numpy as np
 
 # Parse an amino acid sequence
@@ -96,7 +96,8 @@ wrapped = NRCOpenFoldWrapper(my_openfold_module)
 Large protein targets can be automatically sharded for BOINC distributed computing:
 
 ```python
-from nrc_bio import sequence_to_mass_array, generate_boinc_workunits
+from resonance_fold import sequence_to_mass_array, generate_boinc_workunits
+import json
 
 masses = sequence_to_mass_array("MKTIIALSYIFCLVFAQC" * 50)  # long chain
 work_units = generate_boinc_workunits(masses, shard_count=100)
@@ -112,13 +113,12 @@ print(f"Generated {len(work_units)} BOINC work units")
 ```bash
 # Install prerequisites
 pip install "nrc @ git+https://github.com/Nexus-Resonance-Codex/NRC.git"
-pip install "nrc_bio @ git+https://github.com/Nexus-Resonance-Codex/Protein-Folding.git"
+pip install "resonance_fold @ git+https://github.com/Nexus-Resonance-Codex/Protein-Folding.git"
 
 # Or develop locally
 git clone https://github.com/Nexus-Resonance-Codex/Protein-Folding.git
 cd Protein-Folding
-./setup_venv.sh
-source .venv/bin/activate
+uv sync
 ```
 
 ---
@@ -137,9 +137,9 @@ source .venv/bin/activate
 ## Citation
 
 ```bibtex
-@software{nrc_bio_2026,
+@software{resonance_fold_2026,
   author  = {Trageser, James},
-  title   = {NRC Protein Folding: 2048D Golden Ratio Lattice Mapping},
+  title   = {Resonance-Fold: 2048D Golden Ratio Lattice Mapping},
   year    = {2026},
   url     = {https://github.com/Nexus-Resonance-Codex/Protein-Folding},
   version = {1.0.0}

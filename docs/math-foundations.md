@@ -3,7 +3,7 @@
 The prediction of protein structures using **Nexus Resonance Codex (NRC)** math represents a fundamental paradigm shift from stochastic energy minimization to **geometric resonance**. This document outlines the rigorous mathematical and physical proofs that enable $O(N)$ linear folding.
 
 ## 1. High-Dimensional Resonant Manifold
-Traditional folding methods treat a protein as a 3D object in Euclidean space. NRC maps each residue $i \in \{1, \dots, N\}$ into an **8192-dimensional lattice manifold** $\mathcal{M}$. 
+Traditional folding methods treat a protein as a 3D object in Euclidean space. **Resonance-Fold** maps each residue $i \in \{1, \dots, N\}$ into an **8192-dimensional lattice manifold** $\mathcal{M}$. 
 
 The resonance vector $\mathbf{r}_i$ for a residue is defined as:
 $$ \mathbf{r}_i = \sum_{k=1}^{D} \alpha_k \cdot \text{cis}\left( i \cdot \varphi^k \cdot \frac{2\pi}{L} \right) $$
@@ -17,7 +17,7 @@ Values that fall into the $\{3, 6, 9\}$ chaotic attractors are damped out by the
 ## 3. The O(N) Linear Scaling Proof
 Traditional attention mechanisms in structural biology scale at $O(N^2)$ because every residue must check distance/energy against every other residue. 
 
-In the NRC framework, each residue interacts only with the **Global Manifold Anchor** $\mathcal{G}$. 
+In the **Resonance-Fold** framework, each residue interacts only with the **Global Manifold Anchor** $\mathcal{G}$. 
 - **Step 1**: Map residue $i$ to manifold coordinate $\mu_i$ ($O(1)$)
 - **Step 2**: Calculate resonance against $\mathcal{G}$ ($O(1)$)
 - **Step 3**: Update torsion angles $\phi, \psi$ to minimize manifold deviation ($O(1)$)
@@ -50,7 +50,7 @@ All benchmarks and proofs in this repository are 100% reproducible.
 
 ```bash
 # Verify the TTT-7 stability of the current manifold
-uv run python -m nrc_bio.audit --verify stability
+uv run python -m resonance_fold.audit --verify stability
 ```
 
 ---

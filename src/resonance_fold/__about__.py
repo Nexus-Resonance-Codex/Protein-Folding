@@ -1,4 +1,4 @@
-"""Metadata for nrc_bio."""
+"""Metadata for resonance_fold."""
 
 __version__ = "1.0.0"
 __author__ = "James Trageser"

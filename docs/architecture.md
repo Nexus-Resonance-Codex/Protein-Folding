@@ -1,6 +1,6 @@
-# Architecture: Protein Structural Stability Accelerator
+# Architecture: Resonance-Fold
 
-The **Structural Stability Accelerator** is the core engine of the `nrc_bio` package. It leverages the mathematical coordinate stability principles of the Nexus Resonance Codex (NRC) to accelerate protein folding simulations by projecting sequence-space onto a 256-dimensional stabilized coordinate lattice.
+The **Resonance-Fold** structural stability accelerator is the core engine of the `resonance_fold` package. It leverages the mathematical coordinate stability principles of the Nexus Resonance Codex (NRC) to accelerate protein folding simulations by projecting sequence-space onto a 256-dimensional stabilized coordinate lattice.
 
 ## Core Components
 
@@ -24,7 +24,7 @@ The accelerator projects primary amino acid sequences onto a high-dimensional la
 ## Usage Examples
 
 ```python
-from nrc_bio import NRCFoldAccelerator
+from resonance_fold import NRCFoldAccelerator
 
 acc = NRCFoldAccelerator()
 residue_sequence = "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVVVLARHFGKDFTPELQASYQKVVAGVANALAHKYH"

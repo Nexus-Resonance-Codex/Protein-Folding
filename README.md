@@ -4,18 +4,18 @@
 
 # [Nexus Resonance Codex (NRC)](https://github.com/Nexus-Resonance-Codex)
 
-# Resonance for Life: φ^∞ Lattice-Accelerated Protein Folding
+# Resonance-Fold: φ^∞ Lattice-Accelerated Protein Folding
 ## Defeating the Geometry of Disease • Saving Generations through Resonant Science
 
 <div align="center">
-<img src="docs/assets/images/social-preview.png" width="100%" alt="NRC Protein-Folding Banner">
+<img src="docs/assets/images/social-preview.png" width="100%" alt="Resonance-Fold Banner">
 
 <div style="margin: 1.5rem 0; display: flex; justify-content: center; gap: 10px;">
   <a href="https://codespaces.new/Nexus-Resonance-Codex/Protein-Folding"><img src="https://img.shields.io/static/v1?label=Codespaces&message=Open&color=blue&logo=github" alt="Open in GitHub Codespaces"></a>
   <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/wiki/Models"><img src="https://img.shields.io/badge/Models-7%20Prompts-gold?style=for-the-badge&logo=openai" alt="Models Wiki"></a>
   <a href="https://nexus-resonance-codex.github.io/Protein-Folding/demos/protein-folding-showcase.html"><img src="https://img.shields.io/badge/🚀%20Deployment-Flagship%20Arena-cyan?style=for-the-badge&logo=github" alt="Live Demo"></a>
-  <a href="https://huggingface.co/spaces/jtrag/NRC-Phi-Infinity-Engine"><img src="https://img.shields.io/badge/HF%20Space-Protein%20Folder-FFD21E?style=for-the-badge&logo=huggingface" alt="HF Protein Space"></a>
-  <a href="https://huggingface.co/spaces/jtrag/NRC-Phi-Infinity-Engine"><img src="https://img.shields.io/badge/HF%20Space-Infinite%20Engine-gold?style=for-the-badge&logo=huggingface" alt="HF Engine Space"></a>
+  <a href="https://huggingface.co/spaces/Nexus-Resonance-Codex/Resonance-Fold"><img src="https://img.shields.io/badge/HF%20Space-Resonance--Fold-FFD21E?style=for-the-badge&logo=huggingface" alt="HF Resonance-Fold Space"></a>
+  <a href="https://huggingface.co/spaces/Nexus-Resonance-Codex/LLM-Infinite-Context-Engine"><img src="https://img.shields.io/badge/HF%20Space-Infinite%20Engine-gold?style=for-the-badge&logo=huggingface" alt="HF Engine Space"></a>
   <a href="https://github.com/Nexus-Resonance-Codex/Protein-Folding/actions"><img src="https://img.shields.io/github/actions/workflow/status/Nexus-Resonance-Codex/Protein-Folding/static.yml?style=for-the-badge&label=System%20Parity&color=00FF88" alt="System Parity"></a>
 </div>
 
@@ -27,7 +27,7 @@
 
 ### 🧪 The Breakthrough: O(N) Bio-Lattice
 
-Traditional folding prediction architectures (AlphaFold 2, ESMFold) are bottlenecked by $O(N^2)$ attention costs. **NRC Protein-Folding** introduces the **Biological Resonant Manifold**—a high-dimensional lattice space where health is a fundamental geometric property.
+Traditional folding prediction architectures (AlphaFold 2, ESMFold) are bottlenecked by $O(N^2)$ attention costs. **Resonance-Fold** introduces the **Biological Resonant Manifold**—a high-dimensional lattice space where health is a fundamental geometric property.
 
 *   **99.8% Faster Prediction**: Sequence length no longer dictates simulation cost. Linear $O(N)$ scaling verified.
 *   **Exact Stability**: Powered by TTT-7 modular residue exclusion (zero-hallucination lattice resonance).
@@ -41,7 +41,6 @@ Traditional folding prediction architectures (AlphaFold 2, ESMFold) are bottlene
 
 ### 🌟 Experience the Ultimate Demo
 
-
 Forget local setup. Test structural biology's future directly in your browser or on the GitHub UI:
 
 | Experience | Impact | Access |
@@ -54,7 +53,7 @@ Forget local setup. Test structural biology's future directly in your browser or
 
 ### 🛠 Technical Architecture
 
-*   **`src/nrc_bio`**: Rust-optimized bio-lattice primitives.
+*   **`src/resonance_fold`**: Rust-optimized bio-lattice primitives.
 *   **`.github/prompts`**: Scientific testing suite for structural verification and de-novo design.
 *   **`docs/`**: PhD-level documentation covering TUPT embedding and QRT damping.
 

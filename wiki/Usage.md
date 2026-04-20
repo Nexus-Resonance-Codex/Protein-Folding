@@ -1,6 +1,6 @@
 # Usage Guide
 
-Welcome to the tactical ledger for the NRC Protein Folding Accelerator. This guide provides the institutional protocols for submitting structural biology jobs, managing torsion sharding across the organizational lattice, and extracting high-fidelity structural manifests. By following these phased procedures, you ensure 100% structural integrity and TTT-compliant global energy minimization.
+Welcome to the tactical ledger for Resonance-Fold. This guide provides the institutional protocols for submitting structural biology jobs, managing torsion sharding across the organizational lattice, and extracting high-fidelity structural manifests. By following these phased procedures, you ensure 100% structural integrity and TTT-compliant global energy minimization.
 
 ## Running Your First Protein Folding Job
 
@@ -19,7 +19,7 @@ Follow these strictly phased steps to resolve your first high-dimensional protei
 2.  **Launch the Torsion Accelerator**:
     Initiate the folding job using the CLI. Specify the 729D phasing manifold for institutional resolution.
     ```bash
-    uv run python -m nrc_bio.fold --input sequence.fasta --manifold 729d --out output/
+    uv run python -m resonance_fold.fold --input sequence.fasta --manifold 729d --out output/
     ```
 
 4.  **Monitor the Resonance Convergence**:
@@ -33,10 +33,10 @@ Follow these strictly phased steps to resolve your first high-dimensional protei
 
 ### 🐍 Python API Integration
 
-For automated research manifolds, the `nrc_bio` core provides a direct interface for high-dimensional folding.
+For automated research manifolds, the `resonance_fold` core provides a direct interface for high-dimensional folding.
 
 ```python
-from nrc_bio.engine import ProteinEngine
+from resonance_fold.engine import ProteinEngine
 
 # Initialize the 7-stable folding engine
 engine = ProteinEngine(manifold="729d", damping=0.3819)
@@ -98,7 +98,7 @@ Follow these strictly phased steps to manage large-scale biological datasets:
 The following script demonstrates the institutional protocol for batch structural resolution with monitoring callbacks.
 
 ```python
-from nrc_bio.engine import ProteinEngine
+from resonance_fold.engine import ProteinEngine
 
 # Institutional Monitor Callback
 def on_convergence(residue_id, rmsd, status):
@@ -132,24 +132,24 @@ Phasing complete. For full technical specifications on the `ProteinEngine` and i
 
 ---
 
-## NRC Protein Folder Live – Fold Real Proteins Instantly
+## Resonance-Fold — Fold Real Proteins Instantly
 
-The **NRC Protein Folder Live** is a premium, high-speed structural resonance dashboard that allows researchers to execute folding trajectories on real proteins via a beautiful Gradio interface.
+**Resonance-Fold** is a premium, high-speed structural resonance dashboard that allows researchers to execute folding trajectories on real proteins via a beautiful Gradio interface.
 
 ### 🚀 Rapid Launch & Deployment
 
-The **NRC Protein Folder Live** is accessible through three institutional channels for maximum research flexibility:
+**Resonance-Fold** is accessible through three institutional channels for maximum research flexibility:
 
 | Channel | Method | Link |
 | :--- | :--- | :--- |
-| **Cloud Deployment** | **Hugging Face Spaces** | [**Launch Live Space**](https://huggingface.co/spaces/jtrag/NRC-Protein-Folder-Live) |
+| **Cloud Deployment** | **Hugging Face Spaces** | [**Launch Live Space**](https://huggingface.co/spaces/Nexus-Resonance-Codex/Resonance-Fold) |
 | **One-Click Dev** | **GitHub Codespaces** | [**Open in Codespaces**](https://codespaces.new/Nexus-Resonance-Codex/Protein-Folding) |
-| **Local Terminal** | **UV Toolchain** | `uv run python -m nrc_protein_folder_live.app` |
+| **Local Terminal** | **UV Toolchain** | `uv run python -m resonance_fold.app` |
 
 ### 🖼️ Dashboard Overview
 
-![NRC Protein Folder Dashboard](https://raw.githubusercontent.com/Nexus-Resonance-Codex/NRC/main/visualizations/protein_folder_live_dashboard.png)
-*Figure 4.1: The institutional Protein Folder dashboard featuring real-time RMSD and Energy convergence graphs.*
+![Resonance-Fold Dashboard](https://raw.githubusercontent.com/Nexus-Resonance-Codex/NRC/main/visualizations/protein_folder_live_dashboard.png)
+*Figure 4.1: The institutional Resonance-Fold dashboard featuring real-time RMSD and Energy convergence graphs.*
 
 ### 🛠️ Key Interaction Protocols
 
