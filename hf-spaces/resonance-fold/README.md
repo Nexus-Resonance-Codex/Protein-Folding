@@ -1,10 +1,10 @@
 ---
 title: Resonance-Fold
 emoji: 🧬
-colorFrom: "#0b0e14"
-colorTo: "#d4af37"
+colorFrom: gray
+colorTo: yellow
 sdk: gradio
-sdk_version: "5.0"
+sdk_version: 5.15.0
 app_file: app.py
 pinned: false
 ---
