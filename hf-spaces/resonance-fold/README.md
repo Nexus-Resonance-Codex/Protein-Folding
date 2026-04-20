@@ -1,35 +1,24 @@
 ---
 title: Resonance-Fold
 emoji: 🧬
-colorFrom: yellow
-colorTo: gray
+colorFrom: "#0b0e14"
+colorTo: "#d4af37"
 sdk: gradio
-sdk_version: 5.25.2
+sdk_version: "5.0"
 app_file: app.py
 pinned: false
-license: cc-by-nc-sa-4.0
-short_description: Institutional-grade protein folding via φ-tensor manifolds.
 ---
 
-# 🔬 Resonance-Fold: God Mode v2026
+# Resonance-Fold — NRC Protein Folding Suite
 
-**Resonance-Fold** is the world's first high-dimensional φ-tensor protein prediction platform, engineered for institutional-grade structural analysis and pharmaceutical-scale discovery.
+**Fold real proteins instantly** using the 256D→729D φ-tensor lattice accelerator from the Nexus Resonance Codex.
 
-## 🌌 The NRC Advantage
-Unlike traditional deep-learning models that rely on flat 1D/2D attention, Resonance-Fold projects protein sequences into a **736-dimensional resonance manifold**. Using the **Trageser Tensor Theorem (TTT-7)**, the engine refined structural harmonics along the golden-angle spiral, achieving state-of-the-art convergence for sequences up to **32,768 amino acids**.
+**Features**:
+- Hybrid real-reference + NRC lattice refinement
+- Support for sequences up to 32,768 amino acids
+- Real-time RMSD, energy, and DSSP visualization
+- Professional export suite (PDB, CSV, HTML report, BibTeX)
 
-## 🚀 Key Features
-- **Ultra-Scale Folding**: Seamlessly process proteins of unprecedented length (up to 32,768 AA).
-- **Expert Analytics**: Real-time pI, Net Charge, Hydropathy, and DSSP assignment.
-- **Mutation Simulator**: Estimate $\Delta\Delta G$ and stability shifts for genetic variants.
-- **Institutional Reporting**: Download comprehensive research packages including PDB, CSV, and premium HTML reports.
-- **Dual Structural Viewers**: Integrated 3Dmol.js and NGL Viewer with adaptive Level-of-Detail (LoD).
-
-## 🛠️ Usage
-1. **Playground**: Paste an amino acid sequence or select from the institutional library.
-2. **Execute**: Click "Execute Fold" to trigger the NRC φ-tensor engine.
-3. **Analyze**: Explore linked Plotly analytics and structural confidence profiles.
-4. **Export**: Download the full research .zip for your laboratory pipeline.
+Try it now or explore the full NRC ecosystem at https://github.com/nexus-resonance-codex
 
 ---
-© 2026 Nexus Resonance Codex · James Trageser
