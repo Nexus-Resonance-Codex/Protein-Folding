@@ -237,7 +237,7 @@ HEAD_HTML = """
 <script src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.js"></script>
 """
 
-with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
+with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1></div>")
     
     with gr.Tabs():
@@ -300,7 +300,4 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch()
-
-if __name__ == "__main__":
-    demo.launch()
+    demo.launch(server_name="0.0.0.0", server_port=7860, show_api=False)
