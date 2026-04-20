@@ -1,104 +1,72 @@
-import os
-import time
 import gradio as gr
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from typing import Dict, List, Tuple
-
-# ─── NRC Institutional Modules ───────────────────────────────────────────────
-from nrc_engine import engine
+from nrc_engine import NRCEngine
 from biophysics import BiophysicsSuite
 from reporting import ReportingSuite
+import os
 
-# ─── Protein Library ─────────────────────────────────────────────────────────
+# ─── Initialization ──────────────────────────────────────────────────────────
+engine = NRCEngine()
+
+# ─── Prototypes / Presets ──────────────────────────────────────────────────
 PROTEIN_LIBRARY = {
-    "Titin (Human)": {
-        "desc": "The largest known protein — provides muscle elasticity.",
-        "seq": "MTTQAPTFTQPLQSVVVLEGSTATFEAHISGFPVPEVSWFRDGQVISTSTLPGVQISFSDGRAKLTIPAVTKANSGRYSLKATNGSGQATSTAELLVKA",
-        "organism": "Homo sapiens",
-    },
-    "Insulin (1ZNI)": {
-        "desc": "Metabolic hormone — regulates blood glucose.",
-        "seq": "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT",
-        "organism": "Homo sapiens",
-    },
-    "Lysozyme (1LYZ)": {
-        "desc": "Antimicrobial enzyme — cleaves bacterial cell walls.",
-        "seq": "KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL",
-        "organism": "Gallus gallus",
-    },
+    "Insulin (A+B)": {"seq": "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT"},
+    "Ubiquitin": {"seq": "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG"},
+    "NRC-Alpha (Synthetic)": {"seq": "MLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLRLLR"}
 }
 
-# ─── CSS ──────────────────────────────────────────────────────────────────────
 CSS = """
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-:root { --gold: #d4af37; --obsidian: #0b0e14; }
-body { font-family: 'Inter', sans-serif; background: var(--obsidian); color: #d1d5db; }
-.main-header { text-align: center; padding: 40px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
-.main-header h1 { color: var(--gold); font-size: 3em; margin: 0; }
-.expert-label { color: var(--gold); border: 1px solid var(--gold); padding: 2px 8px; border-radius: 4px; font-size: 0.7em; }
+:root {
+    --nrc-gold: #D4AF37;
+    --nrc-obsidian: #1A1A1B;
+}
+.main-header { text-align: center; color: var(--nrc-gold); padding: 2rem; }
+.expert-card { background: #2D2D2E; border-left: 4px solid var(--nrc-gold); padding: 1rem; border-radius: 4px; }
+footer { display: none !important; }
 """
 
-# ─── Visualization Logic ─────────────────────────────────────────────────────
-def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
-    if not pdb_text: return ""
-    v_id = f"v_{int(time.time()*1000)}"
-    
-    if viewer_type == "3Dmol":
-        pocket_js = ""
+def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
+    if engine_type == "3Dmol":
+        pockets_js = ""
         if pockets:
-            pocket_js = f"v.addSphere({{ center: v.getModel().selectedAtoms({{ resi: {pockets} }})[0], radius: 1.0, color: 'red', opacity: 0.6 }});"
+            for p in pockets:
+                indices = ",".join(map(str, p["residues"]))
+                pockets_js += f"viewer.addSurface($3Dmol.SurfaceType.VDW, {{opacity:0.4, color:'cyan'}}, {{resi:[{indices}]}});\n"
         
         return f"""
-        <div id="{v_id}" style="height: 520px; width: 100%; background: #0b0e14; border-radius: 8px;"></div>
+        <div id="mol-container" style="height: 500px; width: 100%; position: relative;"></div>
         <script>
             (function() {{
-                const tryInit = () => {{
-                    if (typeof $3Dmol === 'undefined') {{
-                        setTimeout(tryInit, 200);
-                        return;
-                    }}
-                    const v = $3Dmol.createViewer('{v_id}', {{ backgroundColor: '0x0b0e14' }});
-                    v.addModel(`{pdb_text}`, 'pdb');
-                    v.setStyle({{}}, {{ cartoon: {{ color: 'spectrum' }} }});
-                    {pocket_js}
-                    v.zoomTo(); v.render();
-                }};
-                tryInit();
+                const container = document.getElementById('mol-container');
+                const viewer = $3Dmol.createViewer(container, {{backgroundColor: 'black'}});
+                viewer.addModel(`{pdb_str}`, "pdb");
+                viewer.setStyle({{}}, {{cartoon: {{color: 'spectrum'}}}});
+                {pockets_js}
+                viewer.zoomTo();
+                viewer.render();
             }})();
         </script>
         """
-    else: # NGL Viewer
+    else: # NGL
         return f"""
-        <div id="{v_id}" style="height: 520px; width: 100%; background: #0b0e14; border-radius: 8px;"></div>
+        <div id="ngl-container" style="height: 500px; width: 100%;"></div>
         <script>
             (function() {{
-                const tryInit = () => {{
-                    if (typeof NGL === 'undefined') {{
-                        setTimeout(tryInit, 200);
-                        return;
-                    }}
-                    var stage = new NGL.Stage('{v_id}', {{ backgroundColor: '#0b0e14' }});
-                    var blob = new Blob([`{pdb_text}`], {{ type: 'text/plain' }});
-                    stage.loadFile(blob, {{ ext: 'pdb' }}).then(function(o) {{
-                        o.addRepresentation('cartoon', {{ color: 'residueindex' }});
-                        o.autoView();
-                    }});
-                }};
-                tryInit();
+                const stage = new NGL.Stage("ngl-container", {{backgroundColor: "black"}});
+                const blob = new Blob([`{pdb_str}`], {{type: 'text/plain'}});
+                stage.loadFile(blob, {{ext: "pdb"}}).then(function(o) {{
+                    o.addRepresentation("cartoon", {{color: "resname"}});
+                    o.autoView();
+                }});
             }})();
         </script>
         """
 
 # ─── Handlers ────────────────────────────────────────────────────────────────
-def run_fold_v2(*args):
+def run_nrc_folding(seq, viewer_choice):
     try:
-        print(f"DEBUG: run_fold_v2 called with {len(args)} args: {args}")
-        if len(args) == 0: return [None]*10
-        seq = args[0]
-        viewer_choice = "3Dmol"
-        steps = 250
         if not seq: return [None]*10
         seq = seq.strip().upper()
         print(f"Folding sequence: {seq[:20]}... (length: {len(seq)})")
@@ -120,7 +88,7 @@ def run_fold_v2(*args):
         pdb_text = ReportingSuite.generate_pdb(seq, coords)
         zip_path = ReportingSuite.create_research_package(f"nrc_{meta['hash']}", seq, coords, analysis, meta)
         
-        # 4. 3D Visualization (with pockets)
+        # 4. 3D Visualization
         viewer_html = get_viewer_html(pdb_text, viewer_choice, pockets=analysis["pockets"][:1])
         
         # 5. Lattice Explorer
@@ -130,7 +98,7 @@ def run_fold_v2(*args):
         )])
         lattice_viz.update_layout(template="plotly_dark", title="φ-Lattice Projection")
         
-        # 6. Heatmaps (Hydrophobicity & Charge)
+        # 6. Analytics Plots
         h_fig = go.Figure(data=go.Heatmap(z=[analysis["hydropathy"]], colorscale='Viridis'))
         h_fig.update_layout(template="plotly_dark", title="Hydrophobicity Profile", height=200)
         
@@ -143,8 +111,10 @@ def run_fold_v2(*args):
             ["Stability", f"{meta['ttt_stability']:.4f}"]
         ], columns=["Metric", "Value"])
         
-        print("Pipeline complete.")
-        return viewer_html, lattice_viz, h_fig, c_fig, summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), analysis["pI"], meta["hash"]
+        return (
+            viewer_html, lattice_viz, h_fig, c_fig, summary_df, 
+            zip_path, pdb_text, "".join(analysis["dssp"]), analysis["pI"], meta["hash"]
+        )
     except Exception as e:
         print(f"PIPELINE ERROR: {e}")
         import traceback
@@ -174,7 +144,6 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
                             btn.click(lambda d=data: d["seq"], None, seq_input)
                 
                 with gr.Column(scale=2):
-                    status_out = gr.Markdown("Ready")
                     viewer_box = gr.HTML("<div style='height: 520px; border: 1px dashed #444; border-radius: 8px; display: flex; align-items: center; justify-content: center;'>Fold a protein to see the 3D structure here.</div>")
         
         with gr.Tab("📊 Analytics"):
@@ -199,24 +168,11 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
             gr.Markdown("""
             ### Institutional Protocol
             Resonance-Fold utilizes the **Nexus Resonance Codex (NRC)** framework to simulate protein structural behavior in high-dimensional φ-manifolds.
-            
-            - **Engine**: 736D φ-tensor refinement.
-            - **Stability**: TTT-7 stabilization audit.
-            - **Capacity**: Up to 32,768 AA.
             """)
-            with gr.Accordion("FAQ", open=False):
-                gr.Markdown("""
-                **Q: What is the maximum sequence length?**
-                A: Up to 32,768 residues using our vectorized φ-tensor engine.
-                
-                **Q: How does the lattice refinement work?**
-                A: We project a 736-dimensional manifold into 3D using TTT-7 stabilized tensors.
-                """)
 
-    
     fold_btn.click(
-        fn=run_fold_v2,
-        inputs=[seq_input],
+        fn=run_nrc_folding,
+        inputs=[seq_input, viewer_choice],
         outputs=[viewer_box, lattice_plot, hydro_plot, charge_plot, summary_table, export_file, raw_pdb, dssp_out, pi_out, hash_out]
     )
 
