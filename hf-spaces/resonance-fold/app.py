@@ -261,6 +261,8 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
                                 return PROTEIN_LIBRARY[name]["seq"]
                             return ""
                         
+                        target_select.change(load_selected_target, target_select, seq_input)
+                        target_select.select(load_selected_target, target_select, seq_input)
                         load_target_btn.click(load_selected_target, target_select, seq_input)
                 
                 with gr.Column(scale=2):
