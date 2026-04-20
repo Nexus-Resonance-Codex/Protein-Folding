@@ -41,7 +41,6 @@ body { font-family: 'Inter', sans-serif; background: var(--obsidian); color: #d1
 """
 
 # ─── Visualization Logic ─────────────────────────────────────────────────────
-# ─── Visualization Logic ─────────────────────────────────────────────────────
 def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
     if not pdb_text: return ""
     v_id = f"v_{int(time.time()*1000)}"
@@ -213,7 +212,7 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
     
     fold_btn.click(
         fn=run_full_pipeline,
-        inputs=[seq_input, gr.State(250), viewer_choice],
+        inputs=[seq_input, steps_state, viewer_choice],
         outputs=[viewer_box, lattice_plot, hydro_plot, charge_plot, summary_table, export_file, raw_pdb, dssp_out, pi_out, hash_out]
     )
 
