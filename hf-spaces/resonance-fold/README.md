@@ -8,6 +8,7 @@ sdk_version: 5.25.2
 app_file: app.py
 pinned: false
 license: cc-by-nc-sa-4.0
+short_description: Institutional-grade protein folding via φ-tensor manifolds.
 ---
 
 # 🔬 Resonance-Fold: God Mode v2026
