@@ -92,8 +92,9 @@ def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
         """
 
 # ─── Handlers ────────────────────────────────────────────────────────────────
-def run_fold_v2(seq, viewer_choice):
+def run_fold_v2(seq):
     try:
+        viewer_choice = "3Dmol"
         steps = 250
         if not seq: return [None]*10
         seq = seq.strip().upper()
@@ -212,7 +213,7 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
     
     fold_btn.click(
         fn=run_fold_v2,
-        inputs=[seq_input, viewer_choice],
+        inputs=[seq_input],
         outputs=[viewer_box, lattice_plot, hydro_plot, charge_plot, summary_table, export_file, raw_pdb, dssp_out, pi_out, hash_out]
     )
 
