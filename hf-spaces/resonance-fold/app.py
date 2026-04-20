@@ -106,8 +106,8 @@ def run_full_pipeline(seq, steps, viewer_choice):
     analysis = BiophysicsSuite.analyze_sequence(seq, coords)
     meta = {
         "hash": ReportingSuite.generate_share_hash(seq),
-        "avg_confidence": np.mean(final["confidence"]),
-        "ttt_stability": final["stability"]
+        "avg_confidence": float(np.mean(final["confidence"])),
+        "ttt_stability": float(final["stability"])
     }
     
     # 3. Reports
