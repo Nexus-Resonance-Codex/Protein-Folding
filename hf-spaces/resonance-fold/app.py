@@ -249,9 +249,12 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
                     fold_btn = gr.Button("🚀 EXECUTE", variant="primary")
                     
                     with gr.Accordion("Grand Gallery (Top 100 Difficult Targets)", open=False):
-                        for name, data in PROTEIN_LIBRARY.items():
-                            btn = gr.Button(f"Load {name}", size="sm")
-                            btn.click(lambda d=data: d["seq"], None, seq_input)
+                        gallery_search = gr.Textbox(placeholder="Search targets...", show_label=False)
+                        gallery_grid = gr.Row()
+                        with gallery_grid:
+                            for name, data in PROTEIN_LIBRARY.items():
+                                btn = gr.Button(f"Load {name}", size="sm")
+                                btn.click(lambda s=data["seq"]: s, None, seq_input)
                 
                 with gr.Column(scale=2):
                     viewer_box = gr.HTML("<div style='height: 520px; border: 1px dashed #444; border-radius: 8px; display: flex; align-items: center; justify-content: center;'>Fold a protein to see the 3D structure here.</div>")
