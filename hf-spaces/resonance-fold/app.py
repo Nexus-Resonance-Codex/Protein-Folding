@@ -92,8 +92,9 @@ def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
         """
 
 # ─── Handlers ────────────────────────────────────────────────────────────────
-def run_full_pipeline(seq, steps, viewer_choice):
+def run_full_pipeline(seq, viewer_choice):
     try:
+        steps = 250
         if not seq: return [None]*10
         seq = seq.strip().upper()
         print(f"Folding sequence: {seq[:20]}... (length: {len(seq)})")
@@ -153,7 +154,6 @@ HEAD_HTML = """
 """
 
 with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
-    steps_state = gr.State(250)
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1></div>")
     
     with gr.Tabs():
@@ -212,7 +212,7 @@ with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
     
     fold_btn.click(
         fn=run_full_pipeline,
-        inputs=[seq_input, steps_state, viewer_choice],
+        inputs=[seq_input, viewer_choice],
         outputs=[viewer_box, lattice_plot, hydro_plot, charge_plot, summary_table, export_file, raw_pdb, dssp_out, pi_out, hash_out]
     )
 
