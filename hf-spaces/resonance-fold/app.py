@@ -92,8 +92,11 @@ def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
         """
 
 # ─── Handlers ────────────────────────────────────────────────────────────────
-def run_fold_v2(seq):
+def run_fold_v2(*args):
     try:
+        print(f"DEBUG: run_fold_v2 called with {len(args)} args: {args}")
+        if len(args) == 0: return [None]*10
+        seq = args[0]
         viewer_choice = "3Dmol"
         steps = 250
         if not seq: return [None]*10
