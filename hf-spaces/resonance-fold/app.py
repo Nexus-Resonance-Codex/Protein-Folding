@@ -94,50 +94,58 @@ def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
 
 # ─── Handlers ────────────────────────────────────────────────────────────────
 def run_full_pipeline(seq, steps, viewer_choice):
-    if not seq: return [None]*10
-    seq = seq.strip().upper()
-    
-    # 1. Fold
-    frames = list(engine.fold_sequence(seq))
-    final = frames[-1]
-    coords = final["coords"]
-    
-    # 2. Analyze
-    analysis = BiophysicsSuite.analyze_sequence(seq, coords)
-    meta = {
-        "hash": ReportingSuite.generate_share_hash(seq),
-        "avg_confidence": float(np.mean(final["confidence"])),
-        "ttt_stability": float(final["stability"])
-    }
-    
-    # 3. Reports
-    pdb_text = ReportingSuite.generate_pdb(seq, coords)
-    zip_path = ReportingSuite.create_research_package(f"nrc_{meta['hash']}", seq, coords, analysis, meta)
-    
-    # 4. 3D Visualization (with pockets)
-    viewer_html = get_viewer_html(pdb_text, viewer_choice, pockets=analysis["pockets"][:1])
-    
-    # 5. Lattice Explorer
-    lattice_viz = go.Figure(data=[go.Scatter3d(
-        x=coords[:, 0], y=coords[:, 1], z=coords[:, 2],
-        mode='lines+markers', line=dict(color='gold', width=4)
-    )])
-    lattice_viz.update_layout(template="plotly_dark", title="φ-Lattice Projection")
-    
-    # 6. Heatmaps (Hydrophobicity & Charge)
-    h_fig = go.Figure(data=go.Heatmap(z=[analysis["hydropathy"]], colorscale='Viridis'))
-    h_fig.update_layout(template="plotly_dark", title="Hydrophobicity Profile", height=200)
-    
-    c_fig = go.Figure(data=go.Heatmap(z=[analysis["charge"]], colorscale='RdBu', zmid=0))
-    c_fig.update_layout(template="plotly_dark", title="Charge Profile", height=200)
-    
-    summary_df = pd.DataFrame([
-        ["Length", len(seq)],
-        ["pI", analysis["pI"]],
-        ["Stability", f"{meta['ttt_stability']:.4f}"]
-    ], columns=["Metric", "Value"])
-    
-    return viewer_html, lattice_viz, h_fig, c_fig, summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), analysis["pI"], meta["hash"]
+    try:
+        if not seq: return [None]*10
+        seq = seq.strip().upper()
+        print(f"Folding sequence: {seq[:20]}... (length: {len(seq)})")
+        
+        # 1. Fold
+        frames = list(engine.fold_sequence(seq))
+        final = frames[-1]
+        coords = final["coords"]
+        
+        # 2. Analyze
+        analysis = BiophysicsSuite.analyze_sequence(seq, coords)
+        meta = {
+            "hash": ReportingSuite.generate_share_hash(seq),
+            "avg_confidence": float(np.mean(final["confidence"])),
+            "ttt_stability": float(final["stability"])
+        }
+        
+        # 3. Reports
+        pdb_text = ReportingSuite.generate_pdb(seq, coords)
+        zip_path = ReportingSuite.create_research_package(f"nrc_{meta['hash']}", seq, coords, analysis, meta)
+        
+        # 4. 3D Visualization (with pockets)
+        viewer_html = get_viewer_html(pdb_text, viewer_choice, pockets=analysis["pockets"][:1])
+        
+        # 5. Lattice Explorer
+        lattice_viz = go.Figure(data=[go.Scatter3d(
+            x=coords[:, 0], y=coords[:, 1], z=coords[:, 2],
+            mode='lines+markers', line=dict(color='gold', width=4)
+        )])
+        lattice_viz.update_layout(template="plotly_dark", title="φ-Lattice Projection")
+        
+        # 6. Heatmaps (Hydrophobicity & Charge)
+        h_fig = go.Figure(data=go.Heatmap(z=[analysis["hydropathy"]], colorscale='Viridis'))
+        h_fig.update_layout(template="plotly_dark", title="Hydrophobicity Profile", height=200)
+        
+        c_fig = go.Figure(data=go.Heatmap(z=[analysis["charge"]], colorscale='RdBu', zmid=0))
+        c_fig.update_layout(template="plotly_dark", title="Charge Profile", height=200)
+        
+        summary_df = pd.DataFrame([
+            ["Length", len(seq)],
+            ["pI", analysis["pI"]],
+            ["Stability", f"{meta['ttt_stability']:.4f}"]
+        ], columns=["Metric", "Value"])
+        
+        print("Pipeline complete.")
+        return viewer_html, lattice_viz, h_fig, c_fig, summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), analysis["pI"], meta["hash"]
+    except Exception as e:
+        print(f"PIPELINE ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        raise gr.Error(f"Institutional Error: {str(e)}")
 
 # ─── App UI ──────────────────────────────────────────────────────────────────
 HEAD_HTML = """
@@ -146,48 +154,53 @@ HEAD_HTML = """
 """
 
 with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
+    steps_state = gr.State(250)
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1></div>")
     
     with gr.Tabs():
         with gr.Tab("🔬 Playground"):
             with gr.Row():
                 with gr.Column(scale=1):
-                    seq_input = gr.Textbox(label="Sequence", lines=5)
-                    viewer_choice = gr.Radio(["3Dmol", "NGL"], value="3Dmol", label="3D Engine")
+                    seq_input = gr.Textbox(label="Sequence", lines=8, placeholder="Paste FASTA or raw amino acid sequence...")
+                    viewer_choice = gr.Radio(["3Dmol", "NGL"], label="3D Engine", value="3Dmol")
                     fold_btn = gr.Button("🚀 EXECUTE", variant="primary")
+                    
                     with gr.Accordion("Gallery", open=False):
-                        for name, d in PROTEIN_LIBRARY.items():
-                            gr.Button(f"Load {name}").click(lambda s=d['seq']: s, outputs=seq_input)
+                        for name, data in PROTEIN_LIBRARY.items():
+                            btn = gr.Button(f"Load {name}")
+                            btn.click(lambda d=data: d["seq"], None, seq_input)
+                
                 with gr.Column(scale=2):
-                    viewer_box = gr.HTML("<div style='height:520px; background:#161b22;'>Ready</div>")
+                    status_out = gr.Markdown("Ready")
+                    viewer_box = gr.HTML("<div style='height: 520px; border: 1px dashed #444; border-radius: 8px; display: flex; align-items: center; justify-content: center;'>Fold a protein to see the 3D structure here.</div>")
         
         with gr.Tab("📊 Analytics"):
             with gr.Row():
-                with gr.Column():
-                    hydro_plot = gr.Plot()
-                    charge_plot = gr.Plot()
-                with gr.Column():
-                    summary_table = gr.Dataframe()
-                    lattice_plot = gr.Plot()
-
+                hydro_plot = gr.Plot(label="Hydrophobicity")
+                charge_plot = gr.Plot(label="Charge")
+            summary_table = gr.Dataframe(label="Analysis Summary")
+            
         with gr.Tab("🧬 Expert Suite"):
             with gr.Row():
-                dssp_out = gr.Textbox(label="DSSP")
-                pi_out = gr.Number(label="pI")
-                hash_out = gr.Textbox(label="Hash")
-
+                lattice_plot = gr.Plot(label="φ-Lattice Explorer")
+                with gr.Column():
+                    dssp_out = gr.Textbox(label="DSSP Assignment", interactive=False)
+                    pi_out = gr.Number(label="Isoelectric Point (pI)", interactive=False)
+                    hash_out = gr.Textbox(label="Provenance Hash", interactive=False)
+        
         with gr.Tab("📦 Export"):
-            export_file = gr.File(label="Package")
-            raw_pdb = gr.Code(label="PDB", language="markdown")
-
+            export_file = gr.File(label="Download Research Package (.zip)")
+            raw_pdb = gr.Code(label="PDB 3.3 Output", language="markdown")
+            
         with gr.Tab("📚 Documentation"):
-            with gr.Accordion("Tutorial: How to use Resonance-Fold", open=True):
-                gr.Markdown("""
-                1. **Input Sequence**: Paste your amino acid sequence (e.g., MTTQ...) into the Playground.
-                2. **Choose Engine**: Select 3Dmol for speed or NGL for advanced surface rendering.
-                3. **Analyze**: Switch to the Analytics tab to view Hydrophobicity and Charge heatmaps.
-                4. **Export**: Download the institutional research package (.zip) containing PDBs, Reports, and Citations.
-                """)
+            gr.Markdown("""
+            ### Institutional Protocol
+            Resonance-Fold utilizes the **Nexus Resonance Codex (NRC)** framework to simulate protein structural behavior in high-dimensional φ-manifolds.
+            
+            - **Engine**: 736D φ-tensor refinement.
+            - **Stability**: TTT-7 stabilization audit.
+            - **Capacity**: Up to 32,768 AA.
+            """)
             with gr.Accordion("FAQ", open=False):
                 gr.Markdown("""
                 **Q: What is the maximum sequence length?**
