@@ -41,38 +41,54 @@ body { font-family: 'Inter', sans-serif; background: var(--obsidian); color: #d1
 """
 
 # ─── Visualization Logic ─────────────────────────────────────────────────────
+# ─── Visualization Logic ─────────────────────────────────────────────────────
 def get_viewer_html(pdb_text, viewer_type="3Dmol", pockets=[]):
     if not pdb_text: return ""
     v_id = f"v_{int(time.time()*1000)}"
-    pdb_escaped = pdb_text.replace("\n", "\\n").replace("'", "\\'")
     
     if viewer_type == "3Dmol":
         pocket_js = ""
         if pockets:
-            pocket_js = f"v.addSphere({{ center: v.getModel().selectedAtoms({{ resi: {pockets} }})[0], radius: 10.0, color: 'red', opacity: 0.4 }});"
+            pocket_js = f"v.addSphere({{ center: v.getModel().selectedAtoms({{ resi: {pockets} }})[0], radius: 1.0, color: 'red', opacity: 0.6 }});"
         
         return f"""
-        <div id="{v_id}" style="height: 520px; width: 100%; background: #0b0e14;"></div>
+        <div id="{v_id}" style="height: 520px; width: 100%; background: #0b0e14; border-radius: 8px;"></div>
         <script>
             (function() {{
-                const v = $3Dmol.createViewer('{v_id}', {{ backgroundColor: '0x0b0e14' }});
-                v.addModel(`{pdb_text}`, 'pdb');
-                v.setStyle({{}}, {{ cartoon: {{ color: 'spectrum' }} }});
-                {pocket_js}
-                v.zoomTo(); v.render();
+                const tryInit = () => {{
+                    if (typeof $3Dmol === 'undefined') {{
+                        setTimeout(tryInit, 200);
+                        return;
+                    }}
+                    const v = $3Dmol.createViewer('{v_id}', {{ backgroundColor: '0x0b0e14' }});
+                    v.addModel(`{pdb_text}`, 'pdb');
+                    v.setStyle({{}}, {{ cartoon: {{ color: 'spectrum' }} }});
+                    {pocket_js}
+                    v.zoomTo(); v.render();
+                }};
+                tryInit();
             }})();
         </script>
         """
     else: # NGL Viewer
         return f"""
-        <div id="{v_id}" style="height: 520px; width: 100%;"></div>
+        <div id="{v_id}" style="height: 520px; width: 100%; background: #0b0e14; border-radius: 8px;"></div>
         <script>
-            var stage = new NGL.Stage('{v_id}', {{ backgroundColor: '#0b0e14' }});
-            var blob = new Blob(['{pdb_text}'], {{ type: 'text/plain' }});
-            stage.loadFile(blob, {{ ext: 'pdb' }}).then(function(o) {{
-                o.addRepresentation('cartoon', {{ color: 'residueindex' }});
-                o.autoView();
-            }});
+            (function() {{
+                const tryInit = () => {{
+                    if (typeof NGL === 'undefined') {{
+                        setTimeout(tryInit, 200);
+                        return;
+                    }}
+                    var stage = new NGL.Stage('{v_id}', {{ backgroundColor: '#0b0e14' }});
+                    var blob = new Blob([`{pdb_text}`], {{ type: 'text/plain' }});
+                    stage.loadFile(blob, {{ ext: 'pdb' }}).then(function(o) {{
+                        o.addRepresentation('cartoon', {{ color: 'residueindex' }});
+                        o.autoView();
+                    }});
+                }};
+                tryInit();
+            }})();
         </script>
         """
 
@@ -124,7 +140,12 @@ def run_full_pipeline(seq, steps, viewer_choice):
     return viewer_html, lattice_viz, h_fig, c_fig, summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), analysis["pI"], meta["hash"]
 
 # ─── App UI ──────────────────────────────────────────────────────────────────
-with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
+HEAD_HTML = """
+<script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.4.2/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.js"></script>
+"""
+
+with gr.Blocks(css=CSS, title="Resonance-Fold", head=HEAD_HTML) as demo:
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1></div>")
     
     with gr.Tabs():
@@ -176,12 +197,6 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
                 A: We project a 736-dimensional manifold into 3D using TTT-7 stabilized tensors.
                 """)
 
-    demo.load(None, None, None, js="""
-    () => {
-        var s1 = document.createElement('script'); s1.src = 'https://3Dmol.org/build/3Dmol-min.js'; document.head.appendChild(s1);
-        var s2 = document.createElement('script'); s2.src = 'https://cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/dist/ngl.js'; document.head.appendChild(s2);
-    }
-    """)
     
     fold_btn.click(
         fn=run_full_pipeline,
