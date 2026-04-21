@@ -1,13 +1,9 @@
-gradio==4.40.0
-huggingface_hub==0.24.0
+gradio==4.44.0
 plotly
 narwhals
 pandas
 numpy
 matplotlib
-biopython
-scipy
-fpdf2
-requests
+pydantic
 fastapi
 uvicorn

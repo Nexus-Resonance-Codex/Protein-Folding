@@ -1,4 +1,14 @@
 import gradio as gr
+import gradio_client.utils
+# Monkey-patch to prevent bool schema crash
+original = gradio_client.utils.json_schema_to_python_type
+def safe_json_schema_to_python_type(schema, defs=None):
+    try:
+        return original(schema, defs)
+    except (TypeError, KeyError):
+        return "Any"
+gradio_client.utils.json_schema_to_python_type = safe_json_schema_to_python_type
+
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -302,22 +312,11 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     )
 
 if __name__ == "__main__":
-    # Launch with non-blocking thread to allow FastAPI modification
     demo.launch(
-        server_name="0.0.0.0", 
-        server_port=7860, 
-        prevent_thread_lock=True,
-        share=False
+        server_name="0.0.0.0",
+        server_port=7860,
+        share=False,           # HF Spaces handles sharing itself
+        show_api=False,        # Disable the buggy api_info endpoint
+        show_error=True,
+        quiet=True
     )
-    
-    # Surgical Hijack: Block the buggy API info route at the FastAPI level
-    from fastapi.responses import JSONResponse
-    
-    @demo.app.get("/info")
-    @demo.app.get("/api/info")
-    async def hijacked_api_info():
-        return JSONResponse(content={"api": "Resonance-Fold API is optimized for stability; documentation generation suppressed."})
-
-    import time
-    while True:
-        time.sleep(1)
