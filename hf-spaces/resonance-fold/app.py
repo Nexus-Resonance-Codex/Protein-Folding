@@ -35,12 +35,7 @@ from reporting import ReportingSuite
 
 engine = NRCEngine()
 
-PROTEIN_LIBRARY = {
-    "Insulin (Human)": "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT",
-    "Ubiquitin": "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
-    "SARS-CoV-2 RBD": "NITNLCPFGEVFNATRFASVYAWNRKRISNCVADYSVLYNSASFSTFKCYGVSPTKLNDLCFTNVYADSFVIRGDEVRQIAPGQTGKIADYNYKLPDDFTGCVIAWNSNNLDSKVGGNYNYLYRLFRKSNLKPFERDISTEIYQAGSTPCNGVEGFNCYFPLQSYGFQPTNGVGYQPYRVVVLSFELLHAPATVCGPKKSTNLVKNKCVNF",
-    "Tough-Target-22": "GTCCWAINCGFDLKVVQHLSGQNRALIDYCKDRCKCNVAPTQPKVLKPGTAKDNTKPHTHPLSQVKRFFKAGHRQGAQHGL"
-}
+from protein_library import PROTEIN_LIBRARY
 
 CSS = r"""
 :root { --nrc-gold: #D4AF37; --nrc-obsidian: #0A0A0A; --nrc-green: #00FF88; }
@@ -127,25 +122,26 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         templates = None
         
         if folding_mode in ["ESMFold (AI Only)", "Hybrid (AI + NRC)"]:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API...")
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)...")
             esm_pdb = query_esmfold(seq)
             if esm_pdb:
                 esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
                 if len(esm_coords) == len(seq):
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED.")
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED. Resonance Sync Success.")
                     if folding_mode == "ESMFold (AI Only)":
                         coords = esm_coords
                         confidence = esm_plddt
                     else:
-                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE...")
+                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
                         templates = {i: c for i, c in enumerate(esm_coords)}
                 else:
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK.")
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC PURE MATH.")
             else:
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD API UNAVAILABLE. FALLING BACK.")
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD API UNAVAILABLE / UNAUTHORIZED. FALLING BACK TO NRC PURE MATH.")
 
         # Run NRC Math Engine (as primary or refinement)
         if coords is None:
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 736D PHI-LATTICE FOLDING ENGINE...")
             frames = list(engine.fold_sequence(seq, templates=templates))
             final = frames[-1]
             coords = final["coords"]
@@ -167,24 +163,34 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         
         # --- Plotly Visualizations (Defensive Alignment) ----------------------
         def align_arrays(x, y):
+            x = np.array(x)
+            y = np.array(y)
             min_len = min(len(x), len(y))
             return x[:min_len], y[:min_len]
 
         # 3D Lattice Projection
+        l_x, l_conf = align_arrays(coords[:,0], confidence)
+        l_y, _ = align_arrays(coords[:,1], confidence)
+        l_z, _ = align_arrays(coords[:,2], confidence)
+        
         l_fig = go.Figure(data=[go.Scatter3d(
-            x=coords[:,0], y=coords[:,1], z=coords[:,2], 
+            x=l_x, y=l_y, z=l_z, 
             mode='lines+markers', 
-            marker=dict(size=5, color=confidence, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
+            marker=dict(size=5, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
             line=dict(color='#D4AF37', width=4)
         )])
         l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title="3D Structural Topology")
 
         # 256D φ-Manifold Projection
         m_coords = analysis["phi_manifold"]
+        m_x, m_conf = align_arrays(m_coords[:,0], confidence)
+        m_y, _ = align_arrays(m_coords[:,1], confidence)
+        m_z, _ = align_arrays(m_coords[:,2], confidence)
+        
         m_fig = go.Figure(data=[go.Scatter3d(
-            x=m_coords[:,0], y=m_coords[:,1], z=m_coords[:,2],
+            x=m_x, y=m_y, z=m_z,
             mode='lines+markers',
-            marker=dict(size=4, color=confidence, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
+            marker=dict(size=4, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
             line=dict(color='#00FF88', width=2, dash='dot')
         )])
         m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title="256D φ-Spiral Projection")
@@ -195,13 +201,15 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         r_fig.update_layout(template="plotly_dark", shapes=[dict(type="rect", x0=-180, y0=-180, x1=180, y1=180, line=dict(color="#333"))])
         
         # Confidence (Aligned to Indices)
-        x_indices = list(range(1, len(confidence) + 1))
-        conf_fig = go.Figure(data=go.Scatter(x=x_indices, y=confidence, mode='lines+markers', line=dict(color='#00FF88'), fill='tozeroy'))
+        conf_x = list(range(1, len(confidence) + 1))
+        conf_fig = go.Figure(data=go.Scatter(x=conf_x, y=confidence, mode='lines+markers', line=dict(color='#00FF88'), fill='tozeroy'))
         conf_fig.update_layout(template="plotly_dark", title="Per-Residue Confidence (pLDDT)", xaxis_title="Residue Index", yaxis_title="Score")
         
         # Biophysical Profiles
-        h_fig = go.Figure(data=go.Bar(y=analysis["hydropathy"], marker_color='#3498db')).update_layout(template="plotly_dark", title="Hydropathy Profile")
-        c_fig = go.Figure(data=go.Bar(y=analysis["charge"], marker_color='#e74c3c')).update_layout(template="plotly_dark", title="Charge Distribution")
+        h_y = analysis["hydropathy"]
+        c_y = analysis["charge"]
+        h_fig = go.Figure(data=go.Bar(y=h_y, marker_color='#3498db')).update_layout(template="plotly_dark", title="Hydropathy Profile")
+        c_fig = go.Figure(data=go.Bar(y=c_y, marker_color='#e74c3c')).update_layout(template="plotly_dark", title="Charge Distribution")
         
         # Summary Data
         summary_df = pd.DataFrame([
@@ -233,28 +241,43 @@ def fetch_pdb_logic(query):
     if not query: return "", "[ERROR] QUERY REQUIRED", gr.update(choices=[])
     try:
         import re
+        # 1. Direct PDB ID Match
         if re.match(r"^[0-9][A-Za-z0-9]{3}$", query):
             pdb_id = query.upper()
+            # Try polymer_entity first
             url = f"https://data.rcsb.org/rest/v1/core/polymer_entity/{pdb_id}/1"
             r = requests.get(url)
             if r.status_code == 200:
                 seq = r.json().get("entity_poly", {}).get("pdbx_seq_one_letter_code_can", "")
                 if seq:
                     return seq, f"[OK] FETCHED {pdb_id}", gr.update(choices=[pdb_id], value=pdb_id)
+            
+            # Fallback to entry
+            url_entry = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
+            re_entry = requests.get(url_entry)
+            if re_entry.status_code == 200:
+                return "", f"[OK] FOUND ENTRY {pdb_id}. SELECT ENTITY BELOW.", gr.update(choices=[pdb_id], value=pdb_id)
         
-        # Keyword Search API
+        # 2. Keyword Search API
         search_url = "https://search.rcsb.org/rcsbsearch/v2/query"
         search_query = {
-            "query": {"type": "terminal", "service": "full_text", "parameters": {"value": query}},
+            "query": {
+                "type": "group",
+                "logical_operator": "and",
+                "nodes": [
+                    {"type": "terminal", "service": "full_text", "parameters": {"value": query}},
+                    {"type": "terminal", "service": "text", "parameters": {"attribute": "rcsb_entry_info.selected_polymer_entity_types", "operator": "exact_match", "value": "Protein (only)"}}
+                ]
+            },
             "return_type": "entry",
-            "request_options": {"paginate": {"start": 0, "rows": 10}}
+            "request_options": {"paginate": {"start": 0, "rows": 15}}
         }
         sr = requests.post(search_url, json=search_query)
         if sr.status_code == 200:
             results = sr.json().get("result_set", [])
             ids = [res["identifier"] for res in results]
             if ids:
-                return "", f"[OK] FOUND {len(ids)} MATCHES.", gr.update(choices=ids, interactive=True)
+                return "", f"[OK] FOUND {len(ids)} MATCHES. SELECT ONE TO LOAD SEQUENCE.", gr.update(choices=ids, interactive=True)
         return "", f"[ERROR] NO MATCHES FOR '{query}'", gr.update(choices=[])
     except Exception as e: return "", f"[FATAL] SEARCH FRACTURE: {e}", gr.update(choices=[])
 
@@ -299,11 +322,16 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                     pdb_btn = gr.Button("🔍 SEARCH", variant="secondary")
                 seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=5, placeholder="MTVKV...")
                 with gr.Row():
-                    lib_select = gr.Dropdown(choices=list(PROTEIN_LIBRARY.keys()), label="Institutional Prototypes")
+                    lib_select = gr.Dropdown(
+                        choices=list(PROTEIN_LIBRARY.keys()), 
+                        label="Institutional IDP Library (DisProt Curated)",
+                        info="Select a medically impactful disordered protein to load its sequence."
+                    )
                     folding_mode = gr.Dropdown(
                         label="Folding Locus (Method)", 
                         choices=["NRC Pure Math", "ESMFold (AI Only)", "Hybrid (AI + NRC)"], 
-                        value="Hybrid (AI + NRC)"
+                        value="Hybrid (AI + NRC)",
+                        info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
                     )
                     viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
                 fold_btn = gr.Button("🚀 INITIATE RESONANCE FOLD", variant="primary", elem_classes="primary")
