@@ -142,7 +142,15 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             (function() {{
                 const init = () => {{
                     const el = document.getElementById('mol-container');
-                    if (!el || !window.$3Dmol) {{ setTimeout(init, 200); return; }}
+                    if (!el) return;
+                    if (!window.$3Dmol) {{
+                        console.log("NRC: 3Dmol not found, loading...");
+                        const script = document.createElement('script');
+                        script.src = 'https://3Dmol.org/build/3Dmol-min.js';
+                        script.onload = () => init();
+                        document.head.appendChild(script);
+                        return;
+                    }}
                     const v = $3Dmol.createViewer(el, {{backgroundColor: '#000'}});
                     v.addModel(`{pdb_safe}`, "pdb");
                     v.setStyle({{}}, {{cartoon: {{color: 'spectrum', thickness: 0.6}}}});
@@ -150,6 +158,7 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
                     v.zoomTo();
                     v.render();
                     v.animate({{loop: "backAndForth", step: 0.5}});
+                    console.log("NRC: 3Dmol Visualizer Resonant.");
                 }};
                 init();
             }})();
@@ -162,12 +171,21 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             (function() {{
                 const init = () => {{
                     const el = document.getElementById('ngl-container');
-                    if (!el || !window.NGL) {{ setTimeout(init, 200); return; }}
+                    if (!el) return;
+                    if (!window.NGL) {{
+                        console.log("NRC: NGL not found, loading...");
+                        const script = document.createElement('script');
+                        script.src = 'https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js';
+                        script.onload = () => init();
+                        document.head.appendChild(script);
+                        return;
+                    }}
                     const s = new NGL.Stage("ngl-container", {{backgroundColor: "black"}});
                     const b = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
                     s.loadFile(b, {{ext: "pdb"}}).then(o => {{
-                        o.addRepresentation("cartoon", {{color: "spectrum"}});
+                        o.addRepresentation("cartoon", {{color: "resname"}});
                         o.autoView();
+                        console.log("NRC: NGL Visualizer Resonant.");
                     }});
                 }};
                 init();
