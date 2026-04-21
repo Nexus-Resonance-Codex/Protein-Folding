@@ -4,7 +4,7 @@ emoji: 🧬
 colorFrom: yellow
 colorTo: gray
 sdk: gradio
-sdk_version: "4.44.1"
+sdk_version: 5.13.2
 python_version: "3.10"
 app_file: hf-spaces/resonance-fold/app.py
 pinned: false
