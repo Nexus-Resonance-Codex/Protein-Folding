@@ -168,7 +168,7 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
 
     # --- Events ---
     lib_select.change(lambda x: PROTEIN_LIBRARY.get(x, ""), inputs=lib_select, outputs=seq_input)
-    pdb_btn.click(fetch_pdb_logic, inputs=pdb_search, outputs=[seq_input, log_box])
+    pdb_btn.click(fetch_pdb_logic, inputs=pdb_search, outputs=[seq_input, log_box], api_name=False)
     mut_btn.click(lambda s, p, a: f"ΔΔG: {BiophysicsSuite.simulate_mutation(s, int(p), a)['estimated_ddg']}", [seq_input, m_pos, m_aa], mut_out)
     fold_btn.click(run_nrc_pipeline, [seq_input, viewer_type], [viewer_box, l_plot, rama_plot, h_plot, ch_plot, summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out, log_box])
 
