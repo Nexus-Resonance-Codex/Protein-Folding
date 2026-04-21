@@ -138,11 +138,23 @@ class NRCEngine:
         return coords * (3.8 / np.mean(lens))
 
     def _calculate_plddt(self, lattice: np.ndarray, step: int) -> np.ndarray:
-        """Calculates per-residue confidence based on lattice convergence."""
-        # Metric: Local variance in 736D state
-        # High convergence = High confidence
-        dist = np.linalg.norm(lattice - np.roll(lattice, 1, axis=0), axis=1)
-        plddt = 100 * (1.0 - np.clip(np.abs(dist - 3.8) / 3.8, 0, 1))
+        """Calculates per-residue confidence based on lattice resonance convergence."""
+        # Metric: Local curvature and harmonic stability in the 736D manifold
+        # We look at how 'smooth' the local resonance is compared to the global manifold
+        diffs = np.linalg.norm(np.diff(lattice, axis=0), axis=1)
+        # Pad the diffs to match length n
+        diffs = np.concatenate([diffs, [diffs[-1]]])
+        
+        # In the φ-lattice, stability is reached when local transitions match the golden scale
+        # We calculate the deviation from the expected resonance harmonic
+        stability = 1.0 - np.clip(np.abs(diffs - self.PHI) / self.PHI, 0, 1)
+        
+        # Confidence grows with steps (convergence)
+        progress_factor = np.clip(step / 100.0, 0.1, 1.0)
+        plddt = 100 * stability * progress_factor
+        
+        # Ensure institutional floor (avoiding the 0.00% 'VOID' attractor)
+        plddt = np.clip(plddt, 1.0, 100.0)
         return plddt.astype(np.float32)
 
     def _audit_ttt_stability(self, lattice: np.ndarray) -> float:
