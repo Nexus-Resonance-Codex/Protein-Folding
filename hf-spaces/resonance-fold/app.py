@@ -219,7 +219,7 @@ def handle_mutation(seq, pos, aa, coords):
         return f"Mutation: {res['mutation']}\nΔΔG Estimate: {res['estimated_ddg']} kcal/mol\nStability: {res['stability']}\nContext: {res['context']}"
     except Exception as e: return f"[ERROR] {e}"
 
-with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
+with gr.Blocks() as demo:
     # State Manifolds
     coords_state = gr.State()
     analysis_state = gr.State()
@@ -307,6 +307,7 @@ if __name__ == "__main__":
         server_name="0.0.0.0", 
         server_port=7860, 
         show_error=True,
-        show_api=False,
-        allowed_paths=["."]
+        allowed_paths=["."],
+        css=CSS,
+        title="Resonance-Fold Pro"
     )
