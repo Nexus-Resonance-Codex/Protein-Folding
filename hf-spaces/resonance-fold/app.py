@@ -335,11 +335,25 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     )
 
 if __name__ == "__main__":
-    demo.queue().launch(
-        server_name="0.0.0.0",
-        server_port=7860,
-        share=False,
-        show_api=False,
-        show_error=True,
-        quiet=True
-    )
+    try:
+        demo.queue().launch(
+            server_name="0.0.0.0",
+            server_port=7860,
+            share=False,
+            show_api=False,
+            show_error=True,
+            quiet=True
+        )
+    except Exception as e:
+        print(f"CRITICAL STARTUP ERROR: {e}")
+        # Fallback for some HF environments that require 'share=True' if localhost detection fails
+        try:
+            demo.queue().launch(
+                server_name="0.0.0.0",
+                server_port=7860,
+                share=True,
+                show_api=False,
+                show_error=True
+            )
+        except Exception as e2:
+            print(f"ULTIMATE FALLBACK FAILURE: {e2}")
