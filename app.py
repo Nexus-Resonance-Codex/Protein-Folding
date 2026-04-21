@@ -1,4 +1,14 @@
 import sys
+try:
+    import audioop
+except ImportError:
+    try:
+        from audioop_lts import audioop
+        sys.modules["audioop"] = audioop
+    except ImportError:
+        from unittest.mock import MagicMock
+        sys.modules["audioop"] = MagicMock()
+
 import os
 import requests
 import numpy as np
