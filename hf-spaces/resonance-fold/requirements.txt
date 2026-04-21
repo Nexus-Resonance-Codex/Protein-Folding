@@ -9,3 +9,4 @@ networkx
 pydantic
 narwhals
 audioop-lts
+huggingface_hub<0.25.0

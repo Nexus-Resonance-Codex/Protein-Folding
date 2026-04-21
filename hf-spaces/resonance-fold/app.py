@@ -1,3 +1,16 @@
+# HuggingFace Hub HfFolder polyfill for Gradio compatibility
+import huggingface_hub
+try:
+    from huggingface_hub import HfFolder
+except ImportError:
+    try:
+        from huggingface_hub.utils import HfFolder
+    except ImportError:
+        class HfFolder: 
+            @staticmethod
+            def get_token(): return None
+    huggingface_hub.HfFolder = HfFolder
+
 import gradio as gr
 import gradio_client.utils
 # Python 3.13+ audioop polyfill (audioop-lts)
