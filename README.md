@@ -1,3 +1,15 @@
+---
+title: Resonance-Fold
+emoji: 🧬
+colorFrom: yellow
+colorTo: gray
+sdk: gradio
+sdk_version: "4.44.1"
+python_version: "3.10"
+app_file: hf-spaces/resonance-fold/app.py
+pinned: false
+---
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Nexus-Resonance-Codex/.github/main/profile/nrc_logo.png" alt="NRC Scientific Logo" width="300">
 </p>
