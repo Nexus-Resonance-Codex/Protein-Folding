@@ -10,7 +10,7 @@ class BiophysicsSuite:
     CHARGES = {'R': 1, 'K': 1, 'H': 0.1, 'D': -1, 'E': -1}
 
     @staticmethod
-    def analyze_sequence(seq: str, coords: np.ndarray) -> Dict:
+    def analyze_sequence(seq: str, coords: np.ndarray, confidence: np.ndarray) -> Dict:
         """Full biophysical characterization suite."""
         phi, psi = BiophysicsSuite.calculate_phi_psi(coords)
         res = {
@@ -19,9 +19,30 @@ class BiophysicsSuite:
             "charge": [BiophysicsSuite.CHARGES.get(aa, 0) for aa in seq],
             "dssp": BiophysicsSuite.assign_secondary_structure(coords),
             "pockets": BiophysicsSuite.map_binding_pockets(coords),
-            "ramachandran": {"phi": phi, "psi": psi}
+            "ramachandran": {"phi": phi, "psi": psi},
+            "phi_manifold": BiophysicsSuite.project_to_phi_manifold(coords, confidence)
         }
         return res
+
+    @staticmethod
+    def project_to_phi_manifold(coords: np.ndarray, confidence: np.ndarray) -> np.ndarray:
+        """
+        Project 3D coordinates + confidence into the high-dimensional φ-spiral manifold.
+        Returns a 3D 'silhouette' for visualization.
+        """
+        phi = (1 + 5**0.5) / 2
+        manifold_coords = []
+        for i, (p, c) in enumerate(zip(coords, confidence)):
+            angle = i * (2 * np.pi / phi**2)
+            # 256D-inspired projection: radial scaling by confidence
+            r = 1.0 + (c / 100.0)
+            z_offset = i * 0.1
+            manifold_coords.append([
+                p[0] + r * np.cos(angle),
+                p[1] + r * np.sin(angle),
+                p[2] + z_offset
+            ])
+        return np.array(manifold_coords)
 
     @staticmethod
     def calculate_phi_psi(coords: np.ndarray) -> Tuple[List[float], List[float]]:
@@ -83,14 +104,25 @@ class BiophysicsSuite:
 
     @staticmethod
     def assign_secondary_structure(coords: np.ndarray) -> List[str]:
-        """Simplified DSSP based on C-alpha distances and angles."""
-        if len(coords) < 4: return ["C"] * len(coords)
-        dssp = ["C"] * len(coords)
-        for i in range(1, len(coords) - 2):
-            dist = np.linalg.norm(coords[i+2] - coords[i-1])
-            if dist < 6.0: dssp[i] = "H" # Alpha Helix
-            elif dist > 9.5: dssp[i] = "E" # Beta Sheet
-            else: dssp[i] = "C"
+        """
+        Refined DSSP assignment using C-alpha geometric constraints.
+        Identifies Helices (H) and Sheets (E) via distance-angle heuristics.
+        """
+        n = len(coords)
+        if n < 4: return ["C"] * n
+        dssp = ["C"] * n
+        
+        # Calculate distances for i, i+3 (Helix) and i, i+4
+        for i in range(1, n - 3):
+            d13 = np.linalg.norm(coords[i+3] - coords[i])
+            d12 = np.linalg.norm(coords[i+2] - coords[i])
+            
+            # Alpha Helix: compact spiral, d13 ~5.0-6.0A
+            if 4.8 < d13 < 6.2:
+                dssp[i:i+3] = ["H"] * 3
+            # Beta Sheet: extended conformation, d12 > 6.5A
+            elif d12 > 6.5:
+                dssp[i:i+2] = ["E"] * 2
         return dssp
 
     @staticmethod
@@ -118,21 +150,33 @@ class BiophysicsSuite:
         return [{"residues": pocket_residues, "score": len(pocket_residues) / len(coords)}]
 
     @staticmethod
-    def simulate_mutation(seq: str, pos: int, new_aa: str) -> Dict:
-        """Estimate ΔΔG impact of a single point mutation."""
+    def simulate_mutation(seq: str, pos: int, new_aa: str, coords: np.ndarray = None) -> Dict:
+        """
+        Estimate ΔΔG impact of a single point mutation with structural context.
+        """
         if pos < 0 or pos >= len(seq): return {"error": "Invalid position"}
         old_aa = seq[pos]
-        # Professional-grade ΔΔG heuristic
-        # Polar to non-polar in solvent-exposed region vs buried...
-        # Here we use hydropathy and charge delta
+        
+        # Biophysical Deltas
         delta_hydro = BiophysicsSuite.HYDROPATHY.get(new_aa, 0) - BiophysicsSuite.HYDROPATHY.get(old_aa, 0)
         delta_charge = abs(BiophysicsSuite.CHARGES.get(new_aa, 0)) - abs(BiophysicsSuite.CHARGES.get(old_aa, 0))
         
-        ddg = -delta_hydro * 1.5 + abs(delta_charge) * 2.0
+        # Structural Depth Factor (if coords provided)
+        depth_factor = 1.0
+        if coords is not None:
+            center = np.mean(coords, axis=0)
+            dist_to_center = np.linalg.norm(coords[pos] - center)
+            avg_dist = np.mean(np.linalg.norm(coords - center, axis=1))
+            # Buried residues (below avg dist) have higher impact
+            depth_factor = 1.5 if dist_to_center < avg_dist * 0.7 else 0.8
+
+        # Master ΔΔG Heuristic (kcal/mol)
+        ddg = (-delta_hydro * 1.2 + abs(delta_charge) * 1.8) * depth_factor
         
         return {
             "mutation": f"{old_aa}{pos+1}{new_aa}",
             "delta_hydro": round(delta_hydro, 2),
             "estimated_ddg": round(ddg, 2),
-            "stability": "STABLE" if ddg < 0 else "DESTABILIZING"
+            "stability": "STABLE" if ddg < 0 else "DESTABILIZING",
+            "context": "Buried" if depth_factor > 1.0 else "Exposed"
         }
