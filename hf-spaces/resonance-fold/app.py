@@ -12,12 +12,7 @@ app_dir = os.path.dirname(os.path.abspath(__file__))
 if app_dir not in sys.path:
     sys.path.insert(0, app_dir)
 
-# --- JINJA2 HASH-ARMOR ---
-try:
-    import jinja2.utils
-    jinja2.utils.LRUCache.get = lambda self, key, default=None: self._data.get(key, default)
-    print("NRC: Jinja2 Armor Active.")
-except: pass
+# --- Initialization ──────────────────────────────────────────────────────────
 
 from nrc_engine import NRCEngine
 from biophysics import BiophysicsSuite
