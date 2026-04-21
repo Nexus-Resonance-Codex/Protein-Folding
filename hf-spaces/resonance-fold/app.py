@@ -294,7 +294,6 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
                 fold_btn = gr.Button("EXECUTE QUANTUM FOLDING", variant="primary")
                 
                 lib_select.change(lambda x: PROTEIN_LIBRARY.get(x, ""), lib_select, seq_input)
-                pdb_btn.click(fetch_pdb_sequence, [pdb_search], [seq_input, None]) # Note: We'll link log_box via separate event if needed
             
             with gr.Column(elem_classes=["premium-card", "spaced-card"]):
                 gr.Markdown("### 🧬 Mutation Lab")
