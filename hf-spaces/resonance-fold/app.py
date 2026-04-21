@@ -335,11 +335,12 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(
+if __name__ == "__main__":
+    demo.queue().launch(
         server_name="0.0.0.0",
         server_port=7860,
         share=False,
-        show_api=False,      # Prevents the previous json_schema bool error
+        show_api=False,
         show_error=True,
         quiet=True
     )
