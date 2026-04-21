@@ -117,7 +117,12 @@ def run_nrc_pipeline(seq, viewer_type):
         pdb_text = ReportingSuite.generate_pdb(seq, coords, confidence)
         viewer_html = get_viewer_html(pdb_text, viewer_type, analysis["pockets"][:1])
         
-        # Plotly Visualizations
+        # --- Plotly Visualizations (Defensive Alignment) ----------------------
+        def align_arrays(x, y):
+            min_len = min(len(x), len(y))
+            return x[:min_len], y[:min_len]
+
+        # 3D Lattice Projection
         l_fig = go.Figure(data=[go.Scatter3d(
             x=coords[:,0], y=coords[:,1], z=coords[:,2], 
             mode='lines+markers', 
@@ -126,14 +131,17 @@ def run_nrc_pipeline(seq, viewer_type):
         )])
         l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0))
         
-        r_fig = px.scatter(x=analysis["ramachandran"]["phi"], y=analysis["ramachandran"]["psi"], 
-                         labels={'x': 'Phi', 'y': 'Psi'}, title="Ramachandran Projection")
+        # Ramachandran (Aligned)
+        phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
+        r_fig = px.scatter(x=phi, y=psi, labels={'x': 'Phi', 'y': 'Psi'}, title="Ramachandran Projection")
         r_fig.update_layout(template="plotly_dark", shapes=[dict(type="rect", x0=-180, y0=-180, x1=180, y1=180, line=dict(color="#333"))])
         
-        # Confidence Plot (pLDDT)
-        conf_fig = go.Figure(data=go.Scatter(y=confidence, mode='lines+markers', line=dict(color='#00FF88'), fill='tozeroy'))
+        # Confidence (Aligned to Indices)
+        x_indices = list(range(1, len(confidence) + 1))
+        conf_fig = go.Figure(data=go.Scatter(x=x_indices, y=confidence, mode='lines+markers', line=dict(color='#00FF88'), fill='tozeroy'))
         conf_fig.update_layout(template="plotly_dark", title="Per-Residue Confidence (pLDDT)", xaxis_title="Residue Index", yaxis_title="Score")
         
+        # Biophysical Profiles
         h_fig = go.Figure(data=go.Bar(y=analysis["hydropathy"], marker_color='#3498db')).update_layout(template="plotly_dark", title="Hydropathy Profile")
         c_fig = go.Figure(data=go.Bar(y=analysis["charge"], marker_color='#e74c3c')).update_layout(template="plotly_dark", title="Charge Distribution")
         
@@ -156,27 +164,54 @@ def run_nrc_pipeline(seq, viewer_type):
         logs.append(f"[FATAL] {str(e)}")
         return [None]*12 + ["\n".join(logs)]
 
-def fetch_pdb_logic(pdb_id):
-    pdb_id = pdb_id.strip().upper()
-    if not pdb_id: return "", "[ERROR] PDB ID REQUIRED"
+def fetch_pdb_logic(query):
+    query = query.strip()
+    if not query: return "", "[ERROR] QUERY REQUIRED", gr.update(choices=[])
+    
     try:
-        # Use RCSB Data API for precise sequence extraction
-        url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
+        # Regex for PDB ID (4 characters)
+        import re
+        if re.match(r"^[0-9][A-Za-z0-9]{3}$", query):
+            pdb_id = query.upper()
+            url = f"https://data.rcsb.org/rest/v1/core/polymer_entity/{pdb_id}/1"
+            r = requests.get(url)
+            if r.status_code == 200:
+                data = r.json()
+                seq = data.get("entity_poly", {}).get("pdbx_seq_one_letter_code_can", "")
+                if seq:
+                    return seq, f"[OK] FETCHED {pdb_id} (ENTITY 1)", gr.update(choices=[pdb_id], value=pdb_id)
+        
+        # Keyword Search API
+        search_url = "https://search.rcsb.org/rcsbsearch/v2/query"
+        search_query = {
+            "query": {
+                "type": "terminal",
+                "service": "full_text",
+                "parameters": {"value": query}
+            },
+            "return_type": "entry",
+            "request_options": {"paginate": {"start": 0, "rows": 10}}
+        }
+        sr = requests.post(search_url, json=search_query)
+        if sr.status_code == 200:
+            results = sr.json().get("result_set", [])
+            ids = [res["identifier"] for res in results]
+            if ids:
+                return "", f"[OK] FOUND {len(ids)} MATCHES. PLEASE SELECT FROM DROPDOWN.", gr.update(choices=ids, interactive=True)
+        
+        return "", f"[ERROR] NO MATCHES FOR '{query}'", gr.update(choices=[])
+    except Exception as e: 
+        return "", f"[FATAL] SEARCH FRACTURE: {e}", gr.update(choices=[])
+
+def on_select_pdb(pdb_id):
+    if not pdb_id: return ""
+    try:
+        url = f"https://data.rcsb.org/rest/v1/core/polymer_entity/{pdb_id}/1"
         r = requests.get(url)
         if r.status_code == 200:
-            data = r.json()
-            # Try to get sequence from first polymer entity
-            entity_url = f"https://data.rcsb.org/rest/v1/core/polymer_entity/{pdb_id}/1"
-            er = requests.get(entity_url)
-            if er.status_code == 200:
-                edata = er.json()
-                seq = edata.get("entity_poly", {}).get("pdbx_seq_one_letter_code_can", "")
-                if seq:
-                    return seq, f"[OK] FETCHED {pdb_id} | ENTITY: 1"
-            
-            return "", f"[WARN] METADATA FOUND BUT NO SEQUENCE FOR {pdb_id}"
-        return "", f"[ERROR] {pdb_id} NOT FOUND IN RCSB"
-    except Exception as e: return "", f"[FATAL] RCSB CONDUIT FRACTURE: {e}"
+            return r.json().get("entity_poly", {}).get("pdbx_seq_one_letter_code_can", "")
+    except: pass
+    return ""
 
 with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
     with gr.Column(elem_classes="main-header"):
@@ -192,8 +227,9 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
             with gr.Column(elem_classes="premium-card"):
                 gr.Markdown("### 🏛 Sovereign Search & Input")
                 with gr.Row():
-                    pdb_search = gr.Textbox(label="RCSB PDB Accession", placeholder="e.g., 1AIE, 4HHB")
-                    pdb_btn = gr.Button("🔍 SEARCH PDB", variant="secondary")
+                    pdb_search = gr.Textbox(label="RCSB Search (ID or Keyword)", placeholder="e.g., Spike, 1AIE, Insulin")
+                    pdb_results = gr.Dropdown(label="Search Results", choices=[], interactive=False)
+                    pdb_btn = gr.Button("🔍 SEARCH", variant="secondary")
                 seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=8, placeholder="MTVKV...")
                 with gr.Row():
                     lib_select = gr.Dropdown(choices=list(PROTEIN_LIBRARY.keys()), label="Institutional Prototypes")
@@ -242,7 +278,8 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
 
     # --- Events ---
     lib_select.change(lambda x: PROTEIN_LIBRARY.get(x, ""), inputs=lib_select, outputs=seq_input, api_name=False)
-    pdb_btn.click(fetch_pdb_logic, inputs=pdb_search, outputs=[seq_input, log_box], api_name=False)
+    pdb_btn.click(fetch_pdb_logic, inputs=pdb_search, outputs=[seq_input, log_box, pdb_results], api_name=False)
+    pdb_results.change(on_select_pdb, inputs=pdb_results, outputs=seq_input, api_name=False)
     mut_btn.click(lambda s, p, a: f"ΔΔG: {BiophysicsSuite.simulate_mutation(s, int(p), a)['estimated_ddg']}", [seq_input, m_pos, m_aa], mut_out, api_name=False)
     fold_btn.click(
         run_nrc_pipeline, 

@@ -27,12 +27,16 @@ class BiophysicsSuite:
     def calculate_phi_psi(coords: np.ndarray) -> Tuple[List[float], List[float]]:
         """
         Calculate Phi/Psi angles (pseudo-angles for C-alpha only lattice).
-        In a full PDB these require N, CA, C, O. Here we use C-alpha virtual dihedrals.
+        Padded to match len(coords) exactly for Plotly alignment.
         """
-        phi_angles = [0.0]
-        psi_angles = []
+        n = len(coords)
+        phi_angles = [0.0] * n
+        psi_angles = [0.0] * n
         
-        for i in range(1, len(coords) - 2):
+        if n < 4:
+            return phi_angles, psi_angles
+
+        for i in range(1, n - 2):
             # Virtual dihedral between 4 consecutive C-alphas
             p0, p1, p2, p3 = coords[i-1], coords[i], coords[i+1], coords[i+2]
             b1 = p1 - p0
@@ -41,16 +45,20 @@ class BiophysicsSuite:
             
             n1 = np.cross(b1, b2)
             n2 = np.cross(b2, b3)
-            m1 = np.cross(n1, b2 / np.linalg.norm(b2))
+            # Safe norm to avoid zero division
+            norm_b2 = np.linalg.norm(b2)
+            if norm_b2 < 1e-6: continue
+            
+            m1 = np.cross(n1, b2 / norm_b2)
             
             x = np.dot(n1, n2)
             y = np.dot(m1, n2)
             angle = np.degrees(np.arctan2(y, x))
-            psi_angles.append(float(angle))
-            phi_angles.append(float(angle * 0.8)) # Approximation for virtual lattice
             
-        psi_angles.append(0.0)
-        phi_angles.append(0.0)
+            # Map back to residues (using i as anchor)
+            psi_angles[i] = float(angle)
+            phi_angles[i] = float(angle * 0.8) # Heuristic projection
+            
         return phi_angles, psi_angles
 
     @staticmethod
