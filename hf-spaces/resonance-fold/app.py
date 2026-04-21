@@ -80,6 +80,10 @@ body, .gradio-container {
     backdrop-filter: blur(20px);
 }
 
+.spaced-card {
+    margin-top: 20px !important;
+}
+
 .log-console {
     font-family: 'Fira Code', monospace !important;
     background: #000 !important;
@@ -261,7 +265,7 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro", head="""
                 fold_btn = gr.Button("EXECUTE QUANTUM FOLDING", variant="primary")
                 lib_select.change(lambda x: PROTEIN_LIBRARY.get(x, ""), lib_select, seq_input)
             
-            with gr.Column(elem_classes="premium-card", style="margin-top:20px;"):
+            with gr.Column(elem_classes=["premium-card", "spaced-card"]):
                 gr.Markdown("### 🧬 Mutation Lab")
                 with gr.Row():
                     m_pos = gr.Number(label="Pos", value=1, precision=0)
