@@ -38,7 +38,7 @@ PROTEIN_LIBRARY = {
     "Tough-Target-22": "GTCCWAINCGFDLKVVQHLSGQNRALIDYCKDRCKCNVAPTQPKVLKPGTAKDNTKPHTHPLSQVKRFFKAGHRQGAQHGL"
 }
 
-CSS = """
+CSS = r"""
 :root { --nrc-gold: #D4AF37; --nrc-obsidian: #0A0A0A; }
 .main-header { background: #000; padding: 2rem; border-bottom: 2px solid var(--nrc-gold); text-align: center; }
 .main-header h1 { color: var(--nrc-gold) !important; letter-spacing: 4px; }
