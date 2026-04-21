@@ -50,44 +50,9 @@ try:
 except Exception as e:
     print(f"NRC: Jinja2 patch skipped: {e}")
 
-# --- AUDIOOP POLYFILL (for Python 3.13+ if ever used) ---
-try:
-    import audioop  # noqa: F401 — available on Python <=3.12
-except ImportError:
-    try:
-        import audioop_lts as audioop
-        sys.modules["audioop"] = audioop
-    except ImportError:
-        pass
-
-# --- HF HUB POLYFILL ---
-try:
-    import huggingface_hub
-    if not hasattr(huggingface_hub, "HfFolder"):
-        class MockHfFolder:
-            @staticmethod
-            def get_token(): return os.getenv("HF_TOKEN")
-            @staticmethod
-            def save_token(token): pass
-            @staticmethod
-            def delete_token(): pass
-        huggingface_hub.HfFolder = MockHfFolder
-except ImportError:
-    pass
-
 import gradio as gr
 import gradio_client.utils
 import requests
-
-# Gradio Client JSON Type Polyfill
-original = gradio_client.utils.json_schema_to_python_type
-def safe_json_schema_to_python_type(schema, defs=None):
-    try:
-        return original(schema, defs)
-    except (TypeError, KeyError):
-        return "Any"
-gradio_client.utils.json_schema_to_python_type = safe_json_schema_to_python_type
-
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -98,7 +63,6 @@ from reporting import ReportingSuite
 # ─── Initialization ──────────────────────────────────────────────────────────
 engine = NRCEngine()
 
-# ─── Prototypes / Presets ──────────────────────────────────────────────────
 # ─── Prototypes / Presets ──────────────────────────────────────────────────
 PROTEIN_LIBRARY = {
     "--- BIOMEDICAL LANDMARKS ---": {"seq": ""},
@@ -238,7 +202,7 @@ footer { display: none !important; }
 
 def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
     # Sanitize PDB string for JS injection
-    pdb_safe = pdb_str.replace("`", "\\`").replace("$", "\\$")
+    pdb_safe = pdb_str.replace("`", "\\`").replace("$", "\\$").replace("\n", "\\n")
     
     if engine_type == "3Dmol":
         pockets_js = ""
@@ -253,36 +217,25 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             (function() {{
                 const initViewer = () => {{
                     const element = document.getElementById('mol-container');
-                    if (!element) return;
+                    if (!element) {{
+                        setTimeout(initViewer, 100);
+                        return;
+                    }}
                     
-                    // Clear existing
-                    element.innerHTML = "";
-                    
-                    const viewer = $3Dmol.createViewer(element, {{backgroundColor: '#000000'}});
-                    viewer.addModel(`{pdb_safe}`, "pdb");
-                    viewer.setStyle({{}}, {{cartoon: {{color: 'spectrum', ribbon: true, thickness: 0.4}}}});
-                    {pockets_js}
-                    viewer.zoomTo();
-                    viewer.render();
-                    
-                    // Auto-rotate for cinematic effect
-                    let angle = 0;
-                    const animate = () => {{
-                        viewer.rotate(0.5, 'y');
+                    if (window.$3Dmol) {{
+                        const viewer = $3Dmol.createViewer(element, {{backgroundColor: '#000000'}});
+                        viewer.addModel(`{pdb_safe}`, "pdb");
+                        viewer.setStyle({{}}, {{cartoon: {{color: 'spectrum', ribbon: true, thickness: 0.4}}}});
+                        {pockets_js}
+                        viewer.zoomTo();
                         viewer.render();
-                        requestAnimationFrame(animate);
-                    }};
-                    // animate(); // Uncomment for auto-rotation
+                        console.log("NRC: 3Dmol viewer initialized successfully.");
+                    }} else {{
+                        console.log("NRC: 3Dmol library not found, retrying...");
+                        setTimeout(initViewer, 500);
+                    }}
                 }};
-
-                if (window.$3Dmol) {{
-                    initViewer();
-                }} else {{
-                    const script = document.createElement('script');
-                    script.src = 'https://3Dmol.org/build/3Dmol-min.js';
-                    script.onload = initViewer;
-                    document.head.appendChild(script);
-                }}
+                initViewer();
             }})();
         </script>
         """
@@ -292,22 +245,24 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
         <script>
             (function() {{
                 const initNGL = () => {{
-                    const stage = new NGL.Stage("ngl-container", {{backgroundColor: "black"}});
-                    const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
-                    stage.loadFile(blob, {{ext: "pdb"}}).then(function(o) {{
-                        o.addRepresentation("cartoon", {{color: "spectrum"}});
-                        o.autoView();
-                    }});
+                    const element = document.getElementById('ngl-container');
+                    if (!element) {{
+                        setTimeout(initNGL, 100);
+                        return;
+                    }}
+                    
+                    if (window.NGL) {{
+                        const stage = new NGL.Stage("ngl-container", {{backgroundColor: "black"}});
+                        const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
+                        stage.loadFile(blob, {{ext: "pdb"}}).then(function(o) {{
+                            o.addRepresentation("cartoon", {{color: "spectrum"}});
+                            o.autoView();
+                        }});
+                    }} else {{
+                        setTimeout(initNGL, 500);
+                    }}
                 }};
-
-                if (window.NGL) {{
-                    initNGL();
-                }} else {{
-                    const script = document.createElement('script');
-                    script.src = 'https://unpkg.com/ngl';
-                    script.onload = initNGL;
-                    document.head.appendChild(script);
-                }}
+                initNGL();
             }})();
         </script>
         """
@@ -364,10 +319,10 @@ def run_nrc_folding(seq, viewer_choice):
         c_fig.update_layout(template="plotly_dark", title="Charge Profile", height=200)
         summary_df = pd.DataFrame([
             ["Length", len(seq)],
-            ["pI", analysis["pI"]],
+            ["Confidence", f"{meta['avg_confidence']:.2f}%"],
             ["Stability", f"{meta['ttt_stability']:.4f}"]
         ], columns=["Metric", "Value"])
-        current_logs = log("SUCCESS: Institutional package ready for export.")
+        current_logs = log(f"SUCCESS: Institutional package ready. Confidence: {meta['avg_confidence']:.2f}%")
         return (
             viewer_html, lattice_viz, h_fig, c_fig, summary_df, 
             zip_path, pdb_text, "".join(analysis["dssp"]), analysis["pI"], meta["hash"], current_logs
@@ -379,7 +334,10 @@ def run_nrc_folding(seq, viewer_choice):
         traceback.print_exc()
         raise gr.Error(f"Institutional Error: {str(e)}")
 
-with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
+with gr.Blocks(css=CSS, title="Resonance-Fold", head="""
+    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+    <script src="https://unpkg.com/ngl"></script>
+""") as demo:
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1><div class='status-badge'>Lattice Status: Green • TTT-7 Active</div></div>")
     with gr.Tabs():
         with gr.Tab("🔬 Playground"):
