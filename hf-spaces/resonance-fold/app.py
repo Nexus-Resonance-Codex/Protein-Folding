@@ -1,5 +1,16 @@
 import gradio as gr
 import gradio_client.utils
+# Python 3.13+ audioop polyfill (audioop-lts)
+try:
+    import audioop
+except ImportError:
+    try:
+        import audioop_lts as audioop
+        import sys
+        sys.modules["audioop"] = audioop
+    except ImportError:
+        pass
+
 
 original = gradio_client.utils.json_schema_to_python_type
 def safe_json_schema_to_python_type(schema, defs=None):
