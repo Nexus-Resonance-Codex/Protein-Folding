@@ -248,7 +248,6 @@ HEAD_HTML = """
 """
 
 with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
-    # Disable API documentation logic to prevent schema-parsing crash in Gradio 4.44.1
     
     gr.HTML("<div class='main-header'><h1>RESONANCE-FOLD</h1></div>")
     
@@ -315,8 +314,7 @@ if __name__ == "__main__":
     demo.launch(
         server_name="0.0.0.0",
         server_port=7860,
-        share=False,           # HF Spaces handles sharing itself
-        show_api=False,        # Disable the buggy api_info endpoint
-        show_error=True,
-        quiet=True
+        share=False,
+        show_api=False,        # Critical to avoid the previous json_schema bug
+        show_error=True
     )

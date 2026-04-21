@@ -5,5 +5,3 @@ pandas
 numpy
 matplotlib
 pydantic
-fastapi
-uvicorn
