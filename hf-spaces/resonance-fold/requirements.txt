@@ -10,3 +10,4 @@ pydantic
 fastapi
 uvicorn
 narwhals
+pyaudioop
