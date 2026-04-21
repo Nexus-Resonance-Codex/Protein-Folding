@@ -9,3 +9,5 @@ biopython
 scipy
 fpdf2
 requests
+fastapi
+uvicorn

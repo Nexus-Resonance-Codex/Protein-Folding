@@ -302,4 +302,22 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860, share=False)
+    # Launch with non-blocking thread to allow FastAPI modification
+    demo.launch(
+        server_name="0.0.0.0", 
+        server_port=7860, 
+        prevent_thread_lock=True,
+        share=False
+    )
+    
+    # Surgical Hijack: Block the buggy API info route at the FastAPI level
+    from fastapi.responses import JSONResponse
+    
+    @demo.app.get("/info")
+    @demo.app.get("/api/info")
+    async def hijacked_api_info():
+        return JSONResponse(content={"api": "Resonance-Fold API is optimized for stability; documentation generation suppressed."})
+
+    import time
+    while True:
+        time.sleep(1)
