@@ -1,18 +1,6 @@
 import gradio as gr
 import gradio_client.utils
 
-# Python 3.13+ audioop polyfill for Gradio/Pydub compatibility
-try:
-    import audioop
-except ImportError:
-    try:
-        import pyaudioop as audioop
-        import sys
-        sys.modules["audioop"] = audioop
-    except ImportError:
-        pass
-
-# Monkey-patch to prevent bool schema crash
 original = gradio_client.utils.json_schema_to_python_type
 def safe_json_schema_to_python_type(schema, defs=None):
     try:

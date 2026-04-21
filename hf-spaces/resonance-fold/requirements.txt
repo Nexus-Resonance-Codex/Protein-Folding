@@ -7,7 +7,4 @@ plotly
 biopython
 networkx
 pydantic
-fastapi
-uvicorn
 narwhals
-pyaudioop
