@@ -287,6 +287,11 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro", head="""
                     with gr.Row():
                         hydro_plot = gr.Plot()
                         charge_plot = gr.Plot()
+                    with gr.Row():
+                        dssp_out = gr.Textbox(label="Secondary Structure (DSSP)", interactive=False)
+                        with gr.Column():
+                            pi_out = gr.Label(label="Isoelectric Point")
+                            hash_out = gr.Label(label="Provenance Hash")
                 
                 with gr.Tab("🌌 Lattice Explorer"):
                     lattice_plot = gr.Plot(label="High-Dimensional Projection")
@@ -299,7 +304,10 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro", head="""
     fold_btn.click(
         fn=run_nrc_pipeline,
         inputs=[seq_input, viewer_type],
-        outputs=[viewer_box, lattice_plot, ramachandran_plot, hydro_plot, charge_plot, summary_table, export_zip, pdb_code, None, None, None, log_box]
+        outputs=[
+            viewer_box, lattice_plot, ramachandran_plot, hydro_plot, charge_plot, 
+            summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out, log_box
+        ]
     )
 
 if __name__ == "__main__":
