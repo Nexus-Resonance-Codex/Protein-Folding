@@ -29,8 +29,11 @@ class ReportingSuite:
 
     @staticmethod
     def create_research_package(job_id: str, seq: str, coords: np.ndarray, confidence: np.ndarray, analysis: Dict, meta: Dict) -> str:
-        """Assemble institutional .zip package with complete research manifold."""
-        temp_dir = f"temp_{job_id}"
+        """Assemble institutional .zip package with complete research manifold in /tmp."""
+        import shutil
+        temp_dir = f"/tmp/nrc_job_{job_id}"
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir)
         os.makedirs(temp_dir, exist_ok=True)
         
         # 1. PDB File (with actual B-factors)
@@ -41,7 +44,9 @@ class ReportingSuite:
         # 2. Metadata JSON
         meta_path = os.path.join(temp_dir, "metadata.json")
         with open(meta_path, "w") as f:
-            json.dump({**meta, "timestamp": str(datetime.now()), "sequence": seq}, f, indent=4)
+            # Convert numpy types to native for JSON serialization
+            json_meta = {k: float(v) if isinstance(v, (np.float32, np.float64)) else v for k, v in meta.items()}
+            json.dump({**json_meta, "timestamp": str(datetime.now()), "sequence": seq}, f, indent=4)
             
         # 3. Trajectory CSV
         csv_path = os.path.join(temp_dir, "lattice_trajectory.csv")
@@ -89,7 +94,7 @@ class ReportingSuite:
             f.write("@article{nrc2026,\n  title={Resonance-Fold: Ultra-Scale Protein Folding via Phi-Lattice Refinement},\n  author={Nexus Resonance Codex},\n  year={2026}\n}")
             
         # Zip assembly
-        zip_name = f"{job_id}.zip"
+        zip_name = f"/tmp/{job_id}.zip"
         with zipfile.ZipFile(zip_name, 'w') as zipf:
             for root, dirs, files in os.walk(temp_dir):
                 for file in files:
