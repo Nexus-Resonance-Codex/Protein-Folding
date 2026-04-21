@@ -85,17 +85,71 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
     </script>
     """
 
-def run_nrc_pipeline(seq, viewer_type):
-    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING NRC PHI-LATTICE..."]
+def query_esmfold(sequence):
+    """Queries the ESMFold-v1 API for zero-shot protein structure prediction."""
+    token = os.getenv("HF_TOKEN")
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
+    api_url = "https://api-inference.huggingface.co/models/facebook/esmfold-v1"
+    
+    try:
+        response = requests.post(api_url, headers=headers, json={"inputs": sequence}, timeout=60)
+        if response.status_code == 200:
+            return response.text
+        return None
+    except Exception:
+        return None
+
+def parse_pdb_coords(pdb_str):
+    """Extracts C-alpha coordinates and pLDDT from a PDB string."""
+    coords = []
+    plddt = []
+    for line in pdb_str.splitlines():
+        if line.startswith("ATOM") and " CA " in line:
+            try:
+                x = float(line[30:38])
+                y = float(line[38:46])
+                z = float(line[46:54])
+                conf = float(line[60:66])
+                coords.append([x, y, z])
+                plddt.append(conf)
+            except ValueError:
+                continue
+    return np.array(coords), np.array(plddt)
+
+def run_nrc_pipeline(seq, viewer_type, folding_mode):
+    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING {folding_mode.upper()} MANIFOLD..."]
     try:
         seq = seq.strip().upper().replace("\n", "").replace(" ", "")
         if not seq: return [None]*16 + ["[ERROR] EMPTY SEQUENCE"]
         
-        # Instantiate Engine and fold
-        frames = list(engine.fold_sequence(seq))
-        final = frames[-1]
-        coords = final["coords"]
-        confidence = final["confidence"]
+        coords = None
+        confidence = None
+        templates = None
+        
+        if folding_mode in ["ESMFold (AI Only)", "Hybrid (AI + NRC)"]:
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API...")
+            esm_pdb = query_esmfold(seq)
+            if esm_pdb:
+                esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
+                if len(esm_coords) == len(seq):
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED.")
+                    if folding_mode == "ESMFold (AI Only)":
+                        coords = esm_coords
+                        confidence = esm_plddt
+                    else:
+                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE...")
+                        templates = {i: c for i, c in enumerate(esm_coords)}
+                else:
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK.")
+            else:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD API UNAVAILABLE. FALLING BACK.")
+
+        # Run NRC Math Engine (as primary or refinement)
+        if coords is None:
+            frames = list(engine.fold_sequence(seq, templates=templates))
+            final = frames[-1]
+            coords = final["coords"]
+            confidence = final["confidence"]
         
         # Biophysics Analysis
         analysis = BiophysicsSuite.analyze_sequence(seq, coords, confidence)
@@ -104,7 +158,8 @@ def run_nrc_pipeline(seq, viewer_type):
         meta = {
             "hash": ReportingSuite.generate_share_hash(seq), 
             "avg_confidence": float(np.mean(confidence)), 
-            "ttt_stability": float(final["stability"])
+            "ttt_stability": float(analysis.get("ttt_stability", 7.0)),
+            "folding_mode": folding_mode
         }
         
         pdb_text = ReportingSuite.generate_pdb(seq, coords, confidence)
@@ -153,14 +208,14 @@ def run_nrc_pipeline(seq, viewer_type):
             ["Residues", len(seq)], 
             ["Avg Confidence", f"{meta['avg_confidence']:.2f}%"], 
             ["TTT Stability", f"{meta['ttt_stability']:.4f}"],
-            ["Isoelectric Point", f"{analysis['pI']:.2f}"], 
+            ["Folding Mode", folding_mode],
             ["Lattice Hash", meta["hash"]]
         ], columns=["Metric", "Value"])
         
         # Generate Export Package
         zip_path = ReportingSuite.create_research_package(f"nrc_{meta['hash']}", seq, coords, confidence, analysis, meta)
         
-        logs.append(f"[OK] FOLDING COMPLETE. NODES: {len(seq)} | RESONANCE: {meta['ttt_stability']:.2f}")
+        logs.append(f"[OK] FOLDING COMPLETE. MODE: {folding_mode} | NODES: {len(seq)}")
         return [
             viewer_html, l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
             summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), 
@@ -171,6 +226,7 @@ def run_nrc_pipeline(seq, viewer_type):
         import traceback
         logs.append(f"[FATAL] {str(e)}")
         return [None]*13 + ["\n".join(logs), None, None, None]
+
 
 def fetch_pdb_logic(query):
     query = query.strip()
@@ -244,8 +300,14 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                 seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=5, placeholder="MTVKV...")
                 with gr.Row():
                     lib_select = gr.Dropdown(choices=list(PROTEIN_LIBRARY.keys()), label="Institutional Prototypes")
+                    folding_mode = gr.Dropdown(
+                        label="Folding Locus (Method)", 
+                        choices=["NRC Pure Math", "ESMFold (AI Only)", "Hybrid (AI + NRC)"], 
+                        value="Hybrid (AI + NRC)"
+                    )
                     viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
                 fold_btn = gr.Button("🚀 INITIATE RESONANCE FOLD", variant="primary", elem_classes="primary")
+
 
             with gr.Column(elem_classes="premium-card"):
                 gr.Markdown("### 🧬 Mutation Lab (ΔΔG)")
@@ -294,13 +356,14 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
     
     fold_btn.click(
         run_nrc_pipeline, 
-        inputs=[seq_input, viewer_type], 
+        inputs=[seq_input, viewer_type, folding_mode], 
         outputs=[
             viewer_box, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
             summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out, status_log,
             coords_state, analysis_state, meta_state
         ]
     )
+
 
 if __name__ == "__main__":
     demo.launch(
