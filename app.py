@@ -20,6 +20,7 @@ import os
 
 # Hardened environment configuration
 os.environ["MPLCONFIGDIR"] = "/tmp/matplotlib_cache"
+os.environ["XDG_CACHE_HOME"] = "/tmp"
 
 # Add the app directory to sys.path
 app_dir = os.path.dirname(os.path.abspath(__file__))
@@ -251,4 +252,8 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        show_error=True
+    )
