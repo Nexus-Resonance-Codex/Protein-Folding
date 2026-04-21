@@ -7,3 +7,4 @@ biopython
 networkx
 pydantic
 huggingface_hub<0.25.0
+starlette<0.40.0

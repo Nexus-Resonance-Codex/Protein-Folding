@@ -36,13 +36,41 @@ class ReportingSuite:
         with open(meta_path, "w") as f:
             json.dump({**meta, "timestamp": str(datetime.now()), "sequence": seq}, f, indent=4)
             
-        # 3. Biophysics Report (Markdown/HTML)
+        # 3. Trajectory CSV
+        csv_path = os.path.join(temp_dir, "lattice_trajectory.csv")
+        with open(csv_path, "w") as f:
+            f.write("Index,Residue,X,Y,Z\n")
+            for i, (aa, pos) in enumerate(zip(seq, coords)):
+                f.write(f"{i},{aa},{pos[0]:.4f},{pos[1]:.4f},{pos[2]:.4f}\n")
+
+        # 4. Biophysics Report (Styled HTML)
         report_path = os.path.join(temp_dir, "report.html")
         with open(report_path, "w") as f:
-            f.write(f"<h1>Resonance-Fold Research Report</h1><p>Job: {job_id}</p>")
-            f.write(f"<h3>Biophysical Metrics</h3><ul><li>pI: {analysis['pI']}</li></ul>")
+            f.write(f"""
+            <html><head><style>
+                body {{ font-family: sans-serif; background: #0d0d0e; color: #e0e0e0; padding: 40px; }}
+                .card {{ background: #1a1a1b; border: 1px solid #D4AF37; padding: 20px; border-radius: 8px; }}
+                h1 {{ color: #D4AF37; border-bottom: 2px solid #D4AF37; }}
+                li {{ margin: 10px 0; }}
+            </style></head><body>
+            <div class="card">
+                <h1>Resonance-Fold Research Report</h1>
+                <p><strong>Job ID:</strong> {job_id}</p>
+                <p><strong>Sequence:</strong> {seq}</p>
+                <hr>
+                <h3>Institutional Analysis</h3>
+                <ul>
+                    <li><strong>Isoelectric Point (pI):</strong> {analysis['pI']:.2f}</li>
+                    <li><strong>TTT-7 Stability:</strong> {meta.get('ttt_stability', 0):.4f}</li>
+                    <li><strong>Average Confidence:</strong> {meta.get('avg_confidence', 0):.2%}</li>
+                    <li><strong>DSSP Sequence:</strong> {"".join(analysis['dssp'])}</li>
+                </ul>
+                <p><em>Verified via NRC φ-Lattice Projection.</em></p>
+            </div>
+            </body></html>
+            """)
             
-        # 4. Citations
+        # 5. Citations
         cite_path = os.path.join(temp_dir, "citations.bib")
         with open(cite_path, "w") as f:
             f.write("@article{nrc2026,\n  title={Resonance-Fold: Ultra-Scale Protein Folding via Phi-Lattice Refinement},\n  author={Nexus Resonance Codex},\n  year={2026}\n}")
