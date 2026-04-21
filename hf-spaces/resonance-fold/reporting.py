@@ -3,7 +3,7 @@ import zipfile
 import hashlib
 import json
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional, Any
 import numpy as np
 
 class ReportingSuite:
