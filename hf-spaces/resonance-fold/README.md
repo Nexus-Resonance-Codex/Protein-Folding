@@ -1,25 +1,14 @@
 ---
 title: Resonance-Fold
 emoji: 🧬
-colorFrom: gray
+colorFrom: indigo
 colorTo: yellow
 sdk: gradio
-sdk_version: 4.40.0
-python_version: 3.12
+sdk_version: "4.44.0"
 app_file: app.py
 pinned: false
 ---
 
-# Resonance-Fold — NRC Protein Folding Suite
+# Resonance-Fold — NRC φ-Tensor Protein Folding Suite
 
-**Fold real proteins instantly** using the 256D→729D φ-tensor lattice accelerator from the Nexus Resonance Codex.
-
-**Features**:
-- Hybrid real-reference + NRC lattice refinement
-- Support for sequences up to 32,768 amino acids
-- Real-time RMSD, energy, and DSSP visualization
-- Professional export suite (PDB, CSV, HTML report, BibTeX)
-
-Try it now or explore the full NRC ecosystem at https://github.com/nexus-resonance-codex
-
----
+Instantly fold proteins up to 32,768 residues using the 256D→729D φ-tensor lattice from the Nexus Resonance Codex.
