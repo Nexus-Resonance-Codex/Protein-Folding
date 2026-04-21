@@ -56,19 +56,26 @@ class BiophysicsSuite:
         return dssp
 
     @staticmethod
-    def map_binding_pockets(coords: np.ndarray) -> List[int]:
+    def map_binding_pockets(coords: np.ndarray) -> List[Dict]:
         """Identify potential binding pockets via geometric concavity."""
         from scipy.spatial import ConvexHull
-        if len(coords) < 10: return []
-        hull = ConvexHull(coords)
+        if len(coords) < 10:
+            return []
+        try:
+            hull = ConvexHull(coords)
+        except Exception:
+            return []
         # Residues far from hull but enclosed are potential pockets
-        pockets = []
+        pocket_residues: List[int] = []
         center = np.mean(coords, axis=0)
+        max_dist = np.max(np.linalg.norm(coords - center, axis=1))
         for i, p in enumerate(coords):
             dist_to_center = np.linalg.norm(p - center)
-            if dist_to_center < np.max(np.linalg.norm(coords - center, axis=1)) * 0.4:
-                pockets.append(i)
-        return pockets
+            if dist_to_center < max_dist * 0.4:
+                pocket_residues.append(i)
+        if not pocket_residues:
+            return []
+        return [{"residues": pocket_residues, "score": len(pocket_residues) / len(coords)}]
 
     @staticmethod
     def simulate_mutation(seq: str, pos: int, new_aa: str) -> Dict:

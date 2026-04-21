@@ -1,4 +1,3 @@
-gradio==4.44.1
 numpy
 pandas
 scipy
@@ -7,8 +6,4 @@ plotly
 biopython
 networkx
 pydantic
-narwhals
-audioop-lts
 huggingface_hub<0.25.0
-jinja2==3.1.4
-starlette==0.38.2

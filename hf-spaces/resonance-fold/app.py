@@ -1,37 +1,59 @@
 import sys
 import os
 
-# --- JINJA2 HASH-ARMOR POLYFILL ---
-# Fixes 'TypeError: unhashable type: dict' in Jinja2/Starlette/Python 3.13
+# --- JINJA2 HASH-ARMOR POLYFILL (defense-in-depth) ---
 try:
     import jinja2.utils
-    _orig_get = jinja2.utils.LRUCache.get
+    _LRU = jinja2.utils.LRUCache
+
+    _orig_get = _LRU.get
     def _safe_get(self, key, default=None):
         try:
             hash(key)
             return _orig_get(self, key, default)
         except TypeError:
             return default
-    jinja2.utils.LRUCache.get = _safe_get
-    
-    _orig_getitem = jinja2.utils.LRUCache.__getitem__
+    _LRU.get = _safe_get
+
+    _orig_getitem = _LRU.__getitem__
     def _safe_getitem(self, key):
         try:
             hash(key)
             return _orig_getitem(self, key)
         except TypeError:
             raise KeyError(key)
-    jinja2.utils.LRUCache.__getitem__ = _safe_getitem
-    print("NRC: Jinja2 Hash-Armor Active.")
-except Exception as e:
-    print(f"NRC: Failed to apply Jinja2 patch: {e}")
+    _LRU.__getitem__ = _safe_getitem
 
-# --- AUDIOOP POLYFILL ---
+    _orig_setitem = _LRU.__setitem__
+    def _safe_setitem(self, key, value):
+        try:
+            hash(key)
+            return _orig_setitem(self, key, value)
+        except TypeError:
+            pass
+    _LRU.__setitem__ = _safe_setitem
+
+    _orig_contains = _LRU.__contains__
+    def _safe_contains(self, key):
+        try:
+            hash(key)
+            return _orig_contains(self, key)
+        except TypeError:
+            return False
+    _LRU.__contains__ = _safe_contains
+    print("NRC: Jinja2 Hash-Armor Active (complete).")
+except Exception as e:
+    print(f"NRC: Jinja2 patch skipped: {e}")
+
+# --- AUDIOOP POLYFILL (for Python 3.13+ if ever used) ---
 try:
-    import audioop_lts as audioop
-    sys.modules["audioop"] = audioop
+    import audioop  # noqa: F401 — available on Python <=3.12
 except ImportError:
-    pass
+    try:
+        import audioop_lts as audioop
+        sys.modules["audioop"] = audioop
+    except ImportError:
+        pass
 
 # --- HF HUB POLYFILL ---
 try:
@@ -225,11 +247,11 @@ with gr.Blocks(css=CSS, title="Resonance-Fold") as demo:
     )
 
 if __name__ == "__main__":
-    try:
-        demo.queue().launch(server_name="0.0.0.0", server_port=7860, share=False, show_api=False, show_error=True, quiet=True)
-    except Exception as e:
-        print(f"CRITICAL STARTUP ERROR: {e}")
-        try:
-            demo.queue().launch(server_name="0.0.0.0", server_port=7860, share=True, show_api=False, show_error=True)
-        except Exception as e2:
-            print(f"ULTIMATE FALLBACK FAILURE: {e2}")
+    demo.queue().launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        share=False,
+        show_api=False,
+        show_error=True,
+        quiet=True
+    )
