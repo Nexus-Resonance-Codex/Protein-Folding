@@ -1,7 +1,12 @@
 gradio==4.44.0
-plotly
-narwhals
-pandas
 numpy
+pandas
+scipy
 matplotlib
+plotly
+biopython
+networkx
 pydantic
+fastapi
+uvicorn
+narwhals
