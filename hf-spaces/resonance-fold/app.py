@@ -143,32 +143,47 @@ def run_nrc_pipeline(seq, viewer_type):
 
 def fetch_pdb_logic(pdb_id):
     pdb_id = pdb_id.strip().upper()
-    if len(pdb_id) != 4: return "", "[ERROR] INVALID ID"
+    if not pdb_id: return "", "[ERROR] PDB ID REQUIRED"
     try:
-        r = requests.get(f"https://www.rcsb.org/fasta/entry/{pdb_id}", timeout=5)
+        # Use RCSB Data API for precise sequence extraction
+        url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
+        r = requests.get(url)
         if r.status_code == 200:
-            seq = "".join(l.strip() for l in r.text.splitlines() if not l.startswith(">"))
-            return seq, f"[OK] FETCHED {pdb_id}"
-        return "", "[ERROR] NOT FOUND"
-    except Exception as e: return "", f"[ERROR] {e}"
+            data = r.json()
+            # Try to get sequence from first polymer entity
+            entity_url = f"https://data.rcsb.org/rest/v1/core/polymer_entity/{pdb_id}/1"
+            er = requests.get(entity_url)
+            if er.status_code == 200:
+                edata = er.json()
+                seq = edata.get("entity_poly", {}).get("pdbx_seq_one_letter_code_can", "")
+                if seq:
+                    return seq, f"[OK] FETCHED {pdb_id} | ENTITY: 1"
+            
+            return "", f"[WARN] METADATA FOUND BUT NO SEQUENCE FOR {pdb_id}"
+        return "", f"[ERROR] {pdb_id} NOT FOUND IN RCSB"
+    except Exception as e: return "", f"[FATAL] RCSB CONDUIT FRACTURE: {e}"
 
 with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
     with gr.Column(elem_classes="main-header"):
-        gr.HTML("<h1>RESONANCE-FOLD PRO</h1>")
-        gr.Markdown("Institutional 256D φ-Lattice Protein Folding Platform • v2.6.2")
+        gr.HTML("""
+            <div style="text-align: center; padding: 20px;">
+                <h1 style="font-size: 3rem; margin: 0; color: #D4AF37; letter-spacing: 5px;">RESONANCE-FOLD PRO</h1>
+                <p style="font-size: 1.2rem; color: #888; text-transform: uppercase;">Institutional 256D φ-Lattice Protein Folding Platform • v2.6.2</p>
+            </div>
+        """)
 
     with gr.Row():
         with gr.Column(scale=1):
             with gr.Column(elem_classes="premium-card"):
-                gr.Markdown("### 🛠 Structural Input")
+                gr.Markdown("### 🏛 Sovereign Search & Input")
                 with gr.Row():
-                    pdb_search = gr.Textbox(label="RCSB PDB ID", placeholder="1AIE")
-                    pdb_btn = gr.Button("🔍 FETCH", size="sm")
-                seq_input = gr.Textbox(label="Sequence", lines=6)
+                    pdb_search = gr.Textbox(label="RCSB PDB Accession", placeholder="e.g., 1AIE, 4HHB")
+                    pdb_btn = gr.Button("🔍 SEARCH PDB", variant="secondary")
+                seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=8, placeholder="MTVKV...")
                 with gr.Row():
-                    lib_select = gr.Dropdown(choices=list(PROTEIN_LIBRARY.keys()), label="Prototypes")
-                    viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer", value="3Dmol")
-                fold_btn = gr.Button("EXECUTE QUANTUM FOLDING", variant="primary")
+                    lib_select = gr.Dropdown(choices=list(PROTEIN_LIBRARY.keys()), label="Institutional Prototypes")
+                    viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
+                fold_btn = gr.Button("EXECUTE PHI-LATTICE FOLDING", variant="primary", scale=2)
             
             with gr.Column(elem_classes="premium-card"):
                 gr.Markdown("### 🧬 Mutation Lab")
@@ -221,4 +236,4 @@ with gr.Blocks(css=CSS, title="Resonance-Fold Pro") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(server_name="0.0.0.0", server_port=7860)
