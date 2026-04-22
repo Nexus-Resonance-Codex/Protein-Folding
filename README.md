@@ -1,3 +1,13 @@
+---
+title: Resonance Fold Pro
+emoji: 🧬
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_file: hf-spaces/resonance-fold/app.py
+pinned: false
+---
+
 # Nexus Resonance Codex: Protein-Folding
 
 ![NRC Protein Folding](https://img.shields.io/badge/NRC-Protein--Folding-indigo?style=for-the-badge&logo=dna)
