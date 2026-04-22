@@ -35,12 +35,7 @@ from reporting import ReportingSuite
 
 engine = NRCEngine()
 
-PROTEIN_LIBRARY = {
-    "Insulin (Human)": "GIVEQCCTSICSLYQLENYCNFVNQHLCGSHLVEALYLVCGERGFFYTPKT",
-    "Ubiquitin": "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG",
-    "SARS-CoV-2 RBD": "NITNLCPFGEVFNATRFASVYAWNRKRISNCVADYSVLYNSASFSTFKCYGVSPTKLNDLCFTNVYADSFVIRGDEVRQIAPGQTGKIADYNYKLPDDFTGCVIAWNSNNLDSKVGGNYNYLYRLFRKSNLKPFERDISTEIYQAGSTPCNGVEGFNCYFPLQSYGFQPTNGVGYQPYRVVVLSFELLHAPATVCGPKKSTNLVKNKCVNF",
-    "Tough-Target-22": "GTCCWAINCGFDLKVVQHLSGQNRALIDYCKDRCKCNVAPTQPKVLKPGTAKDNTKPHTHPLSQVKRFFKAGHRQGAQHGL"
-}
+from protein_library import PROTEIN_LIBRARY
 
 CSS = r"""
 :root { --nrc-gold: #D4AF37; --nrc-obsidian: #0A0A0A; --nrc-green: #00FF88; }
@@ -127,25 +122,26 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         templates = None
         
         if folding_mode in ["ESMFold (AI Only)", "Hybrid (AI + NRC)"]:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API...")
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)...")
             esm_pdb = query_esmfold(seq)
             if esm_pdb:
                 esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
                 if len(esm_coords) == len(seq):
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED.")
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED. Resonance Sync Success.")
                     if folding_mode == "ESMFold (AI Only)":
                         coords = esm_coords
                         confidence = esm_plddt
                     else:
-                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE...")
+                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
                         templates = {i: c for i, c in enumerate(esm_coords)}
                 else:
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK.")
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC PURE MATH.")
             else:
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD API UNAVAILABLE. FALLING BACK.")
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD API UNAVAILABLE / UNAUTHORIZED. FALLING BACK TO NRC PURE MATH.")
 
         # Run NRC Math Engine (as primary or refinement)
         if coords is None:
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 736D PHI-LATTICE FOLDING ENGINE...")
             frames = list(engine.fold_sequence(seq, templates=templates))
             final = frames[-1]
             coords = final["coords"]
@@ -326,11 +322,16 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                     pdb_btn = gr.Button("🔍 SEARCH", variant="secondary")
                 seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=5, placeholder="MTVKV...")
                 with gr.Row():
-                    lib_select = gr.Dropdown(choices=list(PROTEIN_LIBRARY.keys()), label="Institutional Prototypes")
+                    lib_select = gr.Dropdown(
+                        choices=list(PROTEIN_LIBRARY.keys()), 
+                        label="Institutional IDP Library (DisProt Curated)",
+                        info="Select a medically impactful disordered protein to load its sequence."
+                    )
                     folding_mode = gr.Dropdown(
                         label="Folding Locus (Method)", 
                         choices=["NRC Pure Math", "ESMFold (AI Only)", "Hybrid (AI + NRC)"], 
-                        value="Hybrid (AI + NRC)"
+                        value="Hybrid (AI + NRC)",
+                        info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
                     )
                     viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
                 fold_btn = gr.Button("🚀 INITIATE RESONANCE FOLD", variant="primary", elem_classes="primary")
