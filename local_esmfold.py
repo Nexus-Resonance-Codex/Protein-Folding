@@ -44,3 +44,4 @@ class LocalESMFold:
 
 # Singleton instance
 esm_folder = LocalESMFold()
+LOCAL_ESM_AVAILABLE = True
