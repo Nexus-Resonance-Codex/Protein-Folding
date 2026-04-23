@@ -342,7 +342,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
 
         # Aggressive Adaptive Sub-sampling for Browser Performance
         stride = 1
-        max_points = 500 # Strict cap for Plotly responsiveness on ultra-large sequences
+        max_points = 300 # Ultra-strict cap for maximum browser resonance
         if len(seq) > max_points: 
             stride = int(len(seq) / max_points) + 1
         
@@ -396,12 +396,12 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         ))
         conf_fig.update_layout(template="plotly_dark", title=f"Confidence Profile {'(Sub-sampled)' if stride > 1 else ''}", xaxis_title="Residue Index", yaxis_title="Score")
         
-        # Biophysical Profiles (Sub-sampled)
+        # Biophysical Profiles (Sub-sampled - Optimized with Scattergl)
         h_y = np.array(analysis["hydropathy"])
         c_y = np.array(analysis["charge"])
-        h_fig = go.Figure(data=go.Bar(y=h_y[indices], marker_color='#3498db'))
+        h_fig = go.Figure(data=go.Scattergl(x=conf_x[indices], y=h_y[indices], mode='lines', line=dict(color='#3498db'), fill='tozeroy'))
         h_fig.update_layout(template="plotly_dark", title=f"Hydropathy Profile {'(Sub-sampled)' if stride > 1 else ''}")
-        c_fig = go.Figure(data=go.Bar(y=c_y[indices], marker_color='#e74c3c'))
+        c_fig = go.Figure(data=go.Scattergl(x=conf_x[indices], y=c_y[indices], mode='lines', line=dict(color='#e74c3c'), fill='tozeroy'))
         c_fig.update_layout(template="plotly_dark", title=f"Charge Distribution {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Summary Data
