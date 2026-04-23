@@ -6,7 +6,7 @@
     "The survival of those we love depends on our ability to outpace the complexity of life itself."
   </p>
   <p style="font-size: 1.2rem; color: var(--cyan); letter-spacing: 4px; text-transform: uppercase; font-weight: 800; margin-top: 1rem;">
-    Institutional-Grade Scientific Platform • Powered by Nexus Resonance Codex
+    Advanced Scientific Platform • Powered by Nexus Resonance Codex
   </p>
 </div>
 

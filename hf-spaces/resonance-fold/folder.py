@@ -2,7 +2,7 @@
 #  Copyright (c) 2026 James Trageser (@jtrag)
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
-"""NRC Protein Folder Backend: High-Dimensional Structural Accelerator."""
+"""Geometric Initialization Strategy: Uses φ-based trigonometric expansion to generate maximally distributed pseudo-random starting states for IDPs prior to thermodynamic relaxation."""
 
 import json
 import math
@@ -21,7 +21,7 @@ MOD_7 = 7
 
 @dataclass
 class FoldResult:
-    """Institutional manifest for a successful folding resonance."""
+    """Core manifest for a successful folding resonance."""
 
     sequence: str
     pdb_content: str
@@ -33,7 +33,7 @@ class FoldResult:
 
 
 class ProteinLibrary:
-    """Institutional reservoir of real-world protein sequences and reference coordinates."""
+    """Curated reservoir of real-world protein sequences and reference coordinates."""
 
     DATA = {
         "Insulin (1ZNI)": {
@@ -125,7 +125,7 @@ class NRCFoldBackend:
             rmsd.append(round(current_rmsd, 3))
             energy.append(round(current_energy, 2))
 
-        # 4. Institutional PDB Generation
+        # 4. Core PDB Generation
         pdb_lines = []
         for i, (x, y, z) in enumerate(coords):
             # Refinement mask applied here (Hybrid Strategy)
@@ -148,10 +148,10 @@ class NRCFoldBackend:
         )
 
     def create_package(self, result: FoldResult, output_dir: Path) -> Path:
-        """Package results into an institutional zip manifest."""
+        """Package results into a zip manifest."""
         zip_path = output_dir / "nrc_fold_results.zip"
         with zipfile.ZipFile(zip_path, "w") as zipf:
             zipf.writestr("structure.pdb", result.pdb_content)
             zipf.writestr("manifest.json", json.dumps(asdict(result), indent=2))
-            zipf.writestr("institutional_cert.txt", f"NRC LEVEL 5.0 CERTIFIED - {result.status} STATUS")
+            zipf.writestr("nrc_cert.txt", f"NRC LEVEL 5.0 CERTIFIED - {result.status} STATUS")
         return zip_path

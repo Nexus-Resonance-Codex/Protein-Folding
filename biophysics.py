@@ -2,7 +2,7 @@ import numpy as np
 from typing import Dict, List, Tuple
 
 class BiophysicsSuite:
-    """Institutional-grade biophysical analysis engine."""
+    """Research-grade biophysical analysis engine."""
     
     # Bjellqvist pKa values
     PKA = {'K': 10.0, 'R': 12.0, 'H': 5.98, 'D': 4.05, 'E': 4.45, 'C': 9.0, 'Y': 10.0, 'N-term': 7.5, 'C-term': 3.55}
@@ -34,7 +34,7 @@ class BiophysicsSuite:
         manifold_coords = []
         for i, (p, c) in enumerate(zip(coords, confidence)):
             angle = i * (2 * np.pi / phi**2)
-            # 256D-inspired projection: radial scaling by confidence
+            # 2048D-inspired projection: radial scaling by confidence
             r = 1.0 + (c / 100.0)
             z_offset = i * 0.1
             manifold_coords.append([
