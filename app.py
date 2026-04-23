@@ -59,10 +59,8 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             indices = ",".join(map(str, [i+1 for i in p["residues"]]))
             pockets_js += f"viewer.addSurface($3Dmol.SurfaceType.VDW, {{opacity:0.6, color:'#D4AF37'}}, {{resi:[{indices}]}});\n"
     
-    # Use a STABLE container ID to ensure Gradio state retention
+    # Stable container ID
     container_id = "nrc-manifold-viewer"
-    
-    # Adaptive rendering for large manifolds
     line_count = pdb_str.count("\n")
     est_residues = line_count / 10
     
@@ -78,7 +76,7 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
         <script>
             (function() {{
                 const el = document.getElementById('{container_id}');
-                if (!el) return;
+                if (!el || typeof NGL === 'undefined') return;
                 el.innerHTML = "";
                 const stage = new NGL.Stage('{container_id}', {{backgroundColor: 'black'}});
                 const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
@@ -94,11 +92,11 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
     <div id="{container_id}" class="nrc-viewer" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333;"></div>
     <script>
         (function() {{
-            let retryCount = 0;
-            const tryRender = () => {{
+            let retry = 0;
+            const render = () => {{
                 const el = document.getElementById('{container_id}');
                 if (!el || typeof $3Dmol === 'undefined') {{
-                    if (retryCount++ < 50) setTimeout(tryRender, 100);
+                    if (retry++ < 100) setTimeout(render, 100);
                     return;
                 }}
                 el.innerHTML = "";
@@ -111,8 +109,10 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
                 if ({'true' if est_residues < 5000 else 'false'}) {{
                     viewer.animate({{loop: "backAndForth", step: 0.2}});
                 }}
+                // Force a second render to ensure canvas is painted in HF iframe
+                setTimeout(() => {{ viewer.render(); viewer.zoomTo(); }}, 500);
             }};
-            tryRender();
+            render();
         }})();
     </script>
     """
@@ -350,7 +350,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
 
     with gr.Column(elem_classes="main-header"):
         gr.HTML("""
-            <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
             <script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
