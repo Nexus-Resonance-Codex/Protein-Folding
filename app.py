@@ -37,7 +37,20 @@ engine = NRCEngine()
 
 from protein_library import PROTEIN_LIBRARY
 
-CSS = r"""
+# --- Aesthetics ───────────────────────────────────────────────────────────────
+
+RESONANCE_THEME = gr.themes.Default(
+    primary_hue="amber",
+    neutral_hue="zinc",
+).set(
+    body_background_fill="#0A0A0A",
+    block_background_fill="#111111",
+    block_border_width="1px",
+    button_primary_background_fill="#D4AF37",
+    button_primary_text_color="#000000"
+)
+
+RESONANCE_CSS = r"""
 :root { --nrc-gold: #D4AF37; --nrc-obsidian: #0A0A0A; --nrc-green: #00FF88; }
 body { background-color: var(--nrc-obsidian); }
 .main-header { background: #000; padding: 2rem; border-bottom: 2px solid var(--nrc-gold); text-align: center; }
@@ -48,6 +61,7 @@ body { background-color: var(--nrc-obsidian); }
 .stat-box:last-child { border-right: none; }
 button.primary { background: linear-gradient(90deg, #B8860B, #D4AF37) !important; color: #000 !important; font-weight: 700 !important; border-radius: 16px !important; border: none !important; }
 button.secondary { background: #1a1a1b !important; color: var(--nrc-gold) !important; border: 1px solid var(--nrc-gold) !important; border-radius: 12px !important; }
+.nrc-viewer { border-radius: 20px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1); }
 .tabs { background: transparent !important; border: none !important; }
 """
 
