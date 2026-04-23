@@ -383,11 +383,11 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
     with gr.Row():
         with gr.Column(scale=1):
             with gr.Column(elem_classes="premium-card"):
-                gr.Markdown("### 🧬 Sequence Input & Retrieval")
+                gr.Markdown("### Sequence Input & Configuration")
                 with gr.Row():
                     pdb_search = gr.Textbox(label="RCSB Search (ID or Keyword)", placeholder="e.g., Spike, 1AIE")
                     pdb_results = gr.Dropdown(label="Search Results", choices=[], interactive=False)
-                    pdb_btn = gr.Button("🔍 SEARCH", variant="secondary")
+                    pdb_btn = gr.Button("SEARCH", variant="secondary")
                 seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=5, placeholder="MTVKV...")
                 with gr.Row():
                     lib_select = gr.Dropdown(
@@ -396,37 +396,36 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         info="Select a medically impactful disordered protein to load its sequence."
                     )
                     folding_mode = gr.Dropdown(
-                        label="Folding Locus (Method)", 
+                        label="Folding Engine Mode", 
                         choices=["NRC Pure Math", "ESMFold (AI Only)", "Hybrid (AI + NRC)"], 
                         value="Hybrid (AI + NRC)",
                         info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
                     )
                     viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
-                fold_btn = gr.Button("🚀 EXECUTE REFINEMENT FOLD", variant="primary", elem_classes="primary")
+                fold_btn = gr.Button("Predict Protein Structure", variant="primary", elem_classes="primary")
 
 
             with gr.Column(elem_classes="premium-card"):
-                gr.Markdown("### 🧬 Mutation Lab (ΔΔG)")
+                gr.Markdown("### Mutation Analysis (ΔΔG)")
                 with gr.Row():
                     m_pos = gr.Number(label="Pos", value=1, precision=0)
                     m_aa = gr.Dropdown(choices=list("ACDEFGHIKLMNPQRSTVWY"), label="AA", value="A")
                 mut_btn = gr.Button("SIMULATE MUTATION", variant="secondary")
-                mut_out = gr.Textbox(label="ΔΔG Resonance Report", lines=4, elem_classes="log-console")
+                mut_out = gr.Textbox(label="Mutation Result (ΔΔG)", lines=4, elem_classes="log-console")
 
         with gr.Column(scale=2):
             with gr.Tabs(elem_classes="tabs") as tabs_manifold:
-                # with gr.Tab("🔭 3D Structural Manifold", id="viewer_tab"):
-                #     viewer_box = gr.HTML("<div style='height: 600px; background:#000; border-radius: 20px; border: 1px dashed #333;'></div>")
+                # with gr.Tab("3D Structure Viewer", id="viewer_tab"):
                 
-                with gr.Tab("📊 Optimization Log", id="log_tab"):
-                    status_log = gr.Textbox(label="Lattice Console", lines=10, elem_classes="log-console")
+                with gr.Tab("Structure Log", id="log_tab"):
+                    status_log = gr.Textbox(label="Engine Process Log", lines=10, elem_classes="log-console")
                 
-                with gr.Tab("🌌 Lattice Explorer", id="lattice_tab"): 
+                with gr.Tab("Manifold Projection", id="lattice_tab"): 
                     with gr.Row():
-                        l_plot = gr.Plot(label="3D Geometry")
-                        m_plot = gr.Plot(label="2048D φ-Manifold")
+                        l_plot = gr.Plot(label="3D Topology")
+                        m_plot = gr.Plot(label="2048D Projection")
                 
-                with gr.Tab("📈 Analytical Resonance", id="results_tab"):
+                with gr.Tab("Biophysical Analytics", id="results_tab"):
                     with gr.Row():
                         summary_table = gr.Dataframe(label="Lattice Summary")
                         rama_plot = gr.Plot(label="Ramachandran")
@@ -440,7 +439,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         pi_out = gr.Label(label="pI")
                         hash_out = gr.Label(label="Manifold Hash")
                 
-                with gr.Tab("📥 Research Export"):
+                with gr.Tab("Research Export"):
                     with gr.Row():
                         export_zip = gr.File(label="Download Research Package (.zip)")
                         pdb_code = gr.Code(label="PDB Source", language="markdown")
