@@ -421,12 +421,12 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
             summary_df, zip_path, pdb_preview, "".join(analysis["dssp"]), 
             analysis["pI"], meta["hash"], coords, analysis, meta, 
-            gr.update(selected="viewer_tab"), viewer_html
+            viewer_html
         ]
     except Exception as e: 
         import traceback
         logs.append(f"[FATAL] {str(e)}")
-        return ["\n".join(logs)] + [None]*12 + [None, None, None, gr.update()]
+        return ["\n".join(logs)] + [None]*12 + [None, None, None, None]
 
 
 def fetch_pdb_logic(query):
@@ -591,7 +591,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         outputs=[
             status_log, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
             summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
-            coords_state, analysis_state, meta_state, tabs_manifold, viewer_box
+            coords_state, analysis_state, meta_state, viewer_box
         ]
     )
 
