@@ -167,7 +167,7 @@ def parse_pdb_coords(pdb_str):
     return np.array(coords), np.array(plddt)
 
 def run_nrc_pipeline(seq, viewer_type, folding_mode):
-    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING {folding_mode.upper()} MANIFOLD..."]
+    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING {folding_mode.upper()} PIPELINE..."]
     try:
         seq = seq.strip().upper().replace("\n", "").replace(" ", "")
         if not seq: return [None]*16 + ["[ERROR] EMPTY SEQUENCE"]
@@ -177,7 +177,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         templates = None
         
         if folding_mode in ["ESMFold (AI Only)", "Hybrid (AI + NRC)"]:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)...")
+            logs = [f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)..."]
             esm_pdb = query_esmfold(seq)
             if esm_pdb:
                 esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
@@ -187,7 +187,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
                         coords = esm_coords
                         confidence = esm_plddt
                     else:
-                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
+                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INTEGRATING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
                         templates = {i: c for i, c in enumerate(esm_coords)}
                 else:
                     logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC PURE MATH.")
@@ -196,7 +196,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
 
         # Run NRC Math Engine (as primary or refinement)
         if coords is None:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 736D PHI-LATTICE FOLDING ENGINE...")
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 2048D PHI-LATTICE FOLDING ENGINE...")
             frames = list(engine.fold_sequence(seq, templates=templates))
             final = frames[-1]
             coords = final["coords"]
@@ -241,9 +241,9 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             marker=dict(size=4 if stride == 1 else 2, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
             line=dict(color='#D4AF37', width=3 if stride == 1 else 1)
         )])
-        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"3D Structural Topology {'(Sub-sampled)' if stride > 1 else ''}")
+        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"3D Structural Geometry {'(Sub-sampled)' if stride > 1 else ''}")
 
-        # 256D φ-Manifold Projection (Sub-sampled)
+        # 2048D φ-Manifold Projection (Sub-sampled)
         m_coords = analysis["phi_manifold"]
         m_x, m_conf = align_arrays(m_coords[indices, 0], confidence[indices])
         m_y, _ = align_arrays(m_coords[indices, 1], confidence[indices])
@@ -255,7 +255,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             marker=dict(size=3 if stride == 1 else 1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
             line=dict(color='#00FF88', width=2 if stride == 1 else 0.5, dash='dot')
         )])
-        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"256D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
+        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"2048D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Ramachandran (Aligned)
         phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
@@ -287,15 +287,15 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         
         logs.append(f"[OK] FOLDING COMPLETE. MODE: {folding_mode} | NODES: {len(seq)}")
         return [
-            viewer_html, l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
+            "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
             summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), 
-            analysis["pI"], meta["hash"], "\n".join(logs),
-            coords, analysis, meta # States
+            analysis["pI"], meta["hash"], coords, analysis, meta, 
+            gr.update(selected="results_tab") 
         ]
     except Exception as e: 
         import traceback
         logs.append(f"[FATAL] {str(e)}")
-        return [None]*13 + ["\n".join(logs), None, None, None]
+        return ["\n".join(logs)] + [None]*12 + [None, None, None, gr.update()]
 
 
 def fetch_pdb_logic(query):
@@ -376,14 +376,14 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         gr.HTML("""
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional 256D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced 2048D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
             </div>
         """)
 
     with gr.Row():
         with gr.Column(scale=1):
             with gr.Column(elem_classes="premium-card"):
-                gr.Markdown("### 🏛 Sovereign Search & Input")
+                gr.Markdown("### 🧬 Sequence Input & Retrieval")
                 with gr.Row():
                     pdb_search = gr.Textbox(label="RCSB Search (ID or Keyword)", placeholder="e.g., Spike, 1AIE")
                     pdb_results = gr.Dropdown(label="Search Results", choices=[], interactive=False)
@@ -392,7 +392,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                 with gr.Row():
                     lib_select = gr.Dropdown(
                         choices=list(PROTEIN_LIBRARY.keys()), 
-                        label="Institutional IDP Library (DisProt Curated)",
+                        label="Reference IDP Library (DisProt Curated)",
                         info="Select a medically impactful disordered protein to load its sequence."
                     )
                     folding_mode = gr.Dropdown(
@@ -402,7 +402,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
                     )
                     viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
-                fold_btn = gr.Button("🚀 INITIATE RESONANCE FOLD", variant="primary", elem_classes="primary")
+                fold_btn = gr.Button("🚀 EXECUTE REFINEMENT FOLD", variant="primary", elem_classes="primary")
 
 
             with gr.Column(elem_classes="premium-card"):
@@ -414,17 +414,19 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                 mut_out = gr.Textbox(label="ΔΔG Resonance Report", lines=4, elem_classes="log-console")
 
         with gr.Column(scale=2):
-            with gr.Tabs(elem_classes="tabs"):
-                with gr.Tab("🔭 3D Structural Manifold"):
-                    viewer_box = gr.HTML("<div style='height: 600px; background:#000; border-radius: 20px; border: 1px dashed #333;'></div>")
-                    status_log = gr.Textbox(label="Lattice Console", lines=4, elem_classes="log-console")
+            with gr.Tabs(elem_classes="tabs") as tabs_manifold:
+                # with gr.Tab("🔭 3D Structural Manifold", id="viewer_tab"):
+                #     viewer_box = gr.HTML("<div style='height: 600px; background:#000; border-radius: 20px; border: 1px dashed #333;'></div>")
                 
-                with gr.Tab("🌌 Lattice Explorer"): 
+                with gr.Tab("📊 Optimization Log", id="log_tab"):
+                    status_log = gr.Textbox(label="Lattice Console", lines=10, elem_classes="log-console")
+                
+                with gr.Tab("🌌 Lattice Explorer", id="lattice_tab"): 
                     with gr.Row():
-                        l_plot = gr.Plot(label="3D Topology")
-                        m_plot = gr.Plot(label="256D φ-Manifold")
+                        l_plot = gr.Plot(label="3D Geometry")
+                        m_plot = gr.Plot(label="2048D φ-Manifold")
                 
-                with gr.Tab("📈 Analytical Resonance"):
+                with gr.Tab("📈 Analytical Resonance", id="results_tab"):
                     with gr.Row():
                         summary_table = gr.Dataframe(label="Lattice Summary")
                         rama_plot = gr.Plot(label="Ramachandran")
@@ -454,9 +456,9 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         run_nrc_pipeline, 
         inputs=[seq_input, viewer_type, folding_mode], 
         outputs=[
-            viewer_box, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
-            summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out, status_log,
-            coords_state, analysis_state, meta_state
+            status_log, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
+            summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
+            coords_state, analysis_state, meta_state, tabs_manifold
         ]
     )
 

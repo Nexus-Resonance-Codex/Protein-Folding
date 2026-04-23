@@ -37,7 +37,20 @@ engine = NRCEngine()
 
 from protein_library import PROTEIN_LIBRARY
 
-CSS = r"""
+# --- Aesthetics ───────────────────────────────────────────────────────────────
+
+RESONANCE_THEME = gr.themes.Default(
+    primary_hue="amber",
+    neutral_hue="zinc",
+).set(
+    body_background_fill="#0A0A0A",
+    block_background_fill="#111111",
+    block_border_width="1px",
+    button_primary_background_fill="#D4AF37",
+    button_primary_text_color="#000000"
+)
+
+RESONANCE_CSS = r"""
 :root { --nrc-gold: #D4AF37; --nrc-obsidian: #0A0A0A; --nrc-green: #00FF88; }
 body { background-color: var(--nrc-obsidian); }
 .main-header { background: #000; padding: 2rem; border-bottom: 2px solid var(--nrc-gold); text-align: center; }
@@ -48,6 +61,7 @@ body { background-color: var(--nrc-obsidian); }
 .stat-box:last-child { border-right: none; }
 button.primary { background: linear-gradient(90deg, #B8860B, #D4AF37) !important; color: #000 !important; font-weight: 700 !important; border-radius: 16px !important; border: none !important; }
 button.secondary { background: #1a1a1b !important; color: var(--nrc-gold) !important; border: 1px solid var(--nrc-gold) !important; border-radius: 12px !important; }
+.nrc-viewer { border-radius: 20px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1); }
 .tabs { background: transparent !important; border: none !important; }
 """
 
@@ -59,23 +73,64 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             indices = ",".join(map(str, [i+1 for i in p["residues"]]))
             pockets_js += f"viewer.addSurface($3Dmol.SurfaceType.VDW, {{opacity:0.6, color:'#D4AF37'}}, {{resi:[{indices}]}});\n"
     
-    script_url = 'https://3Dmol.org/build/3Dmol-min.js'
-    container_id = f"mol-{hash(pdb_str) % 10000}"
+    container_id = f"nrc-manifold-{int(datetime.now().timestamp() * 1000)}"
+    line_count = pdb_str.count("\n")
+    est_residues = line_count / 10
     
+    style_js = "{cartoon: {color: 'spectrum', thickness: 0.8, arrows: true}}"
+    if est_residues > 5000:
+        style_js = "{line: {color: 'spectrum', linewidth: 2}}"
+    if est_residues > 20000:
+        style_js = "{trace: {color: 'spectrum', thickness: 1.0}}"
+
+    if engine_type == "NGL":
+        return f"""
+        <div id="{container_id}" style="height: 600px; width: 100%; border-radius: 20px; background: #000; border: 1px solid #333;"></div>
+        <script>
+            (function() {{
+                const initNGL = () => {{
+                    const el = document.getElementById('{container_id}');
+                    if (!el) return;
+                    if (typeof NGL === 'undefined') {{
+                        setTimeout(initNGL, 200);
+                        return;
+                    }}
+                    el.innerHTML = "";
+                    const stage = new NGL.Stage('{container_id}', {{backgroundColor: 'black'}});
+                    const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
+                    stage.loadFile(blob, {{ext: 'pdb'}}).then(function(o) {{
+                        o.addRepresentation("cartoon", {{color: "resname"}});
+                        o.autoView();
+                    }});
+                }};
+                initNGL();
+            }})();
+        </script>
+        """
+
     return f"""
-    <div id="{container_id}" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333;"></div>
-    <script src="{script_url}"></script>
+    <div id="{container_id}" class="nrc-viewer" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333;"></div>
     <script>
         (function() {{
-            const el = document.getElementById('{container_id}');
-            if (!el) return;
-            const viewer = $3Dmol.createViewer(el, {{backgroundColor: '#000'}});
-            viewer.addModel(`{pdb_safe}`, "pdb");
-            viewer.setStyle({{}}, {{cartoon: {{color: 'spectrum', thickness: 0.8, arrows: true}}}});
-            {pockets_js}
-            viewer.zoomTo();
-            viewer.render();
-            viewer.animate({{loop: "backAndForth", step: 0.2}});
+            let retry = 0;
+            const render = () => {{
+                const el = document.getElementById('{container_id}');
+                if (!el) return;
+                if (typeof $3Dmol === 'undefined') {{
+                    if (retry++ < 50) setTimeout(render, 200);
+                    return;
+                }}
+                el.innerHTML = "";
+                const viewer = $3Dmol.createViewer(el, {{backgroundColor: '#000'}});
+                viewer.addModel(`{pdb_safe}`, "pdb");
+                viewer.setStyle({{}}, {style_js});
+                {pockets_js}
+                viewer.zoomTo();
+                viewer.render();
+                // Periodic re-render for HF stability
+                setTimeout(() => {{ if(viewer) {{ viewer.zoomTo(); viewer.render(); }} }}, 500);
+            }};
+            render();
         }})();
     </script>
     """
@@ -112,7 +167,7 @@ def parse_pdb_coords(pdb_str):
     return np.array(coords), np.array(plddt)
 
 def run_nrc_pipeline(seq, viewer_type, folding_mode):
-    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING {folding_mode.upper()} MANIFOLD..."]
+    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING {folding_mode.upper()} PIPELINE..."]
     try:
         seq = seq.strip().upper().replace("\n", "").replace(" ", "")
         if not seq: return [None]*16 + ["[ERROR] EMPTY SEQUENCE"]
@@ -122,7 +177,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         templates = None
         
         if folding_mode in ["ESMFold (AI Only)", "Hybrid (AI + NRC)"]:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)...")
+            logs = [f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)..."]
             esm_pdb = query_esmfold(seq)
             if esm_pdb:
                 esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
@@ -132,7 +187,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
                         coords = esm_coords
                         confidence = esm_plddt
                     else:
-                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INJECTING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
+                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INTEGRATING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
                         templates = {i: c for i, c in enumerate(esm_coords)}
                 else:
                     logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC PURE MATH.")
@@ -141,7 +196,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
 
         # Run NRC Math Engine (as primary or refinement)
         if coords is None:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 736D PHI-LATTICE FOLDING ENGINE...")
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 2048D PHI-LATTICE FOLDING ENGINE...")
             frames = list(engine.fold_sequence(seq, templates=templates))
             final = frames[-1]
             coords = final["coords"]
@@ -168,32 +223,39 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             min_len = min(len(x), len(y))
             return x[:min_len], y[:min_len]
 
-        # 3D Lattice Projection
-        l_x, l_conf = align_arrays(coords[:,0], confidence)
-        l_y, _ = align_arrays(coords[:,1], confidence)
-        l_z, _ = align_arrays(coords[:,2], confidence)
+        # Adaptive Sub-sampling for Plotly Performance
+        stride = 1
+        if len(seq) > 5000: stride = int(len(seq) / 5000) + 1
+        
+        # Aligned indices for sub-sampling
+        indices = np.arange(0, len(seq), stride)
+
+        # 3D Lattice Projection (Sub-sampled)
+        l_x, l_conf = align_arrays(coords[indices, 0], confidence[indices])
+        l_y, _ = align_arrays(coords[indices, 1], confidence[indices])
+        l_z, _ = align_arrays(coords[indices, 2], confidence[indices])
         
         l_fig = go.Figure(data=[go.Scatter3d(
             x=l_x, y=l_y, z=l_z, 
             mode='lines+markers', 
-            marker=dict(size=5, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
-            line=dict(color='#D4AF37', width=4)
+            marker=dict(size=4 if stride == 1 else 2, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
+            line=dict(color='#D4AF37', width=3 if stride == 1 else 1)
         )])
-        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title="3D Structural Topology")
+        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"3D Structural Geometry {'(Sub-sampled)' if stride > 1 else ''}")
 
-        # 256D φ-Manifold Projection
+        # 2048D φ-Manifold Projection (Sub-sampled)
         m_coords = analysis["phi_manifold"]
-        m_x, m_conf = align_arrays(m_coords[:,0], confidence)
-        m_y, _ = align_arrays(m_coords[:,1], confidence)
-        m_z, _ = align_arrays(m_coords[:,2], confidence)
+        m_x, m_conf = align_arrays(m_coords[indices, 0], confidence[indices])
+        m_y, _ = align_arrays(m_coords[indices, 1], confidence[indices])
+        m_z, _ = align_arrays(m_coords[indices, 2], confidence[indices])
         
         m_fig = go.Figure(data=[go.Scatter3d(
             x=m_x, y=m_y, z=m_z,
             mode='lines+markers',
-            marker=dict(size=4, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
-            line=dict(color='#00FF88', width=2, dash='dot')
+            marker=dict(size=3 if stride == 1 else 1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
+            line=dict(color='#00FF88', width=2 if stride == 1 else 0.5, dash='dot')
         )])
-        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title="256D φ-Spiral Projection")
+        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"2048D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Ramachandran (Aligned)
         phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
@@ -225,15 +287,15 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         
         logs.append(f"[OK] FOLDING COMPLETE. MODE: {folding_mode} | NODES: {len(seq)}")
         return [
-            viewer_html, l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
+            "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
             summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), 
-            analysis["pI"], meta["hash"], "\n".join(logs),
-            coords, analysis, meta # States
+            analysis["pI"], meta["hash"], coords, analysis, meta, 
+            gr.update(selected="results_tab") 
         ]
     except Exception as e: 
         import traceback
         logs.append(f"[FATAL] {str(e)}")
-        return [None]*13 + ["\n".join(logs), None, None, None]
+        return ["\n".join(logs)] + [None]*12 + [None, None, None, gr.update()]
 
 
 def fetch_pdb_logic(query):
@@ -298,6 +360,12 @@ def handle_mutation(seq, pos, aa, coords):
         return f"Mutation: {res['mutation']}\nΔΔG Estimate: {res['estimated_ddg']} kcal/mol\nStability: {res['stability']}\nContext: {res['context']}"
     except Exception as e: return f"[ERROR] {e}"
 
+# Define head scripts for global manifold availability
+head_scripts = """
+<script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
+<script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
+"""
+
 with gr.Blocks(title="Resonance-Fold Pro") as demo:
     # State Manifolds
     coords_state = gr.State()
@@ -308,14 +376,14 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         gr.HTML("""
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional 256D φ-Lattice Protein Folding Platform • v2.8.0</p>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced 2048D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
             </div>
         """)
 
     with gr.Row():
         with gr.Column(scale=1):
             with gr.Column(elem_classes="premium-card"):
-                gr.Markdown("### 🏛 Sovereign Search & Input")
+                gr.Markdown("### 🧬 Sequence Input & Retrieval")
                 with gr.Row():
                     pdb_search = gr.Textbox(label="RCSB Search (ID or Keyword)", placeholder="e.g., Spike, 1AIE")
                     pdb_results = gr.Dropdown(label="Search Results", choices=[], interactive=False)
@@ -324,7 +392,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                 with gr.Row():
                     lib_select = gr.Dropdown(
                         choices=list(PROTEIN_LIBRARY.keys()), 
-                        label="Institutional IDP Library (DisProt Curated)",
+                        label="Reference IDP Library (DisProt Curated)",
                         info="Select a medically impactful disordered protein to load its sequence."
                     )
                     folding_mode = gr.Dropdown(
@@ -334,7 +402,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
                     )
                     viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
-                fold_btn = gr.Button("🚀 INITIATE RESONANCE FOLD", variant="primary", elem_classes="primary")
+                fold_btn = gr.Button("🚀 EXECUTE REFINEMENT FOLD", variant="primary", elem_classes="primary")
 
 
             with gr.Column(elem_classes="premium-card"):
@@ -346,17 +414,19 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                 mut_out = gr.Textbox(label="ΔΔG Resonance Report", lines=4, elem_classes="log-console")
 
         with gr.Column(scale=2):
-            with gr.Tabs(elem_classes="tabs"):
-                with gr.Tab("🔭 3D Structural Manifold"):
-                    viewer_box = gr.HTML("<div style='height: 600px; background:#000; border-radius: 20px; border: 1px dashed #333;'></div>")
-                    status_log = gr.Textbox(label="Lattice Console", lines=4, elem_classes="log-console")
+            with gr.Tabs(elem_classes="tabs") as tabs_manifold:
+                # with gr.Tab("🔭 3D Structural Manifold", id="viewer_tab"):
+                #     viewer_box = gr.HTML("<div style='height: 600px; background:#000; border-radius: 20px; border: 1px dashed #333;'></div>")
                 
-                with gr.Tab("🌌 Lattice Explorer"): 
+                with gr.Tab("📊 Optimization Log", id="log_tab"):
+                    status_log = gr.Textbox(label="Lattice Console", lines=10, elem_classes="log-console")
+                
+                with gr.Tab("🌌 Lattice Explorer", id="lattice_tab"): 
                     with gr.Row():
-                        l_plot = gr.Plot(label="3D Topology")
-                        m_plot = gr.Plot(label="256D φ-Manifold")
+                        l_plot = gr.Plot(label="3D Geometry")
+                        m_plot = gr.Plot(label="2048D φ-Manifold")
                 
-                with gr.Tab("📈 Analytical Resonance"):
+                with gr.Tab("📈 Analytical Resonance", id="results_tab"):
                     with gr.Row():
                         summary_table = gr.Dataframe(label="Lattice Summary")
                         rama_plot = gr.Plot(label="Ramachandran")
@@ -386,9 +456,9 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         run_nrc_pipeline, 
         inputs=[seq_input, viewer_type, folding_mode], 
         outputs=[
-            viewer_box, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
-            summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out, status_log,
-            coords_state, analysis_state, meta_state
+            status_log, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
+            summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
+            coords_state, analysis_state, meta_state, tabs_manifold
         ]
     )
 
@@ -399,5 +469,7 @@ if __name__ == "__main__":
         server_port=7860, 
         show_error=True,
         allowed_paths=["."],
-        css=CSS
+        theme=RESONANCE_THEME,
+        css=RESONANCE_CSS,
+        head=head_scripts
     )
