@@ -60,22 +60,44 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             pockets_js += f"viewer.addSurface($3Dmol.SurfaceType.VDW, {{opacity:0.6, color:'#D4AF37'}}, {{resi:[{indices}]}});\n"
     
     script_url = 'https://3Dmol.org/build/3Dmol-min.js'
-    container_id = f"mol-{hash(pdb_str) % 10000}"
+    # Use timestamp for unique container to prevent caching fractures
+    container_id = f"mol-{int(datetime.now().timestamp() * 1000)}"
     
+    # Adaptive rendering for large manifolds
+    line_count = pdb_str.count("\n")
+    # Heuristic: ATOM lines are ~90% of PDB. ATOM per residue is ~8.
+    est_residues = line_count / 10
+    
+    style_js = "{cartoon: {color: 'spectrum', thickness: 0.8, arrows: true}}"
+    if est_residues > 5000:
+        # Simplify style for massive structures to preserve GPU memory
+        style_js = "{line: {color: 'spectrum', linewidth: 2}}"
+    if est_residues > 20000:
+        # Ultra-scale: use simple trace
+        style_js = "{trace: {color: 'spectrum', thickness: 1.0}}"
+
     return f"""
-    <div id="{container_id}" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333;"></div>
+    <div id="{container_id}" class="nrc-viewer" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333;"></div>
     <script src="{script_url}"></script>
     <script>
         (function() {{
-            const el = document.getElementById('{container_id}');
-            if (!el) return;
-            const viewer = $3Dmol.createViewer(el, {{backgroundColor: '#000'}});
-            viewer.addModel(`{pdb_safe}`, "pdb");
-            viewer.setStyle({{}}, {{cartoon: {{color: 'spectrum', thickness: 0.8, arrows: true}}}});
-            {pockets_js}
-            viewer.zoomTo();
-            viewer.render();
-            viewer.animate({{loop: "backAndForth", step: 0.2}});
+            const tryRender = () => {{
+                const el = document.getElementById('{container_id}');
+                if (!el || typeof $3Dmol === 'undefined') {{
+                    setTimeout(tryRender, 100);
+                    return;
+                }}
+                const viewer = $3Dmol.createViewer(el, {{backgroundColor: '#000'}});
+                viewer.addModel(`{pdb_safe}`, "pdb");
+                viewer.setStyle({{}}, {style_js});
+                {pockets_js}
+                viewer.zoomTo();
+                viewer.render();
+                if ({'true' if est_residues < 5000 else 'false'}) {{
+                    viewer.animate({{loop: "backAndForth", step: 0.2}});
+                }}
+            }};
+            tryRender();
         }})();
     </script>
     """
@@ -168,32 +190,39 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             min_len = min(len(x), len(y))
             return x[:min_len], y[:min_len]
 
-        # 3D Lattice Projection
-        l_x, l_conf = align_arrays(coords[:,0], confidence)
-        l_y, _ = align_arrays(coords[:,1], confidence)
-        l_z, _ = align_arrays(coords[:,2], confidence)
+        # Adaptive Sub-sampling for Plotly Performance
+        stride = 1
+        if len(seq) > 5000: stride = int(len(seq) / 5000) + 1
+        
+        # Aligned indices for sub-sampling
+        indices = np.arange(0, len(seq), stride)
+
+        # 3D Lattice Projection (Sub-sampled)
+        l_x, l_conf = align_arrays(coords[indices, 0], confidence[indices])
+        l_y, _ = align_arrays(coords[indices, 1], confidence[indices])
+        l_z, _ = align_arrays(coords[indices, 2], confidence[indices])
         
         l_fig = go.Figure(data=[go.Scatter3d(
             x=l_x, y=l_y, z=l_z, 
             mode='lines+markers', 
-            marker=dict(size=5, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
-            line=dict(color='#D4AF37', width=4)
+            marker=dict(size=4 if stride == 1 else 2, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
+            line=dict(color='#D4AF37', width=3 if stride == 1 else 1)
         )])
-        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title="3D Structural Topology")
+        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"3D Structural Topology {'(Sub-sampled)' if stride > 1 else ''}")
 
-        # 256D φ-Manifold Projection
+        # 256D φ-Manifold Projection (Sub-sampled)
         m_coords = analysis["phi_manifold"]
-        m_x, m_conf = align_arrays(m_coords[:,0], confidence)
-        m_y, _ = align_arrays(m_coords[:,1], confidence)
-        m_z, _ = align_arrays(m_coords[:,2], confidence)
+        m_x, m_conf = align_arrays(m_coords[indices, 0], confidence[indices])
+        m_y, _ = align_arrays(m_coords[indices, 1], confidence[indices])
+        m_z, _ = align_arrays(m_coords[indices, 2], confidence[indices])
         
         m_fig = go.Figure(data=[go.Scatter3d(
             x=m_x, y=m_y, z=m_z,
             mode='lines+markers',
-            marker=dict(size=4, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
-            line=dict(color='#00FF88', width=2, dash='dot')
+            marker=dict(size=3 if stride == 1 else 1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
+            line=dict(color='#00FF88', width=2 if stride == 1 else 0.5, dash='dot')
         )])
-        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title="256D φ-Spiral Projection")
+        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"256D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Ramachandran (Aligned)
         phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
@@ -308,7 +337,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         gr.HTML("""
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional 256D φ-Lattice Protein Folding Platform • v2.8.0</p>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional 256D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
             </div>
         """)
 

@@ -11,7 +11,8 @@ class NRCEngine:
     PHI = (1 + np.sqrt(5)) / 2
     GOLDEN_ANGLE = 2 * np.pi / (PHI**2)
     LATTICE_DIM = 736  # TTT-7 Stable (7+3+6=16 -> 7)
-    MAX_SEQUENCE_LENGTH = 32768  # TTT-8 Stable
+    MAX_SEQUENCE_LENGTH = 77777  # Institutional Limit (77777 residues)
+
     
     def __init__(self, precision: type = np.float32):
         self.precision = precision
