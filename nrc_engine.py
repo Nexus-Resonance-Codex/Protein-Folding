@@ -4,8 +4,7 @@ from typing import List, Dict, Optional, Generator
 
 class NRCEngine:
     """
-    NEXUS RESONANCE CODEX: Ultra-Scale Protein Folding Engine (v2026).
-    Implements 2048D phi-tensor lattice refinement with TTT-7 stabilization.
+    Geometric Initialization Strategy: Uses φ-based trigonometric expansion to generate maximally distributed pseudo-random starting states for IDPs prior to thermodynamic relaxation.
     """
     
     PHI = (1 + np.sqrt(5)) / 2

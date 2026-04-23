@@ -2,7 +2,7 @@
 #  Copyright (c) 2026 James Trageser (@jtrag)
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
-"""NRC Protein Folder Backend: High-Dimensional Structural Accelerator."""
+"""Geometric Initialization Strategy: Uses φ-based trigonometric expansion to generate maximally distributed pseudo-random starting states for IDPs prior to thermodynamic relaxation."""
 
 import json
 import math

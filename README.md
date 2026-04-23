@@ -46,6 +46,9 @@ For more details on the math, visit the **[Nexus Resonance Codex Core Repository
 
 ---
 
-## 📜 License
-This work is released under the **Nexus Resonance Codex License (NRC-L)**.  
+## 📜 License & Commercial Use
+This work is released under the **CC BY-NC-SA 4.0 (Dual-License Model)**.  
+- **Non-Commercial:** Free for academic, humanitarian, and non-profit use.
+- **Commercial:** Requires a separate commercial license for enterprise deployment or commercial drug discovery.
+
 Copyright © 2026 Nexus Resonance Codex Team. All Rights Reserved.

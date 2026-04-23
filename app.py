@@ -32,6 +32,12 @@ if app_dir not in sys.path:
 from nrc_engine import NRCEngine
 from biophysics import BiophysicsSuite
 from reporting import ReportingSuite
+from deposition import depositor
+try:
+    from local_esmfold import esm_folder
+    LOCAL_ESM_AVAILABLE = True
+except ImportError:
+    LOCAL_ESM_AVAILABLE = False
 
 engine = NRCEngine()
 
@@ -292,27 +298,32 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         confidence = None
         templates = None
         
-        if folding_mode in ["ESMFold (AI Only)", "Hybrid (AI + NRC)"]:
-            logs = [f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)..."]
-            esm_pdb = query_esmfold(seq)
+        if folding_mode in ["ESMFold (Physical Model)", "Hybrid (AI Seed + NRC)", "Local ESMFold (Institutional)"]:
+            if folding_mode == "Local ESMFold (Institutional)" and LOCAL_ESM_AVAILABLE:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING LOCAL ESMFOLD INFERENCE (CUDA Accelerated)...")
+                esm_pdb = esm_folder.predict(seq)
+            else:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)...")
+                esm_pdb = query_esmfold(seq)
+            
             if esm_pdb:
                 esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
                 if len(esm_coords) == len(seq):
                     logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED. Resonance Sync Success.")
-                    if folding_mode == "ESMFold (AI Only)":
+                    if folding_mode in ["ESMFold (Physical Model)", "Local ESMFold (Institutional)"]:
                         coords = esm_coords
                         confidence = esm_plddt
                     else:
                         logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INTEGRATING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
                         templates = {i: c for i, c in enumerate(esm_coords)}
                 else:
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC PURE MATH.")
+                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC GEOMETRIC INIT.")
             else:
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD API UNAVAILABLE / UNAUTHORIZED. FALLING BACK TO NRC PURE MATH.")
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD UNAVAILABLE. FALLING BACK TO NRC GEOMETRIC INIT.")
 
         # Run NRC Math Engine (as primary or refinement)
         if coords is None:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 2048D PHI-LATTICE FOLDING ENGINE...")
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 2048D PHI-LATTICE GEOMETRIC INITIALIZATION...")
             frames = list(engine.fold_sequence(seq, templates=templates))
             final = frames[-1]
             coords = final["coords"]
@@ -490,6 +501,13 @@ def handle_mutation(seq, pos, aa, coords):
         return f"Mutation: {res['mutation']}\nΔΔG Estimate: {res['estimated_ddg']} kcal/mol\nStability: {res['stability']}\nContext: {res['context']}"
     except Exception as e: return f"[ERROR] {e}"
 
+def handle_deposition(seq, pdb, meta):
+    if not pdb: return "[ERROR] NO STRUCTURE TO DEPOSIT"
+    try:
+        manifest = depositor.create_zenodo_draft(seq, pdb, meta)
+        return json.dumps(manifest, indent=2)
+    except Exception as e: return f"[ERROR] DEPOSITION FAILED: {e}"
+
 # Define head scripts for global manifold availability
 head_scripts = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -536,10 +554,10 @@ with gr.Blocks(
                         info="Select a medically impactful disordered protein to load its sequence."
                     )
                     folding_mode = gr.Dropdown(
-                        label="Folding Engine Mode", 
-                        choices=["NRC Pure Math", "ESMFold (AI Only)", "Hybrid (AI + NRC)"], 
-                        value="Hybrid (AI + NRC)",
-                        info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
+                        label="Structural Generation Strategy", 
+                        choices=["NRC Geometric Init", "ESMFold (Physical Model)", "Local ESMFold (Institutional)", "Hybrid (AI Seed + NRC)"], 
+                        value="Hybrid (AI Seed + NRC)",
+                        info="NRC Geometric Init: φ-based structural seeding | Local ESMFold: Institutional-grade offline inference."
                     )
                     viewer_type = gr.Radio(["Three.js", "3Dmol", "NGL"], label="Visualizer Engine", value="Three.js")
                 fold_btn = gr.Button("Predict Protein Structure", variant="primary", elem_classes="primary")
@@ -581,6 +599,10 @@ with gr.Blocks(
                     with gr.Row():
                         export_zip = gr.File(label="Download Research Package (.zip)")
                         pdb_code = gr.Code(label="PDB Source", language="markdown")
+                    with gr.Column(elem_classes="premium-card"):
+                        gr.Markdown("### Institutional Deposition")
+                        deposit_btn = gr.Button("DEPOT TO ZENODO / MODELARCHIVE (DRAFT)", variant="secondary")
+                        deposit_out = gr.Code(label="Submission Manifest", language="json")
 
     # --- Events ---
     pdb_btn.click(fetch_pdb_logic, inputs=pdb_search, outputs=[seq_input, status_log, pdb_results])
@@ -597,6 +619,12 @@ with gr.Blocks(
             summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
             coords_state, analysis_state, meta_state
         ]
+    )
+    
+    deposit_btn.click(
+        handle_deposition,
+        inputs=[seq_input, pdb_code, meta_state],
+        outputs=deposit_out
     )
 
 
