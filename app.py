@@ -99,10 +99,10 @@ def get_viewer_html(pdb_str, engine_type="Three.js", pockets=None):
                 const initThree = () => {{
                     const el = document.getElementById('{container_id}');
                     const loader = document.getElementById('loading-{container_id}');
-                    if (!el || typeof THREE === 'undefined') {{
+                    if (!el || typeof THREE === 'undefined' || !THREE.OrbitControls) {
                         setTimeout(initThree, 200);
                         return;
-                    }}
+                    }
                     loader.style.display = 'none';
                     el.innerHTML = "";
                     
@@ -499,7 +499,15 @@ head_scripts = """
 <script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
 """
 
-with gr.Blocks(title="Resonance-Fold Pro") as demo:
+with gr.Blocks(
+    title="Resonance-Fold Pro",
+    head="""
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    """,
+    css=RESONANCE_CSS,
+    theme=RESONANCE_THEME
+) as demo:
     # State Manifolds
     coords_state = gr.State()
     analysis_state = gr.State()
