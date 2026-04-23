@@ -99,10 +99,10 @@ def get_viewer_html(pdb_str, engine_type="Three.js", pockets=None):
                 const initThree = () => {{
                     const el = document.getElementById('{container_id}');
                     const loader = document.getElementById('loading-{container_id}');
-                    if (!el || typeof THREE === 'undefined' || !THREE.OrbitControls) {
+                    if (!el || typeof THREE === 'undefined' || !THREE.OrbitControls) {{
                         setTimeout(initThree, 200);
                         return;
-                    }
+                    }}
                     loader.style.display = 'none';
                     el.innerHTML = "";
                     
