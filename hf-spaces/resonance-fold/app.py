@@ -214,6 +214,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         }
         
         pdb_text = ReportingSuite.generate_pdb(seq, coords, confidence)
+        pdb_preview = pdb_text if len(seq) < 5000 else f"{pdb_text[:50000]}\n\n... [TRUNCATED FOR BROWSER PERFORMANCE - DOWNLOAD PACKAGE FOR FULL PDB] ..."
         viewer_html = get_viewer_html(pdb_text, viewer_type, analysis["pockets"][:1])
         
         # --- Plotly Visualizations (Defensive Alignment) ----------------------
@@ -223,9 +224,11 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             min_len = min(len(x), len(y))
             return x[:min_len], y[:min_len]
 
-        # Adaptive Sub-sampling for Plotly Performance
+        # Aggressive Adaptive Sub-sampling for Browser Performance
         stride = 1
-        if len(seq) > 5000: stride = int(len(seq) / 5000) + 1
+        max_points = 2000 # Keep total points under 2000 for snappy browser response
+        if len(seq) > max_points: 
+            stride = int(len(seq) / max_points) + 1
         
         # Aligned indices for sub-sampling
         indices = np.arange(0, len(seq), stride)
@@ -257,21 +260,33 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         )])
         m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"2048D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
         
-        # Ramachandran (Aligned)
+        # Ramachandran (Aligned & Sub-sampled)
         phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
-        r_fig = px.scatter(x=phi, y=psi, labels={'x': 'Phi', 'y': 'Psi'}, title="Ramachandran Projection")
-        r_fig.update_layout(template="plotly_dark", shapes=[dict(type="rect", x0=-180, y0=-180, x1=180, y1=180, line=dict(color="#333"))])
+        r_fig = go.Figure(data=go.Scattergl(
+            x=phi[indices], y=psi[indices], 
+            mode='markers', 
+            marker=dict(size=4, color='#00FF88', opacity=0.6)
+        ))
+        r_fig.update_layout(template="plotly_dark", title="Ramachandran Projection", xaxis_title="Phi", yaxis_title="Psi")
+        r_fig.add_shape(type="rect", x0=-180, y0=-180, x1=180, y1=180, line=dict(color="#333"))
         
-        # Confidence (Aligned to Indices)
-        conf_x = list(range(1, len(confidence) + 1))
-        conf_fig = go.Figure(data=go.Scatter(x=conf_x, y=confidence, mode='lines+markers', line=dict(color='#00FF88'), fill='tozeroy'))
-        conf_fig.update_layout(template="plotly_dark", title="Per-Residue Confidence (pLDDT)", xaxis_title="Residue Index", yaxis_title="Score")
+        # Confidence (Aligned & Sub-sampled)
+        conf_x = np.arange(1, len(confidence) + 1)
+        conf_fig = go.Figure(data=go.Scattergl(
+            x=conf_x[indices], y=confidence[indices], 
+            mode='lines', 
+            line=dict(color='#00FF88'), 
+            fill='tozeroy'
+        ))
+        conf_fig.update_layout(template="plotly_dark", title=f"Confidence Profile {'(Sub-sampled)' if stride > 1 else ''}", xaxis_title="Residue Index", yaxis_title="Score")
         
-        # Biophysical Profiles
-        h_y = analysis["hydropathy"]
-        c_y = analysis["charge"]
-        h_fig = go.Figure(data=go.Bar(y=h_y, marker_color='#3498db')).update_layout(template="plotly_dark", title="Hydropathy Profile")
-        c_fig = go.Figure(data=go.Bar(y=c_y, marker_color='#e74c3c')).update_layout(template="plotly_dark", title="Charge Distribution")
+        # Biophysical Profiles (Sub-sampled)
+        h_y = np.array(analysis["hydropathy"])
+        c_y = np.array(analysis["charge"])
+        h_fig = go.Figure(data=go.Bar(y=h_y[indices], marker_color='#3498db'))
+        h_fig.update_layout(template="plotly_dark", title=f"Hydropathy Profile {'(Sub-sampled)' if stride > 1 else ''}")
+        c_fig = go.Figure(data=go.Bar(y=c_y[indices], marker_color='#e74c3c'))
+        c_fig.update_layout(template="plotly_dark", title=f"Charge Distribution {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Summary Data
         summary_df = pd.DataFrame([
@@ -288,7 +303,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         logs.append(f"[OK] FOLDING COMPLETE. MODE: {folding_mode} | NODES: {len(seq)}")
         return [
             "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
-            summary_df, zip_path, pdb_text, "".join(analysis["dssp"]), 
+            summary_df, zip_path, pdb_preview, "".join(analysis["dssp"]), 
             analysis["pI"], meta["hash"], coords, analysis, meta, 
             gr.update(selected="results_tab") 
         ]
