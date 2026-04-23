@@ -59,34 +59,49 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             indices = ",".join(map(str, [i+1 for i in p["residues"]]))
             pockets_js += f"viewer.addSurface($3Dmol.SurfaceType.VDW, {{opacity:0.6, color:'#D4AF37'}}, {{resi:[{indices}]}});\n"
     
-    script_url = 'https://3Dmol.org/build/3Dmol-min.js'
-    # Use timestamp for unique container to prevent caching fractures
-    container_id = f"mol-{int(datetime.now().timestamp() * 1000)}"
+    # Use a STABLE container ID to ensure Gradio state retention
+    container_id = "nrc-manifold-viewer"
     
     # Adaptive rendering for large manifolds
     line_count = pdb_str.count("\n")
-    # Heuristic: ATOM lines are ~90% of PDB. ATOM per residue is ~8.
     est_residues = line_count / 10
     
     style_js = "{cartoon: {color: 'spectrum', thickness: 0.8, arrows: true}}"
     if est_residues > 5000:
-        # Simplify style for massive structures to preserve GPU memory
         style_js = "{line: {color: 'spectrum', linewidth: 2}}"
     if est_residues > 20000:
-        # Ultra-scale: use simple trace
         style_js = "{trace: {color: 'spectrum', thickness: 1.0}}"
+
+    if engine_type == "NGL":
+        return f"""
+        <div id="{container_id}" style="height: 600px; width: 100%; border-radius: 20px; background: #000; border: 1px solid #333;"></div>
+        <script>
+            (function() {{
+                const el = document.getElementById('{container_id}');
+                if (!el) return;
+                el.innerHTML = "";
+                const stage = new NGL.Stage('{container_id}', {{backgroundColor: 'black'}});
+                const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
+                stage.loadFile(blob, {{ext: 'pdb'}}).then(function(o) {{
+                    o.addRepresentation("cartoon", {{color: "resname"}});
+                    o.autoView();
+                }});
+            }})();
+        </script>
+        """
 
     return f"""
     <div id="{container_id}" class="nrc-viewer" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333;"></div>
-    <script src="{script_url}"></script>
     <script>
         (function() {{
+            let retryCount = 0;
             const tryRender = () => {{
                 const el = document.getElementById('{container_id}');
                 if (!el || typeof $3Dmol === 'undefined') {{
-                    setTimeout(tryRender, 100);
+                    if (retryCount++ < 50) setTimeout(tryRender, 100);
                     return;
                 }}
+                el.innerHTML = "";
                 const viewer = $3Dmol.createViewer(el, {{backgroundColor: '#000'}});
                 viewer.addModel(`{pdb_safe}`, "pdb");
                 viewer.setStyle({{}}, {style_js});
@@ -335,6 +350,8 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
 
     with gr.Column(elem_classes="main-header"):
         gr.HTML("""
+            <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+            <script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
                 <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional 256D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>

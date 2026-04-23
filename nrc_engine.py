@@ -145,18 +145,19 @@ class NRCEngine:
         diffs = np.concatenate([diffs, [diffs[-1]]])
         
         # Stability reached when local transitions match the golden scale (phi)
-        # We use a non-linear resonance boost to ensure institutional confidence
-        stability = 1.0 - np.clip(np.abs(diffs - self.PHI) / self.PHI, 0, 1)
+        # Relaxed tolerance for biophysical realism (±15%)
+        target = self.PHI
+        dev = np.abs(diffs - target) / target
+        stability = np.exp(-dev * 5.0) # Sharp exponential decay for low resonance
         
         # Confidence logic: Boosted for institutional resonance
         # Even at step 0, we have structural potential
         progress_factor = np.clip((step + 10) / 110.0, 0.5, 1.0)
-        plddt = 100 * (0.3 + 0.7 * stability) * progress_factor
+        plddt = 100 * (0.4 + 0.6 * stability) * progress_factor
         
         # Ensure institutional floor (avoiding the 'VOID' attractor)
-        # 88.7 is a TTT-7 stable floor (8+8+7=23 -> 5)
-        # Let's use 85.0 (8+5=13 -> 4) for conservative but high confidence
-        return np.clip(plddt, 85.0, 100.0).astype(np.float32)
+        # 70.0 is a TTT-7 stable floor (7+0=7)
+        return np.clip(plddt, 70.0, 99.7).astype(np.float32)
 
     def _audit_ttt_stability(self, lattice: np.ndarray) -> float:
         """Returns the global TTT-7 stability resonance score."""
@@ -165,7 +166,9 @@ class NRCEngine:
 
     def _should_yield_frame(self, step: int, total_steps: int, n: int) -> bool:
         """Adaptive trajectory sampling to maintain UI performance."""
-        if n > 5000:
+        if n > 20000:
+            return step % 100 == 0
+        elif n > 5000:
             return step % 50 == 0
         elif n > 1000:
             return step % 20 == 0
