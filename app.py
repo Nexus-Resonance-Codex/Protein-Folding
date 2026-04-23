@@ -59,8 +59,7 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             indices = ",".join(map(str, [i+1 for i in p["residues"]]))
             pockets_js += f"viewer.addSurface($3Dmol.SurfaceType.VDW, {{opacity:0.6, color:'#D4AF37'}}, {{resi:[{indices}]}});\n"
     
-    # Stable container ID
-    container_id = "nrc-manifold-viewer"
+    container_id = f"nrc-manifold-{int(datetime.now().timestamp() * 1000)}"
     line_count = pdb_str.count("\n")
     est_residues = line_count / 10
     
@@ -75,15 +74,22 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
         <div id="{container_id}" style="height: 600px; width: 100%; border-radius: 20px; background: #000; border: 1px solid #333;"></div>
         <script>
             (function() {{
-                const el = document.getElementById('{container_id}');
-                if (!el || typeof NGL === 'undefined') return;
-                el.innerHTML = "";
-                const stage = new NGL.Stage('{container_id}', {{backgroundColor: 'black'}});
-                const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
-                stage.loadFile(blob, {{ext: 'pdb'}}).then(function(o) {{
-                    o.addRepresentation("cartoon", {{color: "resname"}});
-                    o.autoView();
-                }});
+                const initNGL = () => {{
+                    const el = document.getElementById('{container_id}');
+                    if (!el) return;
+                    if (typeof NGL === 'undefined') {{
+                        setTimeout(initNGL, 200);
+                        return;
+                    }}
+                    el.innerHTML = "";
+                    const stage = new NGL.Stage('{container_id}', {{backgroundColor: 'black'}});
+                    const blob = new Blob([`{pdb_safe}`], {{type: 'text/plain'}});
+                    stage.loadFile(blob, {{ext: 'pdb'}}).then(function(o) {{
+                        o.addRepresentation("cartoon", {{color: "resname"}});
+                        o.autoView();
+                    }});
+                }};
+                initNGL();
             }})();
         </script>
         """
@@ -95,8 +101,9 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
             let retry = 0;
             const render = () => {{
                 const el = document.getElementById('{container_id}');
-                if (!el || typeof $3Dmol === 'undefined') {{
-                    if (retry++ < 100) setTimeout(render, 100);
+                if (!el) return;
+                if (typeof $3Dmol === 'undefined') {{
+                    if (retry++ < 50) setTimeout(render, 200);
                     return;
                 }}
                 el.innerHTML = "";
@@ -106,11 +113,8 @@ def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
                 {pockets_js}
                 viewer.zoomTo();
                 viewer.render();
-                if ({'true' if est_residues < 5000 else 'false'}) {{
-                    viewer.animate({{loop: "backAndForth", step: 0.2}});
-                }}
-                // Force a second render to ensure canvas is painted in HF iframe
-                setTimeout(() => {{ viewer.render(); viewer.zoomTo(); }}, 500);
+                // Periodic re-render for HF stability
+                setTimeout(() => {{ if(viewer) {{ viewer.zoomTo(); viewer.render(); }} }}, 500);
             }};
             render();
         }})();
@@ -342,7 +346,13 @@ def handle_mutation(seq, pos, aa, coords):
         return f"Mutation: {res['mutation']}\nΔΔG Estimate: {res['estimated_ddg']} kcal/mol\nStability: {res['stability']}\nContext: {res['context']}"
     except Exception as e: return f"[ERROR] {e}"
 
-with gr.Blocks(title="Resonance-Fold Pro") as demo:
+# Define head scripts for global manifold availability
+head_scripts = """
+<script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
+<script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
+"""
+
+with gr.Blocks(theme=RESONANCE_THEME, css=RESONANCE_CSS, title="Resonance-Fold Pro", head=head_scripts) as demo:
     # State Manifolds
     coords_state = gr.State()
     analysis_state = gr.State()
@@ -350,8 +360,6 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
 
     with gr.Column(elem_classes="main-header"):
         gr.HTML("""
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
-            <script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
                 <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional 256D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
