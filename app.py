@@ -366,7 +366,7 @@ head_scripts = """
 <script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
 """
 
-with gr.Blocks(theme=RESONANCE_THEME, css=RESONANCE_CSS, title="Resonance-Fold Pro", head=head_scripts) as demo:
+with gr.Blocks(title="Resonance-Fold Pro") as demo:
     # State Manifolds
     coords_state = gr.State()
     analysis_state = gr.State()
@@ -467,5 +467,7 @@ if __name__ == "__main__":
         server_port=7860, 
         show_error=True,
         allowed_paths=["."],
-        css=CSS
+        theme=RESONANCE_THEME,
+        css=RESONANCE_CSS,
+        head=head_scripts
     )
