@@ -374,7 +374,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
             marker=dict(size=1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
             line=dict(color='#00FF88', width=1, dash='dot')
         )])
-        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"2048D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
+        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Ramachandran (Aligned & Sub-sampled)
         phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
@@ -420,13 +420,12 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         return [
             "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
             summary_df, zip_path, pdb_preview, "".join(analysis["dssp"]), 
-            analysis["pI"], meta["hash"], coords, analysis, meta, 
-            viewer_html
+            analysis["pI"], meta["hash"], coords, analysis, meta
         ]
     except Exception as e: 
         import traceback
         logs.append(f"[FATAL] {str(e)}")
-        return ["\n".join(logs)] + [None]*12 + [None, None, None, None]
+        return ["\n".join(logs)] + [None]*12 + [None, None, None]
 
 
 def fetch_pdb_logic(query):
@@ -517,7 +516,7 @@ with gr.Blocks(
         gr.HTML("""
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced 2048D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
             </div>
         """)
 
@@ -556,17 +555,6 @@ with gr.Blocks(
 
         with gr.Column(scale=2):
             with gr.Tabs(elem_classes="tabs") as tabs_manifold:
-                with gr.Tab("3D Structure Viewer", id="viewer_tab"):
-                    viewer_box = gr.HTML(label="3D Structural Manifold", elem_id="nrc-3d-viewer")
-                
-                with gr.Tab("Structure Log", id="log_tab"):
-                    status_log = gr.Textbox(label="Engine Process Log", lines=10, elem_classes="log-console")
-                
-                with gr.Tab("Manifold Projection", id="lattice_tab"): 
-                    with gr.Row():
-                        l_plot = gr.Plot(label="3D Topology")
-                        m_plot = gr.Plot(label="2048D Projection")
-                
                 with gr.Tab("Biophysical Analytics", id="results_tab"):
                     with gr.Row():
                         summary_table = gr.Dataframe(label="Lattice Summary")
@@ -580,6 +568,14 @@ with gr.Blocks(
                         dssp_out = gr.Textbox(label="DSSP Analysis")
                         pi_out = gr.Label(label="pI")
                         hash_out = gr.Label(label="Manifold Hash")
+                
+                with gr.Tab("Structure Log", id="log_tab"):
+                    status_log = gr.Textbox(label="Engine Process Log", lines=10, elem_classes="log-console")
+                
+                with gr.Tab("Manifold Projection", id="lattice_tab"): 
+                    with gr.Row():
+                        l_plot = gr.Plot(label="3D Topology")
+                        m_plot = gr.Plot(label="φ-Spiral Projection")
                 
                 with gr.Tab("Research Export"):
                     with gr.Row():
@@ -599,7 +595,7 @@ with gr.Blocks(
         outputs=[
             status_log, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
             summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
-            coords_state, analysis_state, meta_state, viewer_box
+            coords_state, analysis_state, meta_state
         ]
     )
 

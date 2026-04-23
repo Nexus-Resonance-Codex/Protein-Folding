@@ -65,8 +65,124 @@ button.secondary { background: #1a1a1b !important; color: var(--nrc-gold) !impor
 .tabs { background: transparent !important; border: none !important; }
 """
 
-def get_viewer_html(pdb_str, engine_type="3Dmol", pockets=None):
+def get_viewer_html(pdb_str, engine_type="Three.js", pockets=None):
     pdb_safe = pdb_str.replace("`", "\\`").replace("$", "\\$").replace("\n", "\\n")
+    
+    # Extract coordinates for Three.js direct injection
+    coords = []
+    plddt = []
+    for line in pdb_str.splitlines():
+        if line.startswith("ATOM") and " CA " in line:
+            try:
+                coords.append([float(line[30:38]), float(line[38:46]), float(line[46:54])])
+                plddt.append(float(line[60:66]))
+            except: continue
+    
+    # Sub-sample for Three.js if extremely large (Cap at 2000 points for browser stability)
+    max_v_points = 2000
+    stride = 1
+    if len(coords) > max_v_points:
+        stride = int(len(coords) / max_v_points) + 1
+    
+    coords_js = [[round(c[0],3), round(c[1],3), round(c[2],3)] for c in coords[::stride]]
+    plddt_js = [round(p, 2) for p in plddt[::stride]]
+
+    container_id = f"nrc-manifold-{int(datetime.now().timestamp() * 1000)}"
+    
+    if engine_type == "Three.js":
+        return f"""
+        <div id="{container_id}" class="nrc-viewer" style="height: 600px; width: 100%; border-radius: 20px; background: #000; overflow: hidden; border: 1px solid #333; position: relative;">
+            <div id="loading-{container_id}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #D4AF37; font-family: monospace;">INITIALIZING LATTICE...</div>
+        </div>
+        <script>
+            (function() {{
+                const initThree = () => {{
+                    const el = document.getElementById('{container_id}');
+                    const loader = document.getElementById('loading-{container_id}');
+                    if (!el || typeof THREE === 'undefined' || !THREE.OrbitControls) {{
+                        setTimeout(initThree, 200);
+                        return;
+                    }}
+                    loader.style.display = 'none';
+                    el.innerHTML = "";
+                    
+                    const scene = new THREE.Scene();
+                    scene.background = new THREE.Color(0x000000);
+                    
+                    const camera = new THREE.PerspectiveCamera(45, el.offsetWidth / el.offsetHeight, 1, 10000);
+                    const renderer = new THREE.WebGLRenderer({{ antialias: true, alpha: true }});
+                    renderer.setSize(el.offsetWidth, el.offsetHeight);
+                    renderer.setPixelRatio(window.devicePixelRatio);
+                    el.appendChild(renderer.domElement);
+                    
+                    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    controls.enableDamping = true;
+                    
+                    const coords = {coords_js};
+                    const plddt = {plddt_js};
+                    
+                    // Create Backbone Trace
+                    const points = coords.map(c => new THREE.Vector3(c[0], c[1], c[2]));
+                    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                    
+                    // Color by pLDDT
+                    const colors = [];
+                    const color = new THREE.Color();
+                    plddt.forEach(val => {{
+                        // Rainbow spectrum: 70 (red) to 100 (blue/cyan)
+                        const hue = (val - 70) / 30 * 0.7; // 0 to 0.7
+                        color.setHSL(0.7 - hue, 1.0, 0.5);
+                        colors.push(color.r, color.g, color.b);
+                    }});
+                    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+                    
+                    const material = new THREE.LineBasicMaterial({{ 
+                        vertexColors: true, 
+                        linewidth: 2,
+                        transparent: true,
+                        opacity: 0.8
+                    }});
+                    
+                    const line = new THREE.Line(geometry, material);
+                    scene.add(line);
+                    
+                    // Add Atoms as glowing points
+                    const pMaterial = new THREE.PointsMaterial({{ 
+                        size: 4, 
+                        vertexColors: true,
+                        transparent: true,
+                        opacity: 0.6
+                    }});
+                    const pointCloud = new THREE.Points(geometry, pMaterial);
+                    scene.add(pointCloud);
+                    
+                    // Center camera
+                    const box = new THREE.Box3().setFromObject(line);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    camera.position.set(center.x, center.y, center.z + maxDim * 2);
+                    controls.target.copy(center);
+                    
+                    const animate = () => {{
+                        requestAnimationFrame(animate);
+                        controls.update();
+                        renderer.render(scene, camera);
+                    }};
+                    animate();
+                    
+                    window.addEventListener('resize', () => {{
+                        if(!el) return;
+                        camera.aspect = el.offsetWidth / el.offsetHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(el.offsetWidth, el.offsetHeight);
+                    }});
+                }};
+                initThree();
+            }})();
+        </script>
+        """
+
     pockets_js = ""
     if engine_type == "3Dmol" and pockets:
         for p in pockets:
@@ -226,7 +342,7 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
 
         # Aggressive Adaptive Sub-sampling for Browser Performance
         stride = 1
-        max_points = 2000 # Keep total points under 2000 for snappy browser response
+        max_points = 300 # Ultra-strict cap for maximum browser resonance
         if len(seq) > max_points: 
             stride = int(len(seq) / max_points) + 1
         
@@ -240,9 +356,9 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         
         l_fig = go.Figure(data=[go.Scatter3d(
             x=l_x, y=l_y, z=l_z, 
-            mode='lines+markers', 
-            marker=dict(size=4 if stride == 1 else 2, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
-            line=dict(color='#D4AF37', width=3 if stride == 1 else 1)
+            mode='lines' if stride > 1 else 'lines+markers', 
+            marker=dict(size=2, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
+            line=dict(color='#D4AF37', width=2)
         )])
         l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"3D Structural Geometry {'(Sub-sampled)' if stride > 1 else ''}")
 
@@ -254,11 +370,11 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         
         m_fig = go.Figure(data=[go.Scatter3d(
             x=m_x, y=m_y, z=m_z,
-            mode='lines+markers',
-            marker=dict(size=3 if stride == 1 else 1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
-            line=dict(color='#00FF88', width=2 if stride == 1 else 0.5, dash='dot')
+            mode='lines' if stride > 1 else 'lines+markers',
+            marker=dict(size=1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
+            line=dict(color='#00FF88', width=1, dash='dot')
         )])
-        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"2048D φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
+        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Ramachandran (Aligned & Sub-sampled)
         phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
@@ -280,12 +396,12 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         ))
         conf_fig.update_layout(template="plotly_dark", title=f"Confidence Profile {'(Sub-sampled)' if stride > 1 else ''}", xaxis_title="Residue Index", yaxis_title="Score")
         
-        # Biophysical Profiles (Sub-sampled)
+        # Biophysical Profiles (Sub-sampled - Optimized with Scattergl)
         h_y = np.array(analysis["hydropathy"])
         c_y = np.array(analysis["charge"])
-        h_fig = go.Figure(data=go.Bar(y=h_y[indices], marker_color='#3498db'))
+        h_fig = go.Figure(data=go.Scattergl(x=conf_x[indices], y=h_y[indices], mode='lines', line=dict(color='#3498db'), fill='tozeroy'))
         h_fig.update_layout(template="plotly_dark", title=f"Hydropathy Profile {'(Sub-sampled)' if stride > 1 else ''}")
-        c_fig = go.Figure(data=go.Bar(y=c_y[indices], marker_color='#e74c3c'))
+        c_fig = go.Figure(data=go.Scattergl(x=conf_x[indices], y=c_y[indices], mode='lines', line=dict(color='#e74c3c'), fill='tozeroy'))
         c_fig.update_layout(template="plotly_dark", title=f"Charge Distribution {'(Sub-sampled)' if stride > 1 else ''}")
         
         # Summary Data
@@ -304,13 +420,12 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode):
         return [
             "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
             summary_df, zip_path, pdb_preview, "".join(analysis["dssp"]), 
-            analysis["pI"], meta["hash"], coords, analysis, meta, 
-            gr.update(selected="results_tab") 
+            analysis["pI"], meta["hash"], coords, analysis, meta
         ]
     except Exception as e: 
         import traceback
         logs.append(f"[FATAL] {str(e)}")
-        return ["\n".join(logs)] + [None]*12 + [None, None, None, gr.update()]
+        return ["\n".join(logs)] + [None]*12 + [None, None, None]
 
 
 def fetch_pdb_logic(query):
@@ -377,11 +492,21 @@ def handle_mutation(seq, pos, aa, coords):
 
 # Define head scripts for global manifold availability
 head_scripts = """
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
 <script src="https://unpkg.com/ngl@2.0.0-dev.37/dist/ngl.js"></script>
 """
 
-with gr.Blocks(title="Resonance-Fold Pro") as demo:
+with gr.Blocks(
+    title="Resonance-Fold Pro",
+    head="""
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    """,
+    css=RESONANCE_CSS,
+    theme=RESONANCE_THEME
+) as demo:
     # State Manifolds
     coords_state = gr.State()
     analysis_state = gr.State()
@@ -391,7 +516,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         gr.HTML("""
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced 2048D φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced φ-Lattice Protein Folding Platform • v2.9.0 • 77,777 Residue Ready</p>
             </div>
         """)
 
@@ -416,7 +541,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         value="Hybrid (AI + NRC)",
                         info="Pure Math: 100% deterministic NRC logic | Hybrid: AI-seeded lattice resonance."
                     )
-                    viewer_type = gr.Radio(["3Dmol", "NGL"], label="Visualizer Engine", value="3Dmol")
+                    viewer_type = gr.Radio(["Three.js", "3Dmol", "NGL"], label="Visualizer Engine", value="Three.js")
                 fold_btn = gr.Button("Predict Protein Structure", variant="primary", elem_classes="primary")
 
 
@@ -430,16 +555,6 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
 
         with gr.Column(scale=2):
             with gr.Tabs(elem_classes="tabs") as tabs_manifold:
-                # with gr.Tab("3D Structure Viewer", id="viewer_tab"):
-                
-                with gr.Tab("Structure Log", id="log_tab"):
-                    status_log = gr.Textbox(label="Engine Process Log", lines=10, elem_classes="log-console")
-                
-                with gr.Tab("Manifold Projection", id="lattice_tab"): 
-                    with gr.Row():
-                        l_plot = gr.Plot(label="3D Topology")
-                        m_plot = gr.Plot(label="2048D Projection")
-                
                 with gr.Tab("Biophysical Analytics", id="results_tab"):
                     with gr.Row():
                         summary_table = gr.Dataframe(label="Lattice Summary")
@@ -453,6 +568,14 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         dssp_out = gr.Textbox(label="DSSP Analysis")
                         pi_out = gr.Label(label="pI")
                         hash_out = gr.Label(label="Manifold Hash")
+                
+                with gr.Tab("Structure Log", id="log_tab"):
+                    status_log = gr.Textbox(label="Engine Process Log", lines=10, elem_classes="log-console")
+                
+                with gr.Tab("Manifold Projection", id="lattice_tab"): 
+                    with gr.Row():
+                        l_plot = gr.Plot(label="3D Topology")
+                        m_plot = gr.Plot(label="φ-Spiral Projection")
                 
                 with gr.Tab("Research Export"):
                     with gr.Row():
@@ -472,7 +595,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         outputs=[
             status_log, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
             summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
-            coords_state, analysis_state, meta_state, tabs_manifold
+            coords_state, analysis_state, meta_state
         ]
     )
 
