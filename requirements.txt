@@ -14,3 +14,7 @@ huggingface-hub
 spaces
 python-dotenv
 rdkit
+torch
+transformers
+einops
+fair-esm
