@@ -13,4 +13,4 @@ starlette>=0.37.2
 huggingface-hub
 spaces
 python-dotenv
-audioop-lts
+rdkit
