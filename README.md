@@ -16,11 +16,11 @@ pinned: false
 ![Stability](https://img.shields.io/badge/TTT--7-Stable-green?style=for-the-badge)
 
 ## 🌌 Overview
-This repository contains the institutional-grade biophysics engine and interactive demonstrations for the **Nexus Resonance Codex (NRC)**. v3.0.0-GOLD introduces the **OmniModalEngine**, capable of simultaneous structural inference for **Proteins, DNA/RNA, and Ligands (SMILES)**. Utilizing the **Trageser Tensor Theorem (TTT)** and high-dimensional **2048D φ-spiral manifolds**, our platform achieves near-instantaneous structural prediction for complex biological assemblies.
+This repository contains the professional-grade biophysics engine and interactive demonstrations for the **Nexus Resonance Codex (NRC)**. v3.0.0-GOLD introduces the **OmniModalEngine**, capable of simultaneous structural inference for **Proteins, DNA/RNA, and Ligands (SMILES)**. Utilizing the **Trageser Tensor Theorem (TTT)** and high-dimensional **2048D φ-spiral manifolds**, our platform achieves near-instantaneous structural prediction for complex biological assemblies.
 
 ### 🧬 Key Features
 - **Omni-Modal Physics Engine**: Integrated support for Proteins + DNA/RNA + Ligand complexes (Boltz-1/AF3 class).
-- **Institutional Zenodo Deposition**: One-click scientific deposition with automated metadata generation for rapid research dissemination.
+- **Scientific Zenodo Deposition**: One-click scientific deposition with automated metadata generation for rapid research dissemination.
 - **Reference IDP Library**: Curated set of 100+ high-impact disordered proteins (DisProt) linked to neurodegeneration and cancer.
 - **2048D φ-Manifold Projection**: Real-time visualization of structural resonance in non-Euclidean space.
 - **Mutation Analysis Lab**: Simulate single-point mutations and predict ΔΔG resonance shifts.
@@ -38,7 +38,7 @@ The primary interactive portal is hosted on **Hugging Face Spaces**:
 ## 🛠 Repository Structure
 - `app.py`: Main entry point for the Gradio 6.0 interface.
 - `omni_engine.py`: Orchestrator for multi-modal structural assembly.
-- `deposition.py`: Institutional-grade Zenodo/ModelArchive API integration.
+- `deposition.py`: Professional-grade Zenodo/ModelArchive API integration.
 - `nrc_engine.py`: The 2048D phi-lattice engine for deterministic folding.
 - `biophysics.py`: Research-grade biophysical profile calculation (Hydropathy, Charge, Entropy).
 

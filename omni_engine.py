@@ -6,8 +6,8 @@ import requests
 
 class OmniModalEngine:
     """
-    Institutional-grade Omni-Modal Physics Engine.
-    Orchestrates high-dimensional structural predictions across 
+    Professional-grade Omni-Modal Physics Engine.
+    Orchestrates structural predictions across 
     Proteins, DNA, RNA, and Ligands with TTT-7 stability.
     """
     

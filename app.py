@@ -25,7 +25,7 @@ from typing import List, Dict, Optional, Tuple, Any
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Initialize institutional environment
+# Initialize environment
 load_dotenv()
 
 # Hardened environment configuration
@@ -315,8 +315,8 @@ def run_nrc_pipeline(seq, dna_rna, ligand, viewer_type, folding_mode):
                 coords = np.random.randn(len(seq), 3) # Placeholder for valid 3D topology
                 confidence = np.full(len(seq), 92.5)
 
-        elif folding_mode in ["ESMFold (Physical Model)", "Hybrid (AI Seed + NRC)", "Local ESMFold (Institutional)"]:
-            if folding_mode == "Local ESMFold (Institutional)" and LOCAL_ESM_AVAILABLE:
+        elif folding_mode in ["ESMFold (Physical Model)", "Hybrid (AI Seed + NRC)", "Local ESMFold"]:
+            if folding_mode == "Local ESMFold" and LOCAL_ESM_AVAILABLE:
                 logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING LOCAL ESMFOLD INFERENCE (CUDA Accelerated)...")
                 esm_pdb = esm_folder.predict(seq)
             else:
@@ -327,7 +327,7 @@ def run_nrc_pipeline(seq, dna_rna, ligand, viewer_type, folding_mode):
                 esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
                 if len(esm_coords) == len(seq):
                     logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED. Resonance Sync Success.")
-                    if folding_mode in ["ESMFold (Physical Model)", "Local ESMFold (Institutional)"]:
+                    if folding_mode in ["ESMFold (Physical Model)", "Local ESMFold"]:
                         coords = esm_coords
                         confidence = esm_plddt
                     else:
@@ -546,7 +546,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
         gr.HTML("""
             <div style="text-align: center;">
                 <h1>RESONANCE-FOLD PRO (OMNI-MODAL)</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Institutional φ-Lattice Biophysics Engine • v3.0.0-GOLD • DARPA/NASA Deployment Grade</p>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Professional φ-Lattice Biophysics Engine • v3.0.0-GOLD</p>
             </div>
         """)
 
@@ -570,7 +570,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                     )
                     folding_mode = gr.Dropdown(
                         label="Structural Generation Strategy", 
-                        choices=["NRC Geometric Init", "ESMFold (Physical Model)", "Local ESMFold (Institutional)", "Hybrid (AI Seed + NRC)", "Omni-Modal (Boltz/AF3-class)"], 
+                        choices=["NRC Geometric Init", "ESMFold (Physical Model)", "Local ESMFold", "Hybrid (AI Seed + NRC)", "Omni-Modal (Boltz/AF3-class)"], 
                         value="Omni-Modal (Boltz/AF3-class)",
                         info="Omni-Modal: Complete Protein + DNA/RNA + Ligand assembly | NRC Geometric Init: φ-based structural seeding."
                     )
@@ -617,7 +617,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         export_zip = gr.File(label="Download Research Package (.zip)")
                         pdb_code = gr.Code(label="PDB Source", language="markdown")
                     with gr.Column(elem_classes="premium-card"):
-                        gr.Markdown("### Institutional Deposition")
+                        gr.Markdown("### Scientific Deposition")
                         deposit_btn = gr.Button("DEPOT TO ZENODO / MODELARCHIVE (DRAFT)", variant="secondary")
                         deposit_out = gr.Code(label="Submission Manifest", language="json")
 

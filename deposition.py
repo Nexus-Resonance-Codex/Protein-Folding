@@ -9,7 +9,7 @@ load_dotenv()
 
 class ScientificDeposition:
     """
-    Handles institutional-grade deposition of structural predictions
+    Handles professional-grade deposition of structural predictions
     to global scientific databases (Zenodo, ModelArchive).
     """
     
