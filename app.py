@@ -523,7 +523,6 @@ def handle_mutation(seq, pos, aa, coords):
 def handle_deposition(seq, pdb, meta):
     if not pdb: return "[ERROR] NO STRUCTURE TO DEPOSIT"
     try:
-        import json # Local import to prevent reference fractures
         manifest = depositor.create_zenodo_draft(seq, pdb, meta)
         return json.dumps(manifest, indent=2)
     except Exception as e: return f"[ERROR] DEPOSITION FAILED: {e}"
