@@ -20,7 +20,8 @@ dependencies = [
     "pandas>=2.2.0",
     "requests>=2.31.0",
     "rdkit>=2023.9.5",
-    "fair-esm>=2.0.0"
+    "fair-esm>=2.0.0",
+    "python-dotenv>=1.0.1",
 ]
 
 [project.optional-dependencies]
