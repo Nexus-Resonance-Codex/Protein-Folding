@@ -1,0 +1,53 @@
+{
+  "dataset": "Agricultural Genomics Dataset v1.2",
+  "version": "1.2.0",
+  "description": "Structural metadata for key osmotic stress response proteins in Arabidopsis thaliana and cereal crop models. Sequences should be fetched from UniProt using the provided accession numbers.",
+  "author": "James Paul Trageser",
+  "orcid": "0009-0006-6678-2908",
+  "license": "CC-BY-NC-SA-4.0",
+  "repository": "https://github.com/Nexus-Resonance-Codex/Protein-Folding",
+  "generated": "2026-04-27T15:27:55.462659+00:00",
+  "target_count": 5,
+  "targets": [
+    {
+      "name": "RAB18 (Dehydrin)",
+      "accession": "P31168",
+      "organism": "Arabidopsis thaliana",
+      "disease": "Drought Stress",
+      "disorder_level": "Very High",
+      "sequence": "MAEEYKNNVPEHETPTVATEESPATTTEVTDRGLFDFLGKKEEEVKPQETTTLESEFDHKAQISEPELAAEHEEVKENKITLLEELQEKTEEDEENKPSVIEKLHRSNSSSSSSSDEEGEEKKEKKKKIVEGEEDKKGLVEKIKEKLPGHHDKTAEDDVPVSTTIPVPVSESVVEHDHPEEEKKGLVEKIKEKLPGHHDEKAEDSPAVTSTPLVVTEHPVEPTTELPVEHPEEKKGILEKIKEKLPGYHAKTTEEEVKKEKESDD"
+    },
+    {
+      "name": "PIP2;1 (Aquaporin)",
+      "accession": "P43286",
+      "organism": "Arabidopsis thaliana",
+      "disease": "Water Transport",
+      "disorder_level": "Moderate",
+      "sequence": "MAKDVEAVPGEGFQTRDYQDPPPAPFIDGAELKKWSFYRAVIAEFVATLLFLYITVLTVIGYKIQSDTDAGGVDCGGVGILGIAWAFGGMIFILVYCTAGISGGHINPAVTFGLFLARKVSLPRALLYIIAQCLGAICGVGFVKAFQSSYYTRYGGGANSLADGYSTGTGLAAEIIGTFVLVYTVFSATDPKRSARDSHVPVLAPLPIGFAVFMVHLATIPITGTGINPARSFGAAVIYNKSKPWDDHWIFWVGPFIGAAIAAFYHQFVLRASGSKSLGSFRSAANV"
+    },
+    {
+      "name": "NAC019 (Transcription Factor)",
+      "accession": "Q9ZNV3",
+      "organism": "Arabidopsis thaliana",
+      "disease": "Stress Response Regulation",
+      "disorder_level": "High",
+      "sequence": "MEKWWFNSMLSKEELEDRCGLSKSMDSDNINSNENMILNFTEKSIHSWSNGSSYSNFDLLFAIGDIPNLISDETFLIRDHKGETYSVYFDIENKIVEIDNYHSFSNYWNSSYGTGSKSNDTHYDLYMYDTKSSLNNHINGCIDSYLHSQMRIDNFVLRDIDHYGDNYIFDESKTTTKTNGRDKNLEVTKKYRNLWIQCEN"
+    },
+    {
+      "name": "P5CS1 (Delta-1-pyrroline-5-carboxylate synthase)",
+      "accession": "Q9SQP5",
+      "organism": "Arabidopsis thaliana",
+      "disease": "Proline Biosynthesis / Osmotic Protection",
+      "disorder_level": "Moderate",
+      "note": "Sequence to be fetched from UniProt REST API"
+    },
+    {
+      "name": "DREB2A (Dehydration-Responsive Element Binding)",
+      "accession": "Q9FJ92",
+      "organism": "Arabidopsis thaliana",
+      "disease": "Drought / Heat Stress Response",
+      "disorder_level": "High",
+      "sequence": "MAWKTEVNEVSDDIIDGLWSDDPPLQLESVTKIRRITSQRDISCVIRSGVVPRLVQLLKNQVFPKLQYEVAWALTNIAVDNPGVVVNNNAVPVLIQLIASPKDYVREQAIWTLSNVAGHSIHYRDFVLNSGVLMPLLRLLYKDTTLRIATWALRNLCRGKPHPAFDQVKPALPALEILLHSHDEDVLKNACMALCHLSEGSEDGIQSVIEAGFVPKLVQILQLPSPVVLVPALLTIGAMTAGNHQQTQCVINSGALPIISNMLTRNHENKIKKCACWVISNITAGTKEQIQSVIDANLIPILVNLAQDTDFYMKKEAVWAISNMALNGSHDQIKYMAEQSCIKQLCDILVYSDERTTILKCLDGLENMLKAGEAEKNSEDVNPYCLLIEDAEGLEKISKLQMNKNDDIYEKAYKILVTNWFEEDDENNNNNVRCDDVDFQV"
+    }
+  ]
+}
