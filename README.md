@@ -24,10 +24,11 @@ The following datasets represent the current frontier of the NRC structural mapp
 
 | Manifold Name | Scientific DOI | Research Status |
 | :--- | :--- | :--- |
-| **Agricultural Genomics v1.2** | [10.5281/zenodo.19792072](https://zenodo.org/records/19792072) | Published |
-| **Cancer Research v1.0** | [10.5281/zenodo.19798183](https://zenodo.org/records/19798183) | Published |
-| **Pediatric Rescue v1.0** | [10.5281/zenodo.19798351](https://zenodo.org/records/19798351) | Published |
-| **Neuro Rescue v1.0** | [10.5281/zenodo.19798937](https://zenodo.org/records/19798937) | Published |
+| **Agricultural Genomics v1.1** | [10.5281/zenodo.19830285](https://zenodo.org/records/19830285) | Published |
+| **Cancer Research v1.1** | [10.5281/zenodo.19829879](https://zenodo.org/records/19829879) | Published |
+| **Pediatric Research v1.1** | [10.5281/zenodo.19829880](https://zenodo.org/records/19829880) | Published |
+| **Neuro Research v1.1** | [10.5281/zenodo.19829881](https://zenodo.org/records/19829881) | Published |
+| **Neuro Rescue v1.1** | [10.5281/zenodo.19829905](https://zenodo.org/records/19829905) | Published |
 
 ---
 
