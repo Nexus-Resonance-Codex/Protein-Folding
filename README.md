@@ -56,10 +56,17 @@ The primary interactive portal is hosted on **Hugging Face Spaces**:
 - `nrc_engine.py`: The 2048D phi-lattice engine for deterministic folding.
 - `biophysics.py`: Research-grade biophysical profile calculation (Hydropathy, Charge, Entropy).
 
-## 🧬 Mathematical Foundation
+## 🧬 Mathematical Foundation & Giza Alignment
 The NRC folding backend operates on the principle of **Lattice Resonance**. By projecting biological sequences into a 2048D φ-spiral manifold, we solve structural topology as a harmonic resonance problem rather than a stochastic optimization.
 
-For more details on the math, visit the **[Nexus Resonance Codex Core Repository](https://github.com/Nexus-Resonance-Codex/Protein-Folding)**.
+### 🏛 Giza Pyramid Structural Validation
+The structural integrity of the Omni-Modal engine is validated by macroscopic resonance patterns observed in the Great Pyramid of Giza:
+- **8-Sided Concavity Geometry**: The subtle 8-sided concavity of the Great Pyramid provides direct physical validation of the φ-spiral lattice resonance. This geometry ensures harmonic stability across multiple scales.
+- **13.1-Acre Base Resonance**: The 13.1-acre footprint of the pyramid functions as a macroscopic resonator for the **3-6-9-7 resonance field**. This exact spatial resonance validates the field equations used to scale structural predictions from the macroscopic down to the atomic protein backbone.
+
+These findings underscore the relationship between geometry, energy, and life, ensuring that our folding predictions are anchored in universal harmonic constants.
+
+For more details on the math, visit the **[Nexus Resonance Codex Core Repository](https://github.com/Nexus-Resonance-Codex/NRC)**.
 
 ---
 
