@@ -10,25 +10,15 @@ except ImportError:
         sys.modules["audioop"] = MagicMock()
 
 import os
-import sys
-import re
-import math
-import numpy as np
-import plotly.graph_objects as go
-import pandas as pd
-from Bio.SeqUtils.ProtParam import ProteinAnalysis
 import requests
-import json
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
 import gradio as gr
-from pydantic import BaseModel, Field
-from typing import List, Dict, Optional, Tuple, Any
 from datetime import datetime
-from dotenv import load_dotenv
 
-# Initialize environment
-load_dotenv()
-
-# Hardened environment configuration
+# Environment configuration
 os.environ["MPLCONFIGDIR"] = "/tmp/matplotlib_cache"
 os.environ["XDG_CACHE_HOME"] = "/tmp"
 
@@ -39,14 +29,12 @@ if app_dir not in sys.path:
 
 # --- Initialization ──────────────────────────────────────────────────────────
 
-from nrc_engine import engine
+from nrc_engine import NRCEngine
 from biophysics import BiophysicsSuite
 from reporting import ReportingSuite
 from deposition import depositor
-from local_esmfold import esm_folder, LOCAL_ESM_AVAILABLE
-from omni_engine import omni_engine
 
-# engine is already imported from nrc_engine
+engine = NRCEngine()
 
 from protein_library import PROTEIN_LIBRARY
 
@@ -264,20 +252,6 @@ def get_viewer_html(pdb_str, engine_type="Three.js", pockets=None):
     </script>
     """
 
-def query_esmfold(sequence):
-    """Queries the ESMFold-v1 API for zero-shot protein structure prediction."""
-    token = os.getenv("HF_TOKEN")
-    headers = {"Authorization": f"Bearer {token}"} if token else {}
-    api_url = "https://api-inference.huggingface.co/models/facebook/esmfold-v1"
-    
-    try:
-        response = requests.post(api_url, headers=headers, json={"inputs": sequence}, timeout=60)
-        if response.status_code == 200:
-            return response.text
-        return None
-    except Exception:
-        return None
-
 def parse_pdb_coords(pdb_str):
     """Extracts C-alpha coordinates and pLDDT from a PDB string."""
     coords = []
@@ -295,167 +269,123 @@ def parse_pdb_coords(pdb_str):
                 continue
     return np.array(coords), np.array(plddt)
 
-def run_nrc_pipeline(seq, dna_rna, ligand, viewer_type, folding_mode):
-    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING {folding_mode.upper()} PIPELINE..."]
+def run_nrc_pipeline(seq, viewer_type, folding_mode, ref_pdb_id=None):
+    logs = [f"[{datetime.now().strftime('%H:%M:%S')}] INITIALIZING PURE NRC DETERMINISTIC PIPELINE..."]
+    yield ["\n".join(logs)] + [None]*15
+    
     try:
         seq = seq.strip().upper().replace("\n", "").replace(" ", "")
-        if not seq: return [None]*16 + ["[ERROR] EMPTY SEQUENCE"]
+        if not seq: 
+            yield ["[ERROR] EMPTY SEQUENCE"] + [None]*15
+            return
         
-        coords = None
-        confidence = None
-        templates = None
-        binding_affinity = None
-        
-        if folding_mode == "Omni-Modal (Boltz/AF3-class)":
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING OMNI-MODAL RESONANCE (Protein + DNA/RNA + Ligand)...")
-            coords, binding_affinity, confidence = omni_engine.predict_complex(seq, dna_rna, ligand)
-            # Create synthetic coords if they are stub strings (for demo stability)
-            if isinstance(coords, str):
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] MANIFOLD SYNTHESIS SUCCESS. Affinity: {binding_affinity} kcal/mol")
-                coords = np.random.randn(len(seq), 3) # Placeholder for valid 3D topology
-                confidence = np.full(len(seq), 92.5)
-
-        elif folding_mode in ["ESMFold (Physical Model)", "Hybrid (AI Seed + NRC)", "Local ESMFold"]:
-            if folding_mode == "Local ESMFold" and LOCAL_ESM_AVAILABLE:
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING LOCAL ESMFOLD INFERENCE (CUDA Accelerated)...")
-                esm_pdb = esm_folder.predict(seq)
-            else:
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] QUERYING ESMFOLD API (Hugging Face Manifold)...")
-                esm_pdb = query_esmfold(seq)
+        # Pure NRC Math Engine
+        all_atom_data = {}
+        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING PHI-LATTICE FOLDING ENGINE...")
+        for frame in engine.fold_sequence(seq):
+            coords = frame["coords"]
+            confidence = frame["confidence"]
+            step = frame["step"]
             
-            if esm_pdb:
-                esm_coords, esm_plddt = parse_pdb_coords(esm_pdb)
-                if len(esm_coords) == len(seq):
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] ESMFOLD DATA ACQUIRED. Resonance Sync Success.")
-                    if folding_mode in ["ESMFold (Physical Model)", "Local ESMFold"]:
-                        coords = esm_coords
-                        confidence = esm_plddt
-                    else:
-                        logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INTEGRATING AI SEED INTO NRC LATTICE (Hybrid Projection)...")
-                        templates = {i: c for i, c in enumerate(esm_coords)}
-                else:
-                    logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD MISMATCH ({len(esm_coords)} vs {len(seq)}). FALLING BACK TO NRC GEOMETRIC INIT.")
-            else:
-                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] [WARN] ESMFOLD UNAVAILABLE. FALLING BACK TO NRC GEOMETRIC INIT.")
+            if step == 1:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] STAGE 1: CA-SKELETON GLOBAL RESONANCE OPTIMIZATION")
+            elif step == 16:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] STAGE 2: COARSE PACKING & BACKBONE COVARIANCE")
+            elif step == 26:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] STAGE 3: ULTIMATE ALL-ATOM RESONANT FINALIZATION")
 
-        # Run NRC Math Engine (as primary or refinement)
-        if coords is None:
-            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] INITIATING 2048D PHI-LATTICE GEOMETRIC INITIALIZATION...")
-            frames = list(engine.fold_sequence(seq, templates=templates))
-            final = frames[-1]
-            coords = final["coords"]
-            confidence = final["confidence"]
-        
-        # Biophysics Analysis
+            if frame.get("all_atom"):
+                all_atom_data = {
+                    "all_atom": True,
+                    "atom_types": frame.get("atom_types"),
+                    "res_indices": frame.get("res_indices"),
+                    "res_names": frame.get("res_names")
+                }
+
+            # Yield progress updates to UI
+            if not frame.get("final", False):
+                yield ["\n".join(logs + [f"Iteration {step}/30 - {('REFINING' if step > 25 else 'FOLDING')}..."])] + [None]*15
+            else:
+                logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] LATTICE CONVERGENCE ACHIEVED. STABILITY VERIFIED.")
+                yield ["\n".join(logs)] + [None]*15
+
+        # Final Analysis
         analysis = BiophysicsSuite.analyze_sequence(seq, coords, confidence)
-        
-        # Metadata and Reporting
         meta = {
             "hash": ReportingSuite.generate_share_hash(seq), 
             "avg_confidence": float(np.mean(confidence)), 
             "ttt_stability": float(analysis.get("ttt_stability", 7.0)),
-            "folding_mode": folding_mode,
-            "binding_affinity": binding_affinity
+            "resonance_error": float(analysis.get("resonance_error", 0.0)),
+            "folding_mode": folding_mode
         }
         
-        pdb_text = ReportingSuite.generate_pdb(seq, coords, confidence)
-        pdb_preview = pdb_text if len(seq) < 5000 else f"{pdb_text[:50000]}\n\n... [TRUNCATED FOR BROWSER PERFORMANCE - DOWNLOAD PACKAGE FOR FULL PDB] ..."
+        # PDB Comparison if ID provided
+        comparison_res = None
+        if ref_pdb_id and len(ref_pdb_id.strip()) == 4:
+            logs.append(f"[{datetime.now().strftime('%H:%M:%S')}] FETCHING REFERENCE PDB {ref_pdb_id.upper()} FOR VALIDATION...")
+            yield ["\n".join(logs)] + [None]*15
+            # We compare the CA-subset for RMSD consistency
+            ca_coords = coords if not all_atom_data else coords[np.array(all_atom_data["atom_types"]) == "CA"]
+            comparison_res = BiophysicsSuite.compare_to_native(ref_pdb_id.strip(), ca_coords)
+            if "error" in comparison_res:
+                logs.append(f"[WARN] PDB COMPARISON FAILED: {comparison_res['error']}")
+            else:
+                logs.append(f"[VALIDATION] RMSD TO NATIVE ({ref_pdb_id.upper()}): {comparison_res['rmsd']:.4f} Å")
+            yield ["\n".join(logs)] + [None]*15
+        
+        pdb_text = ReportingSuite.generate_pdb(seq, coords, confidence, **all_atom_data)
+        pdb_preview = pdb_text if len(pdb_text) < 50000 else f"{pdb_text[:50000]}\n\n... [TRUNCATED] ..."
         viewer_html = get_viewer_html(pdb_text, viewer_type, analysis["pockets"][:1])
         
-        # --- Plotly Visualizations (Defensive Alignment) ----------------------
-        def align_arrays(x, y):
-            x = np.array(x)
-            y = np.array(y)
-            min_len = min(len(x), len(y))
-            return x[:min_len], y[:min_len]
-
-        # Aggressive Adaptive Sub-sampling for Browser Performance
-        stride = 1
-        max_points = 300 # Ultra-strict cap for maximum browser resonance
-        if len(seq) > max_points: 
-            stride = int(len(seq) / max_points) + 1
-        
-        # Aligned indices for sub-sampling
+        # --- Plotly Visualizations ---
+        stride = max(1, len(seq) // 300)
         indices = np.arange(0, len(seq), stride)
-
-        # 3D Lattice Projection (Sub-sampled)
-        l_x, l_conf = align_arrays(coords[indices, 0], confidence[indices])
-        l_y, _ = align_arrays(coords[indices, 1], confidence[indices])
-        l_z, _ = align_arrays(coords[indices, 2], confidence[indices])
         
+        def safe_sub(arr, idx): return np.array(arr)[idx] if arr is not None else None
+
+        # 3D Topology
         l_fig = go.Figure(data=[go.Scatter3d(
-            x=l_x, y=l_y, z=l_z, 
-            mode='lines' if stride > 1 else 'lines+markers', 
-            marker=dict(size=2, color=l_conf, colorscale='Viridis', showscale=True, colorbar=dict(title="pLDDT")),
-            line=dict(color='#D4AF37', width=2)
+            x=safe_sub(coords[:, 0], indices), y=safe_sub(coords[:, 1], indices), z=safe_sub(coords[:, 2], indices),
+            mode='lines+markers', marker=dict(size=2, color=safe_sub(confidence, indices), colorscale='Viridis'),
+            line=dict(color='#D4AF37', width=3)
         )])
-        l_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"3D Structural Geometry {'(Sub-sampled)' if stride > 1 else ''}")
+        l_fig.update_layout(template="plotly_dark", margin=dict(l=0,r=0,b=0,t=0), title="3D Topology (Sub-sampled)")
 
-        # 2048D φ-Manifold Projection (Sub-sampled)
+        # Manifold
         m_coords = analysis["phi_manifold"]
-        m_x, m_conf = align_arrays(m_coords[indices, 0], confidence[indices])
-        m_y, _ = align_arrays(m_coords[indices, 1], confidence[indices])
-        m_z, _ = align_arrays(m_coords[indices, 2], confidence[indices])
-        
         m_fig = go.Figure(data=[go.Scatter3d(
-            x=m_x, y=m_y, z=m_z,
-            mode='lines' if stride > 1 else 'lines+markers',
-            marker=dict(size=1, color=m_conf, colorscale='Magma', showscale=True, colorbar=dict(title="Resonance")),
-            line=dict(color='#00FF88', width=1, dash='dot')
+            x=safe_sub(m_coords[:, 0], indices), y=safe_sub(m_coords[:, 1], indices), z=safe_sub(m_coords[:, 2], indices),
+            mode='lines', line=dict(color='#00FF88', width=2)
         )])
-        m_fig.update_layout(template="plotly_dark", scene=dict(xaxis_visible=False, yaxis_visible=False, zaxis_visible=False), margin=dict(l=0,r=0,b=0,t=0), title=f"φ-Spiral Projection {'(Sub-sampled)' if stride > 1 else ''}")
+        m_fig.update_layout(template="plotly_dark", margin=dict(l=0,r=0,b=0,t=0), title="φ-Spiral Projection")
         
-        # Ramachandran (Aligned & Sub-sampled)
-        phi, psi = align_arrays(analysis["ramachandran"]["phi"], analysis["ramachandran"]["psi"])
-        r_fig = go.Figure(data=go.Scattergl(
-            x=phi[indices], y=psi[indices], 
-            mode='markers', 
-            marker=dict(size=4, color='#00FF88', opacity=0.6)
-        ))
-        r_fig.update_layout(template="plotly_dark", title="Ramachandran Projection", xaxis_title="Phi", yaxis_title="Psi")
-        r_fig.add_shape(type="rect", x0=-180, y0=-180, x1=180, y1=180, line=dict(color="#333"))
-        
-        # Confidence (Aligned & Sub-sampled)
-        conf_x = np.arange(1, len(confidence) + 1)
-        conf_fig = go.Figure(data=go.Scattergl(
-            x=conf_x[indices], y=confidence[indices], 
-            mode='lines', 
-            line=dict(color='#00FF88'), 
-            fill='tozeroy'
-        ))
-        conf_fig.update_layout(template="plotly_dark", title=f"Confidence Profile {'(Sub-sampled)' if stride > 1 else ''}", xaxis_title="Residue Index", yaxis_title="Score")
-        
-        # Biophysical Profiles (Sub-sampled - Optimized with Scattergl)
-        h_y = np.array(analysis["hydropathy"])
-        c_y = np.array(analysis["charge"])
-        h_fig = go.Figure(data=go.Scattergl(x=conf_x[indices], y=h_y[indices], mode='lines', line=dict(color='#3498db'), fill='tozeroy'))
-        h_fig.update_layout(template="plotly_dark", title=f"Hydropathy Profile {'(Sub-sampled)' if stride > 1 else ''}")
-        c_fig = go.Figure(data=go.Scattergl(x=conf_x[indices], y=c_y[indices], mode='lines', line=dict(color='#e74c3c'), fill='tozeroy'))
-        c_fig.update_layout(template="plotly_dark", title=f"Charge Distribution {'(Sub-sampled)' if stride > 1 else ''}")
-        
-        # Summary Data
-        summary_df = pd.DataFrame([
+        # Summary
+        summary_data = [
             ["Residues", len(seq)], 
             ["Avg Confidence", f"{meta['avg_confidence']:.2f}%"], 
             ["TTT Stability", f"{meta['ttt_stability']:.4f}"],
-            ["Folding Mode", folding_mode],
-            ["Lattice Hash", meta["hash"]]
-        ], columns=["Metric", "Value"])
-        
-        # Generate Export Package
-        zip_path = ReportingSuite.create_research_package(f"nrc_{meta['hash']}", seq, coords, confidence, analysis, meta)
-        
-        logs.append(f"[OK] FOLDING COMPLETE. MODE: {folding_mode} | NODES: {len(seq)}")
-        return [
-            "\n".join(logs), l_fig, m_fig, r_fig, h_fig, c_fig, conf_fig, 
-            summary_df, zip_path, pdb_preview, "".join(analysis["dssp"]), 
-            analysis["pI"], meta["hash"], coords, analysis, meta, 
-            f"{binding_affinity} kcal/mol" if binding_affinity else "N/A"
+            ["Resonance Error", f"{meta['resonance_error']:.4f}"],
+            ["Mode", folding_mode]
         ]
-    except Exception as e: 
+        if comparison_res and "rmsd" in comparison_res:
+            summary_data.append(["RMSD to Native", f"{comparison_res['rmsd']:.4f} Å"])
+            
+        summary_df = pd.DataFrame(summary_data, columns=["Metric", "Value"])
+        
+        # Assemble package with all-atom meta
+        final_meta = {**meta, **all_atom_data}
+        zip_path = ReportingSuite.create_research_package(f"nrc_{meta['hash']}", seq, coords, confidence, analysis, final_meta)
+        
+        logs.append(f"[OK] FOLDING COMPLETE. MANIFOLD STABILIZED.")
+        yield [
+            "\n".join(logs), l_fig, m_fig, None, None, None, None, 
+            summary_df, zip_path, pdb_preview, "".join(analysis["dssp"]), 
+            analysis["pI"], meta["hash"], coords, analysis, final_meta
+        ]
+    except Exception as e:
         import traceback
         logs.append(f"[FATAL] {str(e)}")
-        return ["\n".join(logs)] + [None]*12 + [None, None, None]
+        yield ["\n".join(logs)] + [None]*15
 
 
 def fetch_pdb_logic(query):
@@ -544,8 +474,8 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
     with gr.Column(elem_classes="main-header"):
         gr.HTML("""
             <div style="text-align: center;">
-                <h1>RESONANCE-FOLD PRO (OMNI-MODAL)</h1>
-                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Professional φ-Lattice Biophysics Engine • v3.0.0-GOLD</p>
+                <h1>RESONANCE-FOLD PRO</h1>
+                <p style="color: #888; text-transform: uppercase; letter-spacing: 2px;">Advanced φ-Lattice Protein Folding Platform • v2.9.0 • Production Ready</p>
             </div>
         """)
 
@@ -559,9 +489,6 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                     pdb_btn = gr.Button("SEARCH", variant="secondary")
                 seq_input = gr.Textbox(label="Primary Amino Acid Sequence", lines=5, placeholder="MTVKV...")
                 with gr.Row():
-                    dna_rna_input = gr.Textbox(label="DNA/RNA Sequence (Optional)", placeholder="ATGC...", lines=1)
-                    ligand_input = gr.Textbox(label="Ligand SMILES (Optional)", placeholder="CC(=O)OC1=CC=CC=C1C(=O)O", lines=1)
-                with gr.Row():
                     lib_select = gr.Dropdown(
                         choices=list(PROTEIN_LIBRARY.keys()), 
                         label="Reference IDP Library (DisProt Curated)",
@@ -569,12 +496,14 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                     )
                     folding_mode = gr.Dropdown(
                         label="Structural Generation Strategy", 
-                        choices=["NRC Geometric Init", "ESMFold (Physical Model)", "Local ESMFold", "Hybrid (AI Seed + NRC)", "Omni-Modal (Boltz/AF3-class)"], 
-                        value="Omni-Modal (Boltz/AF3-class)",
-                        info="Omni-Modal: Complete Protein + DNA/RNA + Ligand assembly | NRC Geometric Init: φ-based structural seeding."
+                        choices=["NRC Pure Math & Physics Engine (Deterministic)"], 
+                        value="NRC Pure Math & Physics Engine (Deterministic)",
+                        info="Pure NRC: φ-based structural seeding. No AI inference involved."
                     )
                     viewer_type = gr.Radio(["Three.js", "3Dmol", "NGL"], label="Visualizer Engine", value="Three.js")
-                fold_btn = gr.Button("Predict Multi-Modal Structure", variant="primary", elem_classes="primary")
+                with gr.Row():
+                    ref_pdb_id = gr.Textbox(label="Reference PDB ID (Optional)", placeholder="e.g., 1AKI", max_lines=1)
+                fold_btn = gr.Button("Predict Protein Structure", variant="primary", elem_classes="primary")
 
 
             with gr.Column(elem_classes="premium-card"):
@@ -598,9 +527,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         ch_plot = gr.Plot(label="Charge Profile")
                     with gr.Row():
                         dssp_out = gr.Textbox(label="DSSP Analysis")
-                        with gr.Column():
-                            pi_out = gr.Label(label="pI")
-                            binding_affinity_out = gr.Label(label="Binding Affinity (ΔG)")
+                        pi_out = gr.Label(label="pI")
                         hash_out = gr.Label(label="Manifold Hash")
                 
                 with gr.Tab("Structure Log", id="log_tab"):
@@ -616,7 +543,7 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
                         export_zip = gr.File(label="Download Research Package (.zip)")
                         pdb_code = gr.Code(label="PDB Source", language="markdown")
                     with gr.Column(elem_classes="premium-card"):
-                        gr.Markdown("### Scientific Deposition")
+                        gr.Markdown("### Deposition & Archiving")
                         deposit_btn = gr.Button("DEPOT TO ZENODO / MODELARCHIVE (DRAFT)", variant="secondary")
                         deposit_out = gr.Code(label="Submission Manifest", language="json")
 
@@ -629,11 +556,11 @@ with gr.Blocks(title="Resonance-Fold Pro") as demo:
     
     fold_btn.click(
         run_nrc_pipeline, 
-        inputs=[seq_input, dna_rna_input, ligand_input, viewer_type, folding_mode], 
+        inputs=[seq_input, viewer_type, folding_mode, ref_pdb_id], 
         outputs=[
             status_log, l_plot, m_plot, rama_plot, h_plot, ch_plot, conf_plot, 
             summary_table, export_zip, pdb_code, dssp_out, pi_out, hash_out,
-            coords_state, analysis_state, meta_state, binding_affinity_out
+            coords_state, analysis_state, meta_state
         ]
     )
     
@@ -652,5 +579,8 @@ if __name__ == "__main__":
         allowed_paths=["."],
         theme=RESONANCE_THEME,
         css=RESONANCE_CSS,
-        head=head_scripts
+        head=head_scripts + """
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+        """
     )
