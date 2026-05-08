@@ -4,7 +4,7 @@ emoji: 🧬
 colorFrom: indigo
 colorTo: purple
 sdk: docker
-app_file: hf-spaces/resonance-fold/app.py
+app_file: app.py
 pinned: false
 ---
 
@@ -16,7 +16,7 @@ pinned: false
 ![Stability](https://img.shields.io/badge/TTT--7-Stable-green?style=for-the-badge)
 
 ## 🌌 Overview
-This repository contains the professional-grade biophysics engine and interactive demonstrations for the **Nexus Resonance Codex (NRC)**. v3.0.0-GOLD introduces the **OmniModalEngine**, capable of simultaneous structural inference for **Proteins, DNA/RNA, and Ligands (SMILES)**. Utilizing the **Trageser Tensor Theorem (TTT)** and high-dimensional **2048D φ-spiral manifolds**, our platform achieves near-instantaneous structural prediction for complex biological assemblies.
+This repository contains the professional-grade biophysics engine for the **Nexus Resonance Codex (NRC)**. v3.0.0-GOLD introduces the **100% Deterministic φ-Lattice Engine**, a purely mathematical folding framework free from external AI inference dependencies. Utilizing the **Trageser Tensor Theorem (TTT)** and **2048D φ-spiral manifolds**, the engine achieves absolute structural reproducibility through geometric resonance.
 
 ## 📊 Primary Research Manifolds (Zenodo Index)
 
