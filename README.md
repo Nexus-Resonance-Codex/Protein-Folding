@@ -1,12 +1,4 @@
----
-title: Resonance Fold Pro
-emoji: 🧬
-colorFrom: indigo
-colorTo: purple
-sdk: docker
-app_file: app.py
-pinned: false
----
+# ![FOLD PROTEINS INSTANTLY, ONLINE, NOW - CLICK HERE](https://huggingface.co/spaces/Nexus-Resonance-Codex/Resonance-Fold)
 
 # Nexus Resonance Codex: Protein-Folding (Omni-Modal)
 
