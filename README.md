@@ -1,4 +1,4 @@
-# ![FOLD PROTEINS INSTANTLY, ONLINE, NOW - CLICK HERE](https://huggingface.co/spaces/Nexus-Resonance-Codex/Resonance-Fold)
+# ![FOLD PROTEINS INSTANTLY, ONLINE, NOW - CLICK HERE](https://huggingface.co/spaces/Nexus-Resonance-Codex/Math-Fold)
 
 # Nexus Resonance Codex: Protein-Folding (Omni-Modal)
 
