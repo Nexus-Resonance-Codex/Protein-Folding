@@ -1,14 +1,14 @@
 import torch
 import esm
-import os
 from typing import Optional
+
 
 class LocalESMFold:
     """
     Local ESMFold Implementation for high-performance protein folding.
     Ensures API-independence for institutional research.
     """
-    
+
     def __init__(self, model_name: str = "esmfold_v1"):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = None
@@ -32,7 +32,7 @@ class LocalESMFold:
         Returns PDB string.
         """
         model = self.load_model()
-        
+
         with torch.no_grad():
             try:
                 # Basic ESMFold inference
@@ -41,6 +41,7 @@ class LocalESMFold:
             except Exception as e:
                 print(f"ESMFold Inference Error: {e}")
                 return None
+
 
 # Singleton instance
 esm_folder = LocalESMFold()

@@ -1,21 +1,20 @@
 import numpy as np
-import time
-from typing import List, Dict, Optional, Generator
+from typing import Dict, Optional, Generator
 from nrc_forcefield import NRCForcefield
+
 
 class NRCEngine:
     """
-    Geometric Initialization Strategy: Uses φ-based trigonometric expansion and Spherical Fibonacci 
+    Geometric Initialization Strategy: Uses φ-based trigonometric expansion and Spherical Fibonacci
     distribution to generate 3D starting states, refined by a deterministic NRC forcefield.
     """
-    
+
     PHI = (1 + np.sqrt(5)) / 2
     GOLDEN_ANGLE = 2 * np.pi / (PHI**2)
-    LATTICE_DIM = 2048 # TTT-7 Stable (2+0+4+8=14 -> 5)
-    FOLD_DIM = 512    # TTT-7 Stable (5+1+2=8)
-    MAX_SEQUENCE_LENGTH = 77777 
+    LATTICE_DIM = 2048  # TTT-7 Stable (2+0+4+8=14 -> 5)
+    FOLD_DIM = 512  # TTT-7 Stable (5+1+2=8)
+    MAX_SEQUENCE_LENGTH = 77777
 
-    
     def __init__(self, precision: type = np.float32):
         self.precision = precision
         # Pre-compute lattice harmonics for 2048D
@@ -27,10 +26,7 @@ class NRCEngine:
         return np.exp(1j * self.GOLDEN_ANGLE * indices)
 
     def fold_sequence(
-        self, 
-        sequence: str, 
-        mode: str = "NRC_GEOMETRIC",
-        templates: Optional[Dict[int, np.ndarray]] = None
+        self, sequence: str, mode: str = "NRC_GEOMETRIC", templates: Optional[Dict[int, np.ndarray]] = None
     ) -> Generator[Dict[str, np.ndarray], None, None]:
         """
         Main entry point for sequence folding.
@@ -42,23 +38,18 @@ class NRCEngine:
 
         # Initialize NRC Forcefield for this sequence
         ff = NRCForcefield(n)
-        
+
         # Step 1: Initial 3D Distribution (Spherical Fibonacci to avoid 2D collapse)
         # We start with the 3D seed directly
-        coords = ff.x0.reshape(-1, 3) * 10.0 # Scale to a starting 10A sphere
-        
+        coords = ff.x0.reshape(-1, 3) * 10.0  # Scale to a starting 10A sphere
+
         if templates:
             for idx, template_coord in templates.items():
                 if 0 <= idx < n:
                     coords[idx] = template_coord
 
         # Yield Initial State
-        yield {
-            "step": 0,
-            "coords": coords,
-            "confidence": np.full(n, 70.0),
-            "stability": 7.0
-        }
+        yield {"step": 0, "coords": coords, "confidence": np.full(n, 70.0), "stability": 7.0}
 
         # Step 2: Thermodynamic Relaxation Loop (Pure Math)
         # We'll run a few iterations and yield frames for the "wow" effect
@@ -67,7 +58,7 @@ class NRCEngine:
             # In a real real-time app, we'd do partial optimization steps.
             # Here we simulate the progress for visualization.
             # We'll run a mini-optimization every 10 steps or just interpolate.
-            
+
             # For the final step, we do the full optimization
             if step == max_steps:
                 coords = ff.optimize(max_iter=500)
@@ -75,7 +66,7 @@ class NRCEngine:
                 # Interpolate or do a shallow optimize
                 # To keep it fast for Gradio, we'll just do a shallow optimize
                 coords = ff.optimize(max_iter=5)
-            
+
             # Rescale to Angstroms (3.8A C-alpha resonance)
             p_diffs = np.linalg.norm(np.diff(coords, axis=0), axis=1)
             avg_len = np.mean(p_diffs) if len(p_diffs) > 0 else 1.0
@@ -85,15 +76,9 @@ class NRCEngine:
             # Confidence increases with 'step' as we approach TTT-7 stability
             confidence = np.full(n, 70.0 + (step / max_steps) * 25.0)
             stability = 7.0 + (step / max_steps) * 2.0
-            
+
             if step % 10 == 0 or step == max_steps:
-                yield {
-                    "step": step,
-                    "coords": coords,
-                    "confidence": confidence,
-                    "stability": stability,
-                    "final": (step == max_steps)
-                }
+                yield {"step": step, "coords": coords, "confidence": confidence, "stability": stability, "final": (step == max_steps)}
 
     def _generate_projection_matrix(self) -> np.ndarray:
         """Generates a diversified 2048D -> 3D projection manifold."""
@@ -124,6 +109,7 @@ class NRCEngine:
     def _audit_ttt_stability(self, lattice: np.ndarray) -> float:
         """Returns the global TTT-7 stability resonance score."""
         return 7.7777
+
 
 # Test Singleton
 engine = NRCEngine()
