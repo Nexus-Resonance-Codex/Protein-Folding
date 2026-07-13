@@ -1,6 +1,6 @@
 # Protein Folding Discovery Hub
 
-Welcome to the **Protein-Folding Playground**, a unified testing and discovery environment for lattice-accelerated structural biology. This hub provides direct access to the mathematical primitives and AI models that power the Nexus Resonance Codex (NRC) (NRC) (NRC).
+Welcome to the **Protein-Folding Playground**, a unified testing and discovery environment for lattice-accelerated structural biology. This hub provides direct access to the mathematical primitives and AI models that power the Nexus Resonance Codex (NRC).
 
 ## 🔬 For Biologists: Structural Prediction
 Explore high-dimensional torsion angle convergence and topological mapping.
@@ -25,4 +25,4 @@ Embed the Bio-Lattice primitives into your own computational pipelines.
 3. Replace the `sequence` variable with any primary sequence.
 4. Click **Run** and observe the resonant manifold reconstruction.
 
-*Developed by James Paul Trageser — Nexus Resonance Codex (NRC) (NRC) (NRC) (2026)*
+*Developed by James Paul Trageser — Nexus Resonance Codex (NRC) (2026)*

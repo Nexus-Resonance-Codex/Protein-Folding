@@ -1,6 +1,6 @@
 # Mathematical Foundations of φ^∞ Lattice Folding
 
-The prediction of protein structures using **Nexus Resonance Codex (NRC) (NRC) (NRC) (NRC)** math represents a fundamental paradigm shift from stochastic energy minimization to **geometric resonance**. This document outlines the rigorous mathematical and physical proofs that enable $O(N)$ linear folding.
+The prediction of protein structures using **Nexus Resonance Codex (NRC)** math represents a fundamental paradigm shift from stochastic energy minimization to **geometric resonance**. This document outlines the rigorous mathematical and physical proofs that enable $O(N)$ linear folding.
 
 ## 1. High-Dimensional Resonant Manifold
 Traditional folding methods treat a protein as a 3D object in Euclidean space. **Resonance-Fold** maps each residue $i \in \{1, \dots, N\}$ into an **8192-dimensional lattice manifold** $\mathcal{M}$. 
@@ -55,4 +55,4 @@ uv run python -m resonance_fold.audit --verify stability
 
 ---
 *Authored for the technological preservation of life.*
-*James Paul Trageser — Nexus Resonance Codex (NRC) (NRC) (NRC) (2026)*
+*James Paul Trageser — Nexus Resonance Codex (NRC) (2026)*

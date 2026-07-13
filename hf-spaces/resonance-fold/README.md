@@ -10,7 +10,7 @@ pinned: false
 
 # Resonance-Fold Pro: φ-Lattice Folding
 
-Welcome to the **Resonance-Fold Pro** portal. This is a sovereign deployment of the **Nexus Resonance Codex (NRC) (NRC) (NRC)** protein folding engine.
+Welcome to the **Resonance-Fold Pro** portal. This is a sovereign deployment of the **Nexus Resonance Codex (NRC)** protein folding engine.
 
 ### 🔭 Capabilities
 - **Deterministic IDP Folding**: 100% mathematical resonance logic for disordered proteins.

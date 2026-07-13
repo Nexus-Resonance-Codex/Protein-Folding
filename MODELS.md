@@ -1,5 +1,5 @@
 # 🧬 Protein-Folding: Biological Phasing Models
-## [Nexus Resonance Codex (NRC) (NRC) (NRC) (NRC)](https://github.com/Nexus-Resonance-Codex)
+## [Nexus Resonance Codex (NRC)](https://github.com/Nexus-Resonance-Codex)
 
 > "Life is a lattice folded in time."
 

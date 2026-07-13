@@ -1,19 +1,19 @@
-# ⚖️ Licensing & Enterprise Architecture (Nexus Resonance Codex (NRC) (NRC))
+# ⚖️ Licensing & Enterprise Architecture (Nexus Resonance Codex (NRC))
 
-This repository operates on a **Dual-License** structure to protect the integrity of the Nexus Resonance Codex (NRC) (NRC) while supporting open scientific validation.
+This repository operates on a **Dual-License** structure to protect the integrity of the Nexus Resonance Codex (NRC) while supporting open scientific validation.
 
 * **Codebase:** [AGPL-3.0](LICENSE) (Ensures any cloud/network deployment remains entirely open-source).
 * **Data & Weights:** [CC BY-NC-SA 4.0](LICENSE-DATA) (Strictly prohibits free commercial use).
 * **Trademarks & Math Integrity:** [Trademark Policy](TRADEMARK_POLICY.md) (Protects the TTT-7, QRT, and mathematical nomenclatures).
 * **Patent Protection:** [Patent Pledge](PATENT_PLEDGE.md) (Tesla-style Good Faith Patent Covenant).
 
-🏢 **Corporate & Drug Discovery Entities:** If you require the use of Nexus Resonance Codex (NRC) (NRC) frameworks in a closed-source, proprietary, or for-profit environment, you must purchase an Enterprise License. See [COMMERCIAL_USE.md](COMMERCIAL_USE.md) for details or contact **James Paul Trageser** at **NexusResonanceCodex@gmail.com**.
+🏢 **Corporate & Drug Discovery Entities:** If you require the use of Nexus Resonance Codex (NRC) frameworks in a closed-source, proprietary, or for-profit environment, you must purchase an Enterprise License. See [COMMERCIAL_USE.md](COMMERCIAL_USE.md) for details or contact **James Paul Trageser** at **NexusResonanceCodex@gmail.com**.
 
 ---
 
 # ![FOLD PROTEINS INSTANTLY, ONLINE, NOW - CLICK HERE](https://huggingface.co/spaces/Nexus-Resonance-Codex/Math-Fold)
 
-# Nexus Resonance Codex (NRC) (NRC) (NRC): Protein-Folding (Omni-Modal)
+# Nexus Resonance Codex (NRC): Protein-Folding (Omni-Modal)
 
 ![NRC Protein Folding](https://img.shields.io/badge/NRC--v3.0.0--GOLD-Indigo?style=for-the-badge&logo=dna)
 ![Gradio](https://img.shields.io/badge/Deployment-Hugging_Face-indigo?style=for-the-badge&logo=huggingface)
@@ -21,7 +21,7 @@ This repository operates on a **Dual-License** structure to protect the integrit
 ![Stability](https://img.shields.io/badge/TTT--7-Stable-green?style=for-the-badge)
 
 ## 🌌 Overview
-This repository contains the professional-grade biophysics engine for the **Nexus Resonance Codex (NRC) (NRC) (NRC) (NRC)**. v3.0.0-GOLD introduces the **100% Deterministic φ-Lattice Engine**, a purely mathematical folding framework free from external AI inference dependencies. Utilizing the **Trageser Tensor Theorem (TTT)** and **2048D φ-spiral manifolds**, the engine achieves absolute structural reproducibility through geometric resonance.
+This repository contains the professional-grade biophysics engine for the **Nexus Resonance Codex (NRC)**. v3.0.0-GOLD introduces the **100% Deterministic φ-Lattice Engine**, a purely mathematical folding framework free from external AI inference dependencies. Utilizing the **Trageser Tensor Theorem (TTT)** and **2048D φ-spiral manifolds**, the engine achieves absolute structural reproducibility through geometric resonance.
 
 ## 📊 Primary Research Manifolds (Zenodo Index)
 
@@ -71,7 +71,7 @@ The structural integrity of the Omni-Modal engine is validated by macroscopic re
 
 These findings underscore the relationship between geometry, energy, and life, ensuring that our folding predictions are anchored in universal harmonic constants.
 
-For more details on the math, visit the **[Nexus Resonance Codex (NRC) (NRC) (NRC) Core Repository](https://github.com/Nexus-Resonance-Codex/NRC)**.
+For more details on the math, visit the **[Nexus Resonance Codex (NRC) Core Repository](https://github.com/Nexus-Resonance-Codex/NRC)**.
 
 ---
 
@@ -84,4 +84,4 @@ This work is released under the **CC BY-NC-SA 4.0 (Dual-License Model)**.
 - **X.com**: [@jtrag](https://x.com/jtrag)
 - **ORCID**: [0009-0006-6678-2908](https://orcid.org/0009-0006-6678-2908)
 
-Copyright © 2026 Nexus Resonance Codex (NRC) (NRC) (NRC) Team. All Rights Reserved.
+Copyright © 2026 Nexus Resonance Codex (NRC) Team. All Rights Reserved.

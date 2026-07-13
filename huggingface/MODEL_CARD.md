@@ -27,7 +27,7 @@ datasets:
 # Resonance-Fold
 
 **2048-Dimensional Golden Ratio Lattice Mapping for Structural Biology**
-_A Nexus Resonance Codex (NRC) (NRC) (NRC) framework that maps biological sequences into φ-bounded hyperdimensional geometry_
+_A Nexus Resonance Codex (NRC) framework that maps biological sequences into φ-bounded hyperdimensional geometry_
 
 [![GitHub](https://img.shields.io/badge/GitHub-Resonance--Fold-181717?logo=github)](https://github.com/Nexus-Resonance-Codex/Protein-Folding)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python)](https://python.org)
