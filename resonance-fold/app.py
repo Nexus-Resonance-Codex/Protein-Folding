@@ -526,7 +526,7 @@ def create_export_package(seq: str, pdb_text: str, props: dict, method: str, pld
         report = [
             "=" * 72,
             "  RESONANCE-FOLD — ANALYSIS REPORT",
-            "  Nexus Resonance Codex (NRC) © 2026 James Paul Trageser",
+            "  Nexus Resonance Codex (NRC) (NRC) (NRC) © 2026 James Paul Trageser",
             "=" * 72,
             "",
             f"  Method:           {method}",

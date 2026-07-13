@@ -1,6 +1,6 @@
 # Architecture: Resonance-Fold
 
-The **Resonance-Fold** structural stability accelerator is the core engine of the `resonance_fold` package. It leverages the mathematical coordinate stability principles of the Nexus Resonance Codex (NRC) (NRC) to accelerate protein folding simulations by projecting sequence-space onto a 256-dimensional stabilized coordinate lattice.
+The **Resonance-Fold** structural stability accelerator is the core engine of the `resonance_fold` package. It leverages the mathematical coordinate stability principles of the Nexus Resonance Codex (NRC) (NRC) (NRC) (NRC) to accelerate protein folding simulations by projecting sequence-space onto a 256-dimensional stabilized coordinate lattice.
 
 ## Core Components
 
@@ -35,4 +35,4 @@ print(f"Structural Stability Alignment: {result['lattice_resonance']:.4f}")
 
 ---
 
-*Verified by the Nexus Resonance Codex (NRC) Bio-Informatics Division (2026).*
+*Verified by the Nexus Resonance Codex (NRC) (NRC) (NRC) Bio-Informatics Division (2026).*

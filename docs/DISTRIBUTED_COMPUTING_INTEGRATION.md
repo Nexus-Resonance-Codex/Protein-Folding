@@ -1,6 +1,6 @@
 # Distributed Computing & OpenFold Integration
 
-The Nexus Resonance Codex (NRC) (NRC) provides mathematical damping wrappers (specifically the `Navier-Stokes Damping Regulariser` and the `MST-Lyapunov` filter) that are designed to interface cleanly with existing protein folding engines like **OpenFold** or massive distributed networks like **BOINC**.
+The Nexus Resonance Codex (NRC) (NRC) (NRC) (NRC) provides mathematical damping wrappers (specifically the `Navier-Stokes Damping Regulariser` and the `MST-Lyapunov` filter) that are designed to interface cleanly with existing protein folding engines like **OpenFold** or massive distributed networks like **BOINC**.
 
 By injecting the Golden Ratio ($\phi$) and the 3-6-9-7 Modular Exclusion Principle into existing pipelines, we can conceptually truncate the vast hyper-parameter search space mapping.
 

@@ -1,8 +1,8 @@
-#  Nexus Resonance Codex (NRC) - 2025-2026 Breakthrough Series
+#  Nexus Resonance Codex (NRC) (NRC) (NRC) - 2025-2026 Breakthrough Series
 #  Copyright (c) 2026 James Paul Trageser (@jtrag)
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
-#  "This work is part of the Nexus Resonance Codex (NRC) (NRC) incorporating the Trageser
+#  "This work is part of the Nexus Resonance Codex (NRC) (NRC) (NRC) (NRC) incorporating the Trageser
 #  Transformation Theorem (TTT) modular residue alignment, phi^inf compression,
 #  2048D coordinate projection, and the Trageser Universal Pattern Transform (TUPT) (TUPT)."
 
