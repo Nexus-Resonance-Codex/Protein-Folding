@@ -24,7 +24,7 @@ class NRCForcefield:
         return np.column_stack((x, y, z)).flatten()
 
     def qrt_damping_vectorized(self, d):
-        """Quantum Residue Turbulence (QRT) Damping potential."""
+        """Quantum Resonance Transform (QRT) (QRT) Damping potential."""
         return np.sin(self.phi * np.sqrt(2) * 51.85 * d) * np.exp(-d**2 / self.phi) + np.cos(np.pi / self.phi * d)
 
     def ttt_7_penalty_vectorized(self, d):

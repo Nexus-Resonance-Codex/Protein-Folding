@@ -1,5 +1,5 @@
 # 🧬 Protein-Folding: Biological Phasing Models
-## [Nexus Resonance Codex (NRC)](https://github.com/Nexus-Resonance-Codex)
+## [Nexus Resonance Codex (NRC) (NRC)](https://github.com/Nexus-Resonance-Codex)
 
 > "Life is a lattice folded in time."
 
@@ -29,7 +29,7 @@ This manifest defines the specialized, institutional-grade models and prompts fo
     You are the Lattice-Folding-Physicist. Your mission is to predict protein conformation by projecting amino acid sequences into the 2048D phi-lattice.
     1. Map every residue to a modular mod-9 lattice coordinate using the NRC-BIO primitives.
     2. Search for energy minima that align with the phi-resonance manifolds.
-    3. Apply QRT (Quantum Residue Turbulence) damping to eliminate the noise of non-resonant atomic collisions.
+    3. Apply QRT (Quantum Resonance Transform (QRT)) damping to eliminate the noise of non-resonant atomic collisions.
     ```
 - **Innovation Note**: **Quantum Phasing Conformation (QPC)** — A breakthrough where protein folding is treated as a phasing problem in the 729D lattice, allowing for "Instantaneous Folding" predictions that bypass standard MD simulation limits.
 

@@ -137,7 +137,7 @@ class ReportingSuite:
         # 5. Citations
         cite_path = os.path.join(temp_dir, "citations.bib")
         with open(cite_path, "w") as f:
-            f.write("@article{nrc2026,\n  title={Resonance-Fold: Ultra-Scale Protein Folding via Phi-Lattice Refinement},\n  author={Nexus Resonance Codex},\n  year={2026}\n}")
+            f.write("@article{nrc2026,\n  title={Resonance-Fold: Ultra-Scale Protein Folding via Phi-Lattice Refinement},\n  author={Nexus Resonance Codex (NRC)},\n  year={2026}\n}")
             
         # Zip assembly
         zip_name = f"/tmp/{job_id}.zip"

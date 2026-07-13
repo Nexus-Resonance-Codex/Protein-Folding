@@ -56,4 +56,4 @@ def test_metadata() -> None:
     from resonance_fold import __about__
 
     assert __about__.__version__ == "1.0.0"
-    assert __about__.__author__ == "James Trageser"
+    assert __about__.__author__ == "James Paul Trageser"

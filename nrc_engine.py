@@ -5,7 +5,7 @@ from typing import List, Dict, Optional, Generator
 class NRCEngine:
     """
     Enhanced Deterministic Lattice Engine.
-    Employs Quantum Residue Turbulence (QRT), Lattice-Parity Embeddings (LPE),
+    Employs Quantum Resonance Transform (QRT) (QRT), Lattice-Parity Embeddings (LPE),
     and TTT-7 stabilization to achieve a mathematically pure projection of sequence structures.
     """
     
@@ -28,7 +28,7 @@ class NRCEngine:
         lattice = self._initialize_lattice(n)
         
         for step in range(1, 31):
-            # Apply QRT (Quantum Residue Turbulence) perturbations for geometric refinement
+            # Apply QRT (Quantum Resonance Transform (QRT)) perturbations for geometric refinement
             turbulence = np.sin(step * self.PHI) * np.cos(np.arange(n) * self.GOLDEN_ANGLE)
             lattice[:, 0] += turbulence * 0.5
             lattice[:, 1] += np.cos(turbulence * self.PHI) * 0.5

@@ -21,7 +21,7 @@ tags:
 
 **Professional-grade protein structure prediction and comprehensive biophysical analysis.**
 
-Built on the Nexus Resonance Codex (NRC) framework with ESMFold integration for real structure prediction, 3D molecular visualization, and institutional-quality analysis reports.
+Built on the Nexus Resonance Codex (NRC) (NRC) framework with ESMFold integration for real structure prediction, 3D molecular visualization, and institutional-quality analysis reports.
 
 ## Features
 
@@ -47,4 +47,4 @@ python app.py
 - [NRC Core Library](https://github.com/Nexus-Resonance-Codex/NRC)
 
 ---
-*© 2026 James Trageser — Nexus Resonance Codex — CC-BY-NC-SA-4.0 + NRC-L*
+*© 2026 James Paul Trageser — Nexus Resonance Codex (NRC) — CC-BY-NC-SA-4.0 + NRC-L*

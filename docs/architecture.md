@@ -1,6 +1,6 @@
 # Architecture: Resonance-Fold
 
-The **Resonance-Fold** structural stability accelerator is the core engine of the `resonance_fold` package. It leverages the mathematical coordinate stability principles of the Nexus Resonance Codex (NRC) to accelerate protein folding simulations by projecting sequence-space onto a 256-dimensional stabilized coordinate lattice.
+The **Resonance-Fold** structural stability accelerator is the core engine of the `resonance_fold` package. It leverages the mathematical coordinate stability principles of the Nexus Resonance Codex (NRC) (NRC) to accelerate protein folding simulations by projecting sequence-space onto a 256-dimensional stabilized coordinate lattice.
 
 ## Core Components
 
@@ -8,7 +8,7 @@ The **Resonance-Fold** structural stability accelerator is the core engine of th
 The accelerator projects primary amino acid sequences onto a high-dimensional lattice using golden-ratio $(\varphi)$ scaling. This ensures that the global structural stability state corresponds to the optimal alignment point on the lattice.
 
 ### 2. QRT Damping ($\psi$)
-**Quantum Residue Transform (QRT)** damping is used to regularize the torsion angles between residues. By applying geometric damping, the accelerator avoids local minima and settles into the "TTT Stabilized" structural fold more efficiently than standard molecular dynamics.
+**Quantum Resonance Transform (QRT) (QRT)** damping is used to regularize the torsion angles between residues. By applying geometric damping, the accelerator avoids local minima and settles into the "TTT Stabilized" structural fold more efficiently than standard molecular dynamics.
 
 ### 3. MST Recurrence ($M$)
 **Multi-Scale Tensor (MST)** recurrence monitors structural entropy. If the folding process begins to deviate from stable parameters, the MST recurrence triggers a "Stability Reset" to the nearest stable structural anchor.
@@ -35,4 +35,4 @@ print(f"Structural Stability Alignment: {result['lattice_resonance']:.4f}")
 
 ---
 
-*Verified by the Nexus Resonance Codex Bio-Informatics Division (2026).*
+*Verified by the Nexus Resonance Codex (NRC) Bio-Informatics Division (2026).*

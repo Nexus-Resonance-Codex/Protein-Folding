@@ -6,7 +6,7 @@
     "The survival of those we love depends on our ability to outpace the complexity of life itself."
   </p>
   <p style="font-size: 1.2rem; color: var(--cyan); letter-spacing: 4px; text-transform: uppercase; font-weight: 800; margin-top: 1rem;">
-    Advanced Scientific Platform • Powered by Nexus Resonance Codex
+    Advanced Scientific Platform • Powered by Nexus Resonance Codex (NRC)
   </p>
 </div>
 
@@ -71,7 +71,7 @@ Our core technology maps biological reality into a high-dimensional resonant lat
     "We are not just building tools; we are creating the compass that guides us through the darkness of molecular disease. For my children, for your children, for our future."
   </p>
   <p style="font-weight: 900; color: #fff; margin-top: 2rem; letter-spacing: 5px; text-transform: uppercase; font-size: 1.1rem;">
-    James Trageser — Chief Bio-Architect (2026)
+    James Paul Trageser — Chief Bio-Architect (2026)
   </p>
 </div>
 

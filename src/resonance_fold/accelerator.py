@@ -1,10 +1,10 @@
-#  Nexus Resonance Codex - 2025-2026 Breakthrough Series
-#  Copyright (c) 2026 James Trageser (@jtrag)
+#  Nexus Resonance Codex (NRC) - 2025-2026 Breakthrough Series
+#  Copyright (c) 2026 James Paul Trageser (@jtrag)
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
-#  "This work is part of the Nexus Resonance Codex (NRC) incorporating the Trageser
+#  "This work is part of the Nexus Resonance Codex (NRC) (NRC) incorporating the Trageser
 #  Transformation Theorem (TTT) modular residue alignment, phi^inf compression,
-#  2048D coordinate projection, and the Trageser Universal Pattern Theorem (TUPT)."
+#  2048D coordinate projection, and the Trageser Universal Pattern Transform (TUPT) (TUPT)."
 
 """NRCFoldAccelerator: High-Dimensional Coordinate Projection for Protein Structural Biology.
 
@@ -44,7 +44,7 @@ class NRCFoldAccelerator:
         self.phi_int = PHI_INT
 
     def qrt_damping(self, x: StabilityTensor) -> StabilityTensor:
-        """Apply Quantum Residue Transform (QRT) damping for structural stabilization.
+        """Apply Quantum Resonance Transform (QRT) (QRT) damping for structural stabilization.
 
         The damping function optimizes coordinate alignment by minimizing local entropy:
         psi(x) = sin(phi*sqrt(2) * 51.853 x) * e^(-x^2 / phi) + cos(pi/phi * x)

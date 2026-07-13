@@ -23,7 +23,7 @@ def qrt_regularized_folding(sequence_length: int = 150) -> np.ndarray:
     giza_matrix = np.cos(alpha) * lattice_coords + np.sin(alpha) * np.roll(lattice_coords, 1, axis=1)
 
     # 3. TTT Modular Filter Integration
-    print("Applying Trageser Transform Theorem (TTT) Filter [3-6-9-7]...")
+    print("Applying Trageser Tensor Theorem (TTT-7) (TTT) Filter [3-6-9-7]...")
     # Map to modulo 9 and filter out chaos
     mod_9_signatures = (np.abs(giza_matrix.sum(axis=1)) * 100).astype(int) % 9
 

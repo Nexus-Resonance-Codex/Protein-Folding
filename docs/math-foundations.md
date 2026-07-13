@@ -1,6 +1,6 @@
 # Mathematical Foundations of φ^∞ Lattice Folding
 
-The prediction of protein structures using **Nexus Resonance Codex (NRC)** math represents a fundamental paradigm shift from stochastic energy minimization to **geometric resonance**. This document outlines the rigorous mathematical and physical proofs that enable $O(N)$ linear folding.
+The prediction of protein structures using **Nexus Resonance Codex (NRC) (NRC)** math represents a fundamental paradigm shift from stochastic energy minimization to **geometric resonance**. This document outlines the rigorous mathematical and physical proofs that enable $O(N)$ linear folding.
 
 ## 1. High-Dimensional Resonant Manifold
 Traditional folding methods treat a protein as a 3D object in Euclidean space. **Resonance-Fold** maps each residue $i \in \{1, \dots, N\}$ into an **8192-dimensional lattice manifold** $\mathcal{M}$. 
@@ -12,7 +12,7 @@ where $\varphi = (1 + \sqrt{5})/2$ is the golden ratio, and $L$ is the coarse la
 ## 2. P-Stable Modular Exclusion (TTT-7)
 To prevent "structural hallucinations" (misfolds that appear energetically stable but are biologically impossible), we apply the **Trageser Tensor Theorem (TTT)**. All torsion angle residues $\theta_{ij}$ must satisfy the **7-Stable Locus**:
 $$ \text{dr}(\lfloor 10^k \cdot \theta \rfloor) \in \{1, 2, 4, 5, 7, 8\} $$
-Values that fall into the $\{3, 6, 9\}$ chaotic attractors are damped out by the **QRT (Quantum Residue Turbulence)** filter, ensuring all generated folds are statistically and geometrically robust.
+Values that fall into the $\{3, 6, 9\}$ chaotic attractors are damped out by the **QRT (Quantum Resonance Transform (QRT))** filter, ensuring all generated folds are statistically and geometrically robust.
 
 ## 3. The O(N) Linear Scaling Proof
 Traditional attention mechanisms in structural biology scale at $O(N^2)$ because every residue must check distance/energy against every other residue. 
@@ -55,4 +55,4 @@ uv run python -m resonance_fold.audit --verify stability
 
 ---
 *Authored for the technological preservation of life.*
-*James Trageser — Nexus Resonance Codex (2026)*
+*James Paul Trageser — Nexus Resonance Codex (NRC) (2026)*

@@ -1,7 +1,0 @@
-# Dual-License: CC BY-NC-SA 4.0 & Commercial
-
-This repository is dual-licensed:
-1. **Non-Commercial Use:** Licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0). Free for academic, humanitarian, and non-profit use.
-2. **Commercial Use:** For enterprise deployment, API integration, or commercial drug discovery, a separate commercial license must be negotiated in writing with the author.
-
-*Note: Underlying open-source dependencies (e.g., ESMFold, AutoDock Vina) retain their respective MIT/Apache licenses. The CC BY-NC-SA 4.0 license applies to the unique NRC architecture, UI, Source Code, Proprietary Math Formulas, and integration logic.*

@@ -1,4 +1,4 @@
-# Nexus Resonance Codex - Protein Library
+# Nexus Resonance Codex (NRC) - Protein Library
 # Curated Library of 100 Hardest & Most Medically Impactful IDPs (DisProt v9.8+)
 
 PROTEIN_LIBRARY = {

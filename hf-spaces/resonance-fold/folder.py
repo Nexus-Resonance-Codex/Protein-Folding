@@ -1,5 +1,5 @@
-#  Nexus Resonance Codex - 2025-2026 Breakthrough Series
-#  Copyright (c) 2026 James Trageser (@jtrag)
+#  Nexus Resonance Codex (NRC) - 2025-2026 Breakthrough Series
+#  Copyright (c) 2026 James Paul Trageser (@jtrag)
 #
 #  Licensed under CC-BY-NC-SA-4.0 + NRC-L
 """Geometric Initialization Strategy: Uses φ-based trigonometric expansion to generate maximally distributed pseudo-random starting states for IDPs prior to thermodynamic relaxation."""

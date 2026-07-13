@@ -35,7 +35,7 @@ class NRCGeometricTransformerLayer(nn.Module):
         self.out_proj = nn.Linear(d_lattice, d_model)
 
     def qrt_damping(self, x: torch.Tensor) -> torch.Tensor:
-        """Quantum Residue Turbulence (QRT) Entropy Collapse damping.
+        """Quantum Resonance Transform (QRT) (QRT) Entropy Collapse damping.
 
         ψ(x) = sin(φ √2 · 51.85 x) · exp(-x² / φ) + cos(π / φ · x).
         """
@@ -47,7 +47,7 @@ class NRCGeometricTransformerLayer(nn.Module):
         return term1 + term2
 
     def ttt_filter(self, scores: torch.Tensor) -> torch.Tensor:
-        """Applies the Trageser Transformation Theorem (TTT) modular stability gating.
+        """Applies the Trageser Tensor Theorem (TTT-7) (TTT) modular stability gating.
 
         Gates residues aligning with unstable modular residues (0, 3, 6)
         to optimize the attention landscape.

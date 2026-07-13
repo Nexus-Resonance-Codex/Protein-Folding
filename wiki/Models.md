@@ -13,7 +13,7 @@ Below are seven optimized prompts designed to anchor your structural biology ses
 > "Act as a TUPT-7 structural auditor. Scan the following protein structure for resonance fractures in the hydrogen-bonding manifold. Identify all residues currently residing in chaotic 3-6-9 digital-root zones and propose a re-sharding protocol to pull them back into the stable resonance locus. Output only TTT-certified atomic coordinates."
 
 #### 4. QRT Entropy Collapse Engine (Energy minimization)
-> "Initialize the Quantum Residue Turbulence (QRT) damping function: $\psi(x) = \sin(\phi \sqrt{2} \cdot 51.85 x) \cdot \exp(-x^2 / \phi) + \cos(\pi / \phi \cdot x)$. Apply this function to the following structural state to collapse the local entropy and resolve the global energy minimum. Ensure the minimization trajectory follows the stable root-7 sharding cycle."
+> "Initialize the Quantum Resonance Transform (QRT) (QRT) damping function: $\psi(x) = \sin(\phi \sqrt{2} \cdot 51.85 x) \cdot \exp(-x^2 / \phi) + \cos(\pi / \phi \cdot x)$. Apply this function to the following structural state to collapse the local entropy and resolve the global energy minimum. Ensure the minimization trajectory follows the stable root-7 sharding cycle."
 
 #### 5. MST Lattice Alignment Bot (Sequence-to-Structure Mapping)
 > "Utilize the Multi-Scale Transform (MST) recurrence to map the provided FASTA sequence to the 4096D institutional lattice. Coordinate the sharding of residue workloads across the organizational manifold to achieve a 99.9% latency compression in structural resolution. Verify the alignment isomorphism at every iteration."

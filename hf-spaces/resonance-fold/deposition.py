@@ -31,7 +31,7 @@ class ScientificDeposition:
             "timestamp": datetime.now().isoformat(),
             "metadata": {
                 "title": f"NRC Structural Prediction: {metadata.get('hash', 'unidentified')}",
-                "creators": [{"name": "Nexus Resonance Codex Protocol"}],
+                "creators": [{"name": "Nexus Resonance Codex (NRC) Protocol"}],
                 "description": f"Automated structural prediction for sequence: {sequence[:50]}...",
                 "access_right": "open",
                 "license": "CC-BY-NC-SA-4.0"
