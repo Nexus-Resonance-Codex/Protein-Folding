@@ -12,6 +12,7 @@ except ImportError:
 
         sys.modules["audioop"] = MagicMock()
 
+import json
 import os
 import requests
 import numpy as np
@@ -80,7 +81,7 @@ def get_viewer_html(pdb_str, engine_type="Three.js", pockets=None):
             try:
                 coords.append([float(line[30:38]), float(line[38:46]), float(line[46:54])])
                 plddt.append(float(line[60:66]))
-            except:
+            except Exception:
                 continue
 
     # Sub-sample for Three.js if extremely large (Cap at 2000 points for browser stability)
@@ -486,7 +487,7 @@ def on_select_pdb(pdb_id):
         r = requests.get(url)
         if r.status_code == 200:
             return r.json().get("entity_poly", {}).get("pdbx_seq_one_letter_code_can", "")
-    except:
+    except Exception:
         pass
     return ""
 
