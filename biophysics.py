@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 import requests
 from scipy.spatial import ConvexHull
 from scipy.linalg import svd
@@ -157,7 +157,7 @@ class BiophysicsSuite:
         return [{"residues": pocket_residues, "score": len(pocket_residues) / len(coords)}]
 
     @staticmethod
-    def simulate_mutation(seq: str, pos: int, new_aa: str, coords: np.ndarray = None) -> Dict:
+    def simulate_mutation(seq: str, pos: int, new_aa: str, coords: Optional[np.ndarray] = None) -> Dict:
         """Estimate ΔΔG impact of a single point mutation with structural context."""
         if pos < 0 or pos >= len(seq):
             return {"error": "Invalid position"}
@@ -242,11 +242,11 @@ class BiophysicsSuite:
         if not native_coords:
             return {"error": "No C-alpha coordinates found in PDB"}
 
-        native_coords = np.array(native_coords)
+        native_arr = np.array(native_coords)
 
         # Calculate RMSD (handling length mismatch via truncation)
-        rmsd = BiophysicsSuite.calculate_rmsd(predicted_coords, native_coords)
-        return {"rmsd": rmsd, "pdb_id": pdb_id, "native_len": len(native_coords), "pred_len": len(predicted_coords)}
+        rmsd = BiophysicsSuite.calculate_rmsd(predicted_coords, native_arr)
+        return {"rmsd": rmsd, "pdb_id": pdb_id, "native_len": len(native_arr), "pred_len": len(predicted_coords)}
 
     @staticmethod
     def resonance_error(seq: str) -> float:

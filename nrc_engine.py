@@ -18,7 +18,7 @@ class NRCEngine:
         self.lattice_harmonics = self._generate_lattice_harmonics()
 
     def _generate_lattice_harmonics(self) -> np.ndarray:
-        indices = np.arange(self.LATTICE_DIM, dtype=self.precision)
+        indices: np.ndarray = np.arange(self.LATTICE_DIM, dtype=self.precision)
         return np.exp(1j * self.GOLDEN_ANGLE * indices)
 
     def fold_sequence(self, sequence: str, mode: str = "NRC_GEOMETRIC", templates: Optional[Dict] = None) -> Generator[Dict, None, None]:
@@ -87,9 +87,9 @@ class NRCEngine:
 
     def _initialize_lattice(self, n: int) -> np.ndarray:
         """Initializes the n-residue sequence as a high-dimensional spiral resonance."""
-        z = np.arange(n, dtype=self.precision).reshape(-1, 1)
+        z: np.ndarray = np.arange(n, dtype=self.precision).reshape(-1, 1)
         angles = z * self.GOLDEN_ANGLE
-        lattice = np.zeros((n, self.LATTICE_DIM), dtype=self.precision)
+        lattice: np.ndarray = np.zeros((n, self.LATTICE_DIM), dtype=self.precision)
 
         # Base LPE (Lattice-Parity Embeddings) projection into 3D
         # This acts as our "Perfect Match" starting backbone structure
