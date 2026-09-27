@@ -55,5 +55,5 @@ def test_metadata() -> None:
     """Verify package metadata."""
     from resonance_fold import __about__
 
-    assert __about__.__version__ == "1.0.0"
+    assert __about__.__version__ == "0.1.0"
     assert __about__.__author__ == "James Paul Trageser"
