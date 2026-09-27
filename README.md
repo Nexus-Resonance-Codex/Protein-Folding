@@ -15,13 +15,13 @@ This repository operates on a **Dual-License** structure to protect the integrit
 
 # Nexus Resonance Codex (NRC): Protein-Folding (Omni-Modal)
 
-![NRC Protein Folding](https://img.shields.io/badge/NRC--v3.0.0--GOLD-Indigo?style=for-the-badge&logo=dna)
+![NRC Protein Folding](https://img.shields.io/badge/NRC--0.1.0--GOLD-Indigo?style=for-the-badge&logo=dna)
 ![Gradio](https://img.shields.io/badge/Deployment-Hugging_Face-indigo?style=for-the-badge&logo=huggingface)
 ![Scientific Deposition](https://img.shields.io/badge/Scientific-Zenodo_Ready-blue?style=for-the-badge)
 ![Stability](https://img.shields.io/badge/TTT--7-Stable-green?style=for-the-badge)
 
 ## 🌌 Overview
-This repository contains the professional-grade biophysics engine for the **Nexus Resonance Codex (NRC)**. v3.0.0-GOLD introduces the **100% Deterministic φ-Lattice Engine**, a purely mathematical folding framework free from external AI inference dependencies. Utilizing the **Trageser Tensor Theorem (TTT)** and **2048D φ-spiral manifolds**, the engine achieves absolute structural reproducibility through geometric resonance.
+This repository contains the professional-grade biophysics engine for the **Nexus Resonance Codex (NRC)**. 0.1.0-GOLD introduces the **100% Deterministic φ-Lattice Engine**, a purely mathematical folding framework free from external AI inference dependencies. Utilizing the **Trageser Tensor Theorem (TTT)** and **2048D φ-spiral manifolds**, the engine achieves absolute structural reproducibility through geometric resonance.
 
 ## 📊 Primary Research Manifolds (Zenodo Index)
 
