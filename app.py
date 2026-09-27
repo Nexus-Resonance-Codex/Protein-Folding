@@ -4,7 +4,7 @@ try:
     import audioop
 except ImportError:
     try:
-        from audioop_lts import audioop
+        from audioop_lts import audioop  # type: ignore[no-redef]  # fallback when stdlib audioop missing
 
         sys.modules["audioop"] = audioop
     except ImportError:
