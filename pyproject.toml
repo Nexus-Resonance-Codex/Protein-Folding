@@ -55,3 +55,14 @@ exclude = ["examples", "tests", "huggingface"]
 [tool.ruff]
 line-length = 150
 target-version = "py310"
+
+[tool.ruff.lint]
+# Classic default rule set (pyflakes F + pycodestyle errors).
+# Pinned explicitly: newer ruff releases expand the default select,
+# which broke CI via version drift (ruff>=0.3.0 is unpinned in dev deps).
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+# app.py deliberately runs the audioop import shim and sys.path setup
+# before its imports, so module-level import placement is intentional.
+"app.py" = ["E402"]
