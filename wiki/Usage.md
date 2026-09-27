@@ -100,9 +100,11 @@ The following script demonstrates the institutional protocol for batch structura
 ```python
 from resonance_fold.engine import ProteinEngine
 
+
 # Institutional Monitor Callback
 def on_convergence(residue_id, rmsd, status):
     print(f"« φ^∞ » Sequence {residue_id}: RMSD {rmsd:.2f} | {status}")
+
 
 # Configure Advanced Engine with 16-thread sharding
 engine = ProteinEngine(manifold="729d", threads=16)
