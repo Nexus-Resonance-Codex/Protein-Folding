@@ -24,6 +24,7 @@ from openfold.model.structure_module import StructureModule
 from nrc_ai.enhancements.navier_stokes_damping import NavierStokesDampingRegulariser
 from nrc_ai.enhancements.mst_lyapunov_clipping import mst_lyapunov_clip
 
+
 class NRC_OpenFold_Wrapper(torch.nn.Module):
     def __init__(self, openfold_model):
         super().__init__()
@@ -36,7 +37,7 @@ class NRC_OpenFold_Wrapper(torch.nn.Module):
         outputs = self.base_model(batch)
 
         # 2. Extract the predicted 3D coordinates
-        pred_coords = outputs['final_atom_positions']
+        pred_coords = outputs["final_atom_positions"]
 
         # 3. Apply MST-Lyapunov gradient clipping to stabilize the loss automatically
         if self.training:
@@ -46,7 +47,7 @@ class NRC_OpenFold_Wrapper(torch.nn.Module):
 
         # 4. Dampen the structural outputs using Phi-Inverse Attractor
         damped_coords = self.nrc_damper(pred_coords)
-        outputs['final_atom_positions'] = damped_coords
+        outputs["final_atom_positions"] = damped_coords
 
         return outputs
 ```
