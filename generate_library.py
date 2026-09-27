@@ -1,3 +1,4 @@
+import random
 import requests
 
 
@@ -13,9 +14,9 @@ def get_pdb_sequence(pdb_id):
             fasta_res = requests.get(fasta_url)
             if fasta_res.status_code == 200:
                 lines = fasta_res.text.splitlines()
-                seq = "".join(l.strip() for l in lines if not l.startswith(">"))
+                seq = "".join(line.strip() for line in lines if not line.startswith(">"))
                 return seq
-    except:
+    except Exception:
         pass
     return None
 
@@ -55,7 +56,6 @@ targets = [
 ]
 
 # Generate 100 random difficult sequences using biased compositions
-import random
 
 
 def gen_tough_seq(length):
@@ -66,8 +66,8 @@ def gen_tough_seq(length):
 
 
 for i in range(13, 101):
-    l = random.randint(30, 150)
-    targets.append((f"Tough-Target-{i}", gen_tough_seq(l)))
+    length = random.randint(30, 150)
+    targets.append((f"Tough-Target-{i}", gen_tough_seq(length)))
 
 print("PROTEIN_LIBRARY = {")
 for name, seq in targets:
