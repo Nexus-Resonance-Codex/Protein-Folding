@@ -5,7 +5,7 @@ authors:
   given-names: "James"
   email: "NexusResonanceCodex@gmail.com"
 title: "φ^∞ Lattice-Accelerated Protein Folding: O(N) Structural Prediction via Resonant Manifolds"
-version: 1.1.0
+version: 0.1.0
 date-released: 2026-04-12
 url: "https://github.com/Nexus-Resonance-Codex/Protein-Folding"
 preferred-citation:
