@@ -417,7 +417,6 @@ def run_nrc_pipeline(seq, viewer_type, folding_mode, ref_pdb_id=None):
             final_meta,
         ]
     except Exception as e:
-
         logs.append(f"[FATAL] {str(e)}")
         yield ["\n".join(logs)] + [None] * 15
 
