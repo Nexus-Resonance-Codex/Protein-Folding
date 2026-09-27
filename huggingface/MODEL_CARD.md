@@ -84,6 +84,7 @@ print(f"Lattice L2 norm: {np.linalg.norm(lattice):.4f}")
 
 # Wrap an OpenFold module with NRC physics
 import torch.nn as nn
+
 my_openfold_module = nn.Linear(256, 256)  # any OpenFold-compatible module
 wrapped = NRCOpenFoldWrapper(my_openfold_module)
 # Now forward() applies TUPT gating + QRT gradient damping automatically
